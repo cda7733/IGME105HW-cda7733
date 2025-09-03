@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Profiles\\cda7733\\Documents\\GitHub\\IGME105HW-cda7733\\IGME105HW_cda\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:IGME105HW_cda\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Profiles\\cda7733\\Documents\\GitHub\\IGME105HW-cda7733\\IGME105HW_cda\\Architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:IGME105HW_cda\\Architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Architecture.cs",
+              "DocumentMoniker": "D:\\Profiles\\cda7733\\Documents\\GitHub\\IGME105HW-cda7733\\IGME105HW_cda\\Architecture.cs",
+              "RelativeDocumentMoniker": "IGME105HW_cda\\Architecture.cs",
+              "ToolTip": "D:\\Profiles\\cda7733\\Documents\\GitHub\\IGME105HW-cda7733\\IGME105HW_cda\\Architecture.cs",
+              "RelativeToolTip": "IGME105HW_cda\\Architecture.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-03T16:04:04.788Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,7 +41,7 @@
               "RelativeDocumentMoniker": "IGME105HW_cda\\Program.cs",
               "ToolTip": "D:\\Profiles\\cda7733\\Documents\\GitHub\\IGME105HW-cda7733\\IGME105HW_cda\\Program.cs",
               "RelativeToolTip": "IGME105HW_cda\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-29T17:32:33.344Z",
               "EditorCaption": ""

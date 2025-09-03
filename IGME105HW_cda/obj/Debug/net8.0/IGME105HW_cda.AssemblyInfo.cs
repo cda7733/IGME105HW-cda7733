@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IGME105HW_cda")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab5ae4e2bbb03e27398894858f1448027ac6adea")]
 [assembly: System.Reflection.AssemblyProductAttribute("IGME105HW_cda")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IGME105HW_cda")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
