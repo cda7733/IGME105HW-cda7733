@@ -1,4 +1,4 @@
-﻿namespace IGME105HW_cda;
+﻿using System;
 
 // program name: IGME105 monopoly game
 // created by: charisma allen
@@ -9,10 +9,13 @@
  * 09/03/2025 = changed modification date format
  */
 
-class Program
+namespace IGME105HW_cda
 {
-    static void Main(string[] args)
+    class Program
     {
+    static void Main(string[] args)
+        {
         Console.WriteLine("hello, world!");
+        }
     }
 }
