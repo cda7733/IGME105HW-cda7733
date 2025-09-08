@@ -5,6 +5,7 @@
 // purpose: make a monopoly game but w/ gambling
 /* modifications: 
  * 09/03/2025 = created file, made psuedocode for tic-tac-toe
+ * 09/08/2025 = replaced tictactoe w/ monopoly
  */
 
 namespace IGME105HW_cda
@@ -13,31 +14,41 @@ namespace IGME105HW_cda
 	{
 		public Architecture()
 		{
-            // TIC TAC TOE
+            // CARD BATTLER MONOPOLY
 
             /* board
-			 * - status
-			 * - game spaces
-			 * - draw up game board
-			 * game setup
-			 * - tutorial
-			 * - 50/50 for who goes first
-			 * player
-			 * - name
-			 * - X or O
-			 * - player class w/ info
-			 * - win/tie/lose condition, maybe a boolean method
-			 * - win streak + high score
-			 * - total wins
-			 * - win loss ratio
-			 * CPU
-			 * gameplay / turn system
-			 * - player input
-			 * - random CPU turn
-			 * - title screen
-			 * - play button
-			 * - replay button
-			 * - quit button
+             *   space type
+             *     healing space
+             * players
+             *   token
+             *   name
+             * die
+             *   2 six-sided die
+             * properties
+             *   stats
+             *     health
+             *     power
+             * set-up
+             *   menu
+             *   tutorial/rulebook
+             *   # of players
+             *   PlayerOrder()
+             *   cards
+             *     abstract Design
+             *     CreateCard()
+             *       text
+             *       size
+             *       color
+             *     DisplayCard()
+             *     
+             *!!   community chest deck: cards
+             *!!   chance deck: cards
+             *       
+             *     
+             *     
+             * 
+             * 
+             * 
 			 */
         }
     }
