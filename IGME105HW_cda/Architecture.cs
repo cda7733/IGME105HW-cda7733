@@ -7,6 +7,7 @@
  * 09/03/2025 = created file, made psuedocode for tic-tac-toe
  * 09/08/2025 = replaced tictactoe w/ monopoly
  * 09/12/2025 = monopoly pseudocode
+ * 09/17/2025 = adding classes and properties
  */
 
 namespace IGME105HW_cda
@@ -20,12 +21,13 @@ namespace IGME105HW_cda
              game set-up
                 name: Battle Monopoly: Vandalism Edition
                 genre: boardgame, card battler
-                audience: teens - adults
+                audience: teens - adults who are familiar w/ the gameplay of monopoly AND simple battle systems/they can do math
                 goal: last one standing
                 # of players: 2-4
                 players start with one property, chosen from the 5 weakest
                     weakest = the starting strip
                     players can call dibs depending on their roll/order
+                    {get rollValue} {set order}
                 movement follows normal monopoly rules
                     two 6-sided die
                 menu
@@ -37,19 +39,21 @@ namespace IGME105HW_cda
                     make property arrays that store each card’s index, name, cost, pv, damage multiplier, upgrade value, and hotel upgrade value (these are elaborated on later)
                     // pv stands for property value!! it acts as a card’s hp
                 trading with other players is allowed, but only if i can figure out how to code that
-            Board()
+            internal Board()
                 Roll() method
                     generate random number 2-12
                     return that number as an int
+                    {set rollValue}
             Spaces() 
-                VandalizeSpace()
+                int spaceIndex;
+                VandalizeSpace:Spaces
                     starts VandalismEvent()
                         each player chooses a card to be in danger of being vandalized
                         player with the most amount of property damage done gets their property card full healed
                         player w/ the least amount of damage loses their property card
                         for player(s) in the middle, nothing happens
                         // damage calculation is explained in detail later, but it’s basically card damage x diceroll
-                PropertySpace()
+                PropertySpace:Spaces
                     int ownershipStatus = 0 
                         // all property spaces are set to 0 at the start of the game, meaning they are unowned and players can acquire them
                     if ownershipStatus = 0, int cost = PropertyCost[i] 
@@ -62,19 +66,19 @@ namespace IGME105HW_cda
                             + 1 because indexing starts at 0
                                 i think, maybe
                     // more info below
-                GoSpace()
+                GoSpace:Spaces
                     players get a free property upgrade for their weakest card
-                CommunityChestSpace()
+                CommunityChestSpaces:Spaces
                     pull community chest card, CommunityChestCard() method
                     // cards are reusable / put back into the deck
-                ChanceSpace()
+                ChanceSpaces:Spaces
                     pull chance card, ChanceCard() method
                     // these cards are also reused
-                PropertyValueSpaces()
+                PropertyValueSpaces:Spaces
                     call Roll() method after landing on a space
-                TaxSpace()
+                TaxSpaces:Spaces
                     subtract pv from any one card based on diceroll amount (1-12)
-                UtilitySpace()
+                UtilitySpaces:Spaces
                     add pv to any one card based on diceroll amount (1-12)
             Player()
                 Token()
@@ -83,6 +87,14 @@ namespace IGME105HW_cda
                 int order (from a dice roll in the beginning of the game)
                 string name (token name used for placeholder is the player is lazy)
                     if the input for name is left blank and the player picked a thimble for their token, their name will be thimble
+            DrawnCards()
+                string text;
+                int cardQuantity = 16;
+                internal int cardIndex; 
+                
+                CommunityChestCards:DrawnCards
+                    
+                ChanceCards:DrawnCards
             PropertyCards()
                 if unowned:
                     property cards have a set property value, and a 0 damage multiplier
