@@ -1,0 +1,7 @@
+C:\Users\zodin\source\repos\IGME105-HW-cda7733\IGME105-HW-cda7733\bin\Debug\IGME105-HW-cda7733.exe.config
+C:\Users\zodin\source\repos\IGME105-HW-cda7733\IGME105-HW-cda7733\bin\Debug\IGME105-HW-cda7733.exe
+C:\Users\zodin\source\repos\IGME105-HW-cda7733\IGME105-HW-cda7733\bin\Debug\IGME105-HW-cda7733.pdb
+C:\Users\zodin\source\repos\IGME105-HW-cda7733\IGME105-HW-cda7733\obj\Debug\IGME105-HW-cda7733.csproj.AssemblyReference.cache
+C:\Users\zodin\source\repos\IGME105-HW-cda7733\IGME105-HW-cda7733\obj\Debug\IGME105-HW-cda7733.csproj.CoreCompileInputs.cache
+C:\Users\zodin\source\repos\IGME105-HW-cda7733\IGME105-HW-cda7733\obj\Debug\IGME105-HW-cda7733.exe
+C:\Users\zodin\source\repos\IGME105-HW-cda7733\IGME105-HW-cda7733\obj\Debug\IGME105-HW-cda7733.pdb
