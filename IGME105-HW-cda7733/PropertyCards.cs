@@ -4,47 +4,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * program name: IGME105 monopoly game
+ * created by: charisma allen
+ * purpose: make monopoly more fun by making it a card battler
+ * 
+ * 09/18/2025 - created a new repo and project because my other one was busted
+ * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
+ */
+
 namespace IGME105_HW_cda7733
 {
     internal class PropertyCards
     {
-
-
-
-        // get ownershipValue
-
-
-        /*
-         * PropertyCards()
-                if unowned:
-                    property cards have a set property value, and a 0 damage multiplier
-                        players can only take damage from community chest cards and other players, never from unowned property spaces
-                players can attack a card on their turn
-                    they can choose not to attack it if no other player owns it
-                damage done to property carries over between players
-                whoever does the finishing blow, get the card
+        internal int propertyCardIndex = 0;
+        internal string propertyCardName;
+        internal int propertyValue;
+        internal int damageMultiplier;
+        internal int upgradeValue;
+        internal int hotelUpgradeValue;
+        internal string color;
+        internal PropertyCards()
+        {
+            /*
+             * PropertyCards()
             if owned:
-                // order doesn’t factor into damage calculation, but the player who landed on the space rolls first
-                // combat in this edition of the game is called sabotaging
-                the player who lands on a space can choose which card they would like to fight with from their own deck
-                the player whose property was landed on can only fight with that card
-                damage is calculated for each player
-                Roll()    // for each player
-                    attackersDamage = diceroll x chosen card damage ()
-                    defendersDamage = diceroll x defending card damage
-                    PropertyValue[defending card index] - attackersDamage
-                    PropertyValue[attacking card index] - defendersDamage
-                if player cards, at any point, reach 0, that card is eliminated from the game. it cannot be repurchased on its property space. 
+            // order doesn’t factor into damage calculation, but the player who landed on the space rolls first
+            // combat in this edition of the game is called sabotaging
+            the player who lands on a space can choose which card they would like to fight with from their own deck
+            the player whose property was landed on can only fight with that card
+            damage is calculated for each player
+            Roll()    // for each player
+                attackersDamage = diceroll x chosen card damage ()
+                defendersDamage = diceroll x defending card damage
+                PropertyValue[defending card index] - attackersDamage
+                PropertyValue[attacking card index] - defendersDamage
+            if player cards, at any point, reach 0, that card is eliminated from the game. it cannot be repurchased on its property space. 
             string color
-                if players own multiple properties of the same color, damage is x2 or x3
-                train stations are unique. one train station → 1x multiplier, two train stations → 2x, three train stations → 4x, four train stations (max) → 7x
+            if players own multiple properties of the same color, damage is x2 or x3
+            train stations are unique. one train station → 1x multiplier, two train stations → 2x, three train stations → 4x, four train stations (max) → 7x
             integer stats to replace rent
-                // apply to every property card
-                int pv = PropertyPV[i] 
-                int damage = PropertyDamage[i]
-                multiply by dice roll. low level cards have a x1 multiplier. the highest multiplier is x6. 
-                int houseUpgrades (how much each house upgrade increases pv)
-                int hotelUpgrades (multiply it with houseUpgrades)
-         */
+            // apply to every property card
+            int pv = PropertyPV[i] 
+            int damage = PropertyDamage[i]
+            multiply by dice roll. low level cards have a x1 multiplier. the highest multiplier is x6. 
+            int houseUpgrades (how much each house upgrade increases pv)
+            int hotelUpgrades (multiply it with houseUpgrades)
+           */
+        }
     }
 }
