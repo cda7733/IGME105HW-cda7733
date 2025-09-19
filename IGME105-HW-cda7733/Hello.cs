@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IGME105_HW_cda7733
 {
-    internal class Program
+    internal class Hello
     {
         static void Main(string[] args)
         {
