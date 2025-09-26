@@ -23,12 +23,20 @@ namespace IGME105_HW_cda7733
     {
         static void Main(string[] args)
         {
+            
             /*
              *  genre: boardgame, card battler
                 audience: teens - adults who are familiar w/ the gameplay of monopoly AND simple battle systems/they can do math
                 goal: last one standing
                 # of players: 2-4
              */
+            Utility game = new Utility();
+            Player player1 = new Player();
+            DrawnCards.ChanceCards chancecard1 = new DrawnCards.ChanceCards(0,"advance to board walk! if you pass go, upgrade your weakest card!");
+            game.Welcome();
+            game.RNG(12);
+            player1.PromptToken();
+            chancecard1.ReadChanceCard(chancecard1.cardIndex, chancecard1.text);
         }
     }
 }

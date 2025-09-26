@@ -19,15 +19,17 @@ namespace IGME105_HW_cda7733
 {
     internal class Utility
     {
-        internal string gameName = "battle monopoly: vandalism edition"; 
+        internal string gameName = "battle monopoly: vandalism edition";
 
         internal const int minPlayers = 2;
         internal const int maxPlayers = 4;
         internal const int maxSpaces = 40;
-    }
-    internal class Setup : Utility
-    {
-        // methods and stuff stored here
+        internal int currentPlayerIndex = 0;
+        internal int[] playerLocation;
+        internal int rolledValue { get; set; }
+
+        internal int playerIndex { get; set; }
+
 
         internal void Welcome()
         {
@@ -35,13 +37,15 @@ namespace IGME105_HW_cda7733
         }
 
         // dicerolling, the die defaulted/start as 2 before the method is called
-        internal int rolledValue = 2; 
-        internal void DiceRoll()
+        internal int RNG(int maxRoll)
         {
+            // max roll will usually be 12
             // generate random number 1-12
-            rolledValue = 12;
+            rolledValue = 7;
+            Console.WriteLine("RNG method ran, returned " + rolledValue);
+            return rolledValue;
         }
-        
+
         internal void IndividualBattle()
         {
             // battle method between players
@@ -50,33 +54,17 @@ namespace IGME105_HW_cda7733
         {
             // the method that's called when players trigger a vandalism event
         }
-    }
 
-    internal class BoardMovement : Setup
-    {
-        internal int[] playerLocation;
-        internal int currentPlayer = 0;
-
-        internal BoardMovement() 
+        internal void BoardMovement(int playerIndex)
         {
             // movement follows normal monopoly rules
 
-            DiceRoll();
-            playerLocation[currentPlayer] = playerLocation[currentPlayer] + rolledValue;
-        }
-    }
-    internal class PlayerInfo : Setup
-    {
-        internal int playerIndex { get; set; }
-        internal PlayerInfo()
-        {
-            // call diceroll to determine 
-        }
-
-    }
-    internal class Gameplay : Setup
-    {
-        internal Gameplay()
+            RNG(12);
+            playerLocation[currentPlayerIndex] = playerLocation[currentPlayerIndex] + rolledValue;
+            Console.WriteLine();
+        } 
+        
+        internal class Gameplay : Utility
         {
             /*
              * if ownershipStatus = 0, int cost = PropertyCost[i] 
@@ -90,15 +78,15 @@ namespace IGME105_HW_cda7733
                             i think, maybe 
              */
         }
+        /*
+         * game set-up
+                menu
+                tutorial/rulebook
+                player order
+                    dice roll 1-12
+                        ties are settled with rerolls from both players
+                initialize property, chance, and community chest cards
+                // pv stands for property value!! it acts as a card’s hp
+         */
     }
-    /*
-     * game set-up
-            menu
-            tutorial/rulebook
-            player order
-                dice roll 1-12
-                    ties are settled with rerolls from both players
-            initialize property, chance, and community chest cards
-            // pv stands for property value!! it acts as a card’s hp
-     */
 }
