@@ -13,59 +13,83 @@ using System.Threading.Tasks;
  * 
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
+ * 09/26/2025 - gave variables properties, all methods do somethingg
  */
 
 namespace IGME105_HW_cda7733
 {
     internal class Utility
     {
-        internal string gameName = "battle monopoly: vandalism edition";
-
-        internal const int minPlayers = 2;
-        internal const int maxPlayers = 4;
-        internal const int maxSpaces = 40;
-        internal int currentPlayerIndex = 0;
-        internal int[] playerLocation;
-        internal int rolledValue { get; set; }
-
-        internal int playerIndex { get; set; }
-
-
-        internal void Welcome()
+        // variables & properties
+        const int minPlayers = 2;
+        internal int MinPlayers
         {
-            Console.WriteLine(gameName);
+            get { return minPlayers; }
         }
 
-        // dicerolling, the die defaulted/start as 2 before the method is called
-        internal int RNG(int maxRoll)
+        const int maxPlayers = 4;
+        internal int MaxPlayers
         {
-            // max roll will usually be 12
-            // generate random number 1-12
-            rolledValue = 7;
+            get { return maxPlayers; }
+        }
+        const int maxSpaces = 40;
+        internal int MaxSpaces
+        {
+            get { return maxSpaces; }
+        }
+
+        const string gameName = "battle monopoly: vandalism edition";
+        internal string GameName
+        {
+            get {  return gameName; }
+        }
+        int currentNumberOfPlayers;
+        internal int CurrentNumberOfPlayers
+        {
+            get { return currentNumberOfPlayers; }
+            set { currentNumberOfPlayers = value; }
+        }
+        int currentPlayerIndex = 0;
+        internal int CurrentPlayerIndex
+        {
+            get { return currentPlayerIndex; }
+            set { currentPlayerIndex = value; }
+        }
+
+        // methods
+        internal static void Welcome()
+        {
+            Console.WriteLine($"welcome to {gameName}!\n");
+        }
+        internal static int RNG(int minRoll, int maxRoll)
+        {
+            // usually generate random number 2-12.
+            // taking parameters incase the number of cards changes, or i want to use RNG for another event
+            int rolledValue = maxRoll;
             Console.WriteLine("RNG method ran, returned " + rolledValue);
             return rolledValue;
         }
+        internal static void RollForMovement(Player playerX)
+        {
+            Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
+            int roll = RNG(2,12);
+            Console.WriteLine("{0} rolled a {1}! they are now on space number {2}.\n", playerX.PlayerName, roll, 6);
+        }
 
-        internal void IndividualBattle()
+        internal static void IndividualVandalism()
         {
             // battle method between players
-        }
-        internal void GroupVandalism()
-        {
-            // the method that's called when players trigger a vandalism event
+            Console.WriteLine("a 1v1 vandalism battle is occuring!\n");
         }
 
-        internal void BoardMovement(int playerIndex)
+        internal static void GroupVandalism()
         {
-            // movement follows normal monopoly rules
-
-            RNG(12);
-            playerLocation[currentPlayerIndex] = playerLocation[currentPlayerIndex] + rolledValue;
-            Console.WriteLine();
-        } 
+            Console.WriteLine("a free-for-all vandalism event has been triggered!\n");
+        }
         
-        internal class Gameplay : Utility
+        internal static void PropertyLanding(string playerName)
         {
+            Console.WriteLine($"{playerName} landed on a property space!\n");
             /*
              * if ownershipStatus = 0, int cost = PropertyCost[i] 
                 // cost regards not money, but how much damage a space can take before being acquired by a player
@@ -78,15 +102,59 @@ namespace IGME105_HW_cda7733
                             i think, maybe 
              */
         }
-        /*
-         * game set-up
-                menu
-                tutorial/rulebook
-                player order
-                    dice roll 1-12
-                        ties are settled with rerolls from both players
-                initialize property, chance, and community chest cards
-                // pv stands for property value!! it acts as a card’s hp
-         */
+        internal static void GameSetup(bool previouslyViewed)
+        {
+            if (previouslyViewed == false)
+            {
+                Console.WriteLine("this is a boardgame cardbattler made for teens - adults who are familiar with monopoly and can do simple math");
+            }
+            
+            // extra crap
+            // ALSO I KNOW UR PROBLY NOT SUPPOSED TO USE RECURSIVE METHODS IN THE WAY I DO BUT I JS NEED THIS TO WORK RN
+            Console.WriteLine("would you like to view the rules? (y/n)");
+            string input1 = Console.ReadLine().Trim().ToLower().Substring(0,1);
+            if (input1 == "y")
+            {
+                Console.WriteLine("\n{0} has {1} spaces and supports {2}-{3} players.", gameName, maxSpaces, minPlayers, maxPlayers);
+                Console.WriteLine("player order is the same order as registration.");
+                Console.WriteLine($"movement in {gameName} is the same as base monopoly, rolling two 6-sided die, and moving that many spaces.");
+                Console.WriteLine("in this version of the game, there is no money, or even \'health\' for cards.\ninstead, this game uses property value and vandalism damage!");
+                Console.WriteLine("players can attack others in a 1v1, or trigger events for battle between everyone.");
+                Console.WriteLine("battle/vandalism is done with property cards, which are collected from unowned property spaces.");
+                Console.WriteLine("property cards have stats: color, property value, damage multiplier, house upgrade value, and hotel upgrade value.");
+                Console.WriteLine("damage to other players property is calculated as a diceroll x damage multiplier.");
+                Console.WriteLine("if an UNOWNED card's property value is reduced to 0, the player who defeated it gets the card.");
+                Console.WriteLine("once an OWNED card's property value is reduced to 0, that card becomes out of play for the whole game.");
+                Console.WriteLine("you can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.");
+            }
+            else if (input1 == "n")
+            {
+                
+            }
+            else
+            {
+                Console.WriteLine("invalid answer, try again!");
+                GameSetup(true);
+            }
+            Console.Write("\nhow many people will be playing today? ");
+            string input2 = Console.ReadLine().Trim();
+            // more extra stuff bc i havent done if statements or try-catch blocks in a bit
+            // and the fact that you could enter anything was bothering me
+            try
+            {
+                Convert.ToInt32(input2);
+            }
+            catch (Exception) 
+            {
+                Console.WriteLine("input was not a valid number, try again.\n");
+                GameSetup(true);
+            }
+            if (Convert.ToInt32(input2) < 2 || Convert.ToInt32(input2) > 4)
+            {
+                Console.WriteLine($"the number of players chosen is out of range({minPlayers}-{maxPlayers}), try again.\n");
+                GameSetup(true);
+            }
+            // input2 will be stored somewhere later to use as an index cycler maximum thing
+        }
     }
 }

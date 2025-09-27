@@ -11,19 +11,50 @@ using System.Threading.Tasks;
  * 
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
+ * 09/26/2025 - gave all variables a read-only property
  */
 
 namespace IGME105_HW_cda7733
 {
     internal class PropertyCards
     {
-        internal int propertyCardIndex = 0;
-        internal string propertyCardName;
-        internal int propertyValue;
-        internal int damageMultiplier;
-        internal int upgradeValue;
-        internal int hotelUpgradeValue;
-        internal string color;
+        // variables & properties
+        // therye alllllll gets. 
+        int propertyCardIndex = 0;
+        internal int PropertyCardIndex
+        {
+            get { return propertyCardIndex; }
+        }
+        string propertyCardName;
+        internal string PropertyCardName
+        {
+            get { return propertyCardName; }
+        }
+        int propertyValue;
+        internal int PropertyValue
+        {
+            get { return propertyValue; }
+        }
+        int damageMultiplier;
+        internal int DamageMultiplier
+        {
+            get { return damageMultiplier; }
+        }
+        int houseUpgradeValue;
+        internal int HouseUpgradeValue
+        {
+            get { return houseUpgradeValue; }
+        }
+        int hotelUpgradeValue;
+        internal int HotelUpgradeValue
+        {
+            get { return hotelUpgradeValue; }
+        }
+        string color;
+        internal string Color
+        {
+            get { return  color; }
+        }
         internal PropertyCards()
         {
             /*

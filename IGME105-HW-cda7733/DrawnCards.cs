@@ -12,24 +12,32 @@ using System.Threading.Tasks;
  * 
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
+ * 09/26/2025 - gave variables read-only properties, gave some detail to the card display methods
  */
 
 namespace IGME105_HW_cda7733
 {
     class DrawnCards
     {
-        internal string text;
-        int cardQuantity = 12; // 4 less than original monopoly
-        // perhaps a string array that stores "first", "second".. "twelve"
-        internal int cardIndex;
-
-        internal void ReadChanceCard(int index, string text)
+        // variables & properties
+        string text;
+        internal string Text
         {
-            Console.WriteLine("player drew a chance card!");
-            Console.WriteLine($"it is the {index} chance card in its deck");
-            Console.WriteLine($"it says: {text}");
-
+            get { return text; }
         }
+        const int cardQuantity = 12; // 4 less than original monopoly
+        internal int CardQuantity
+        {
+            get { return cardQuantity; }
+        }
+        // perhaps a string array that stores "first", "second".. "twelve"
+        int cardIndex;
+        internal int CardIndex
+        {
+            get { return cardIndex; }
+        }
+
+        // methods
         internal class CommunityChestCards : DrawnCards
         {
             internal CommunityChestCards(int cardIndex, string text)
@@ -49,6 +57,17 @@ namespace IGME105_HW_cda7733
                 this.text = text;
             }
         }
+        internal static void DisplayChanceCard(string playerName, int index, string text)
+        {
+            Console.WriteLine(playerName + " drew a chance card!");
+            Console.WriteLine($"it is the {index}(st/nd/rd/th) chance card in its deck");
+            Console.WriteLine($"it says: {text}\n");
+        }
+        internal static void DisplayCommunityChestCard(string playerName, int index, string text)
+        {
+            Console.WriteLine(playerName + " drew a community chest card!");
+            Console.WriteLine($"it is the {index}(st/nd/rd/th) community chest card in its deck");
+            Console.WriteLine($"it says: {text}\n");
+        }
     }
-
 }

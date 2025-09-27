@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,19 +17,29 @@ using System.Threading.Tasks;
 
 namespace IGME105_HW_cda7733
 {
+    // 
     internal class Spaces
     {
-        internal string spaceName;
-        // variable and property for spaceIndex
-        protected int spaceIndex;
-        internal int SpaceIndex { get { return spaceIndex; } set { spaceIndex = value; } }
+        // variables & methods
+        string spaceName;
+        internal string SpaceName
+        {
+            get { return spaceName; }
+        }
+        int spaceIndex;
+        internal int SpaceIndex 
+        { 
+            get { return spaceIndex; } 
+            set { spaceIndex = value; } 
+        }
 
     }
+    // classes
     internal class GoSpace : Spaces
     {
         GoSpace()
         {
-            spaceIndex = 0;
+            SpaceIndex = 0;
         }
 
         internal void PassGo()
@@ -60,8 +71,7 @@ namespace IGME105_HW_cda7733
         // constructor
         VandalismSpaces(int index)
         {
-            spaceName = "vandalize!";
-            spaceIndex = index;
+            SpaceIndex = index;
         }
 
         internal void VandalismEvent()
@@ -83,7 +93,7 @@ namespace IGME105_HW_cda7733
     {
         internal CommunityChestSpaces(int index)
         {
-            spaceIndex = index;
+            SpaceIndex = index;
         }
         internal void PullCommunityChest()
         {
@@ -95,12 +105,12 @@ namespace IGME105_HW_cda7733
     {
         internal ChanceCardSpaces(int index)
         {
-            spaceIndex = index;
+            SpaceIndex = index;
 
         }
         internal void PullChanceCard()
         {
-
+            // pull chance card, DisplayChanceCard
         }
     }
 
@@ -109,7 +119,8 @@ namespace IGME105_HW_cda7733
         int taxValue = 5;
         internal TaxSpaces(int index)
         {
-            
+            // TaxSpaces:Spaces
+              // subtract pv from any one card based on diceroll amount(1 - 12)
         }
     }
     internal class UtilitySpaces : Spaces
@@ -117,15 +128,8 @@ namespace IGME105_HW_cda7733
         int utilityValue = 5;
         internal UtilitySpaces()
         {
-
+            //UtilitySpaces:Spaces
+              // add pv to any one card based on diceroll amount(1 - 12)
         }
     }
-
-
-    /*
-                TaxSpaces:Spaces
-                    subtract pv from any one card based on diceroll amount (1-12)
-                UtilitySpaces:Spaces
-                    add pv to any one card based on diceroll amount (1-12)
-         */
 }
