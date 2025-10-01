@@ -41,20 +41,32 @@ namespace IGME105_HW_cda7733
             set { playerIndex = value; }
         }
 
-        // there would be a playerTokenName array thats controlled w/ playerTokenIndex
-        internal int playerTokenIndex; // used for indexing & tracking which tokens are taken by other players
-        internal string playerTokenName; // used in setup and as a placeholder name (and maybe later for visuals)
+        int playerTokenIndex; // used for indexing & tracking which tokens are taken by other players
+        internal int PlayerTokenIndex
+        {
+            get { return playerTokenIndex; }
+        }
+        string[] playerTokenName = { "angelo","zoey","mcqueen","tailor","captain","hermes","fancy","flowerboy"};
+        internal string[] PlayerTokenName
+        {
+            get { return  playerTokenName; }
+        }
+        int playerColorIndex;
+        internal int PlayerColorIndex
+        {
+            get { return playerColorIndex; }
+            set { playerColorIndex = value; }
+        }
+
 
         // methods
-        internal static void PromptName(int playerIndex, Player playerX)
+        internal static void PromptName(Player playerX)
         {
-            Console.Write($"what is the name of player {playerIndex + 1}? ");
+            Console.Write($"what is the name of player {playerX.PlayerIndex + 1}? ");
             string input = Console.ReadLine().Trim();
             if (string.IsNullOrWhiteSpace(input))
             {
                 Console.WriteLine("this player will be named after their token.");
-                Console.WriteLine("(in later versions, the player's name will ACTUALLY be named after a token,\nex. cat --> kitty, ship --> sailor, tophat --> fancy, etc)");
-                playerX.PlayerName = "tolkein";
             }
             else
             {
@@ -64,11 +76,76 @@ namespace IGME105_HW_cda7733
         }
         internal static void PromptToken(Player playerX)
         {
-            Console.WriteLine($"which token would you like {playerX.PlayerName} to be? please enter a single number.");
-            Console.WriteLine(" 0. cat \n 1. dog \n 2. car \n 3. thimble \n 4. ship \n 5. shoe \n 6. tophat \n 7. wheelbarrow");
-            string chosenTokenNumber = Console.ReadLine().Trim();
-            // make an array that translates the numerical id of the token to the name. wrap it in an if statement that checks if its a valid number
-            Console.WriteLine($"the player entered {chosenTokenNumber} \n");
+            bool done = false;
+            while (done == false)
+            {
+                Console.WriteLine($"which token would you like this player to be? please enter a single number.");
+                Console.WriteLine(" 0. cat \n 1. dog \n 2. car \n 3. thimble \n 4. ship \n 5. shoe \n 6. tophat \n 7. wheelbarrow");
+                string chosenTokenNumber = Console.ReadLine().Trim();
+                // make an array that translates the numerical id of the token to the name. wrap it in an if statement that checks if its a valid number
+                Console.WriteLine($"the player entered {chosenTokenNumber} \n");
+                try
+                {
+                    playerX.playerTokenIndex = Convert.ToInt32(chosenTokenNumber);
+                    if (playerX.playerTokenIndex >= 0 && playerX.PlayerTokenIndex <= 7)
+                    {
+                        if (string.IsNullOrWhiteSpace(playerX.PlayerName))
+                        {
+                            playerX.PlayerName = playerX.PlayerTokenName[playerX.PlayerTokenIndex];
+                        }
+                        done = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("out of range! enter a number 0-7.");
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("invalid entry! enter a numerical value. (0,1,2,3..)");
+                }
+            }
+        }
+
+        internal static void DisplayAvailableColors()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("red");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("orange");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("yellow");
+            //Console.ForegroundColor = ConsoleColor.Green;
+            //Console.WriteLine("green");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("cyan");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("blue");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("purple");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("pink");
+            Console.ResetColor();
+        }
+        internal static void PromptColor(Player playerX)
+        {
+            bool done = false;
+            while (!done)
+            {
+                Console.WriteLine($"which color would you like {playerX.PlayerName} to be?");
+                DisplayAvailableColors();
+                string input = Console.ReadLine().Trim();
+                try
+                {
+                    Convert.ToInt32(input);
+                }
+                catch
+                {
+                    Console.WriteLine("please enter a valid number!");
+                }
+            }
+            
+
         }
         internal static void CyclePlayerIndex(int playerIndex, int currentMaxPlayers)
         {
@@ -80,6 +157,7 @@ namespace IGME105_HW_cda7733
             {
                 playerIndex = 0;
             }
+            Console.WriteLine("what would you like to do? ");
         }
     }
 }
