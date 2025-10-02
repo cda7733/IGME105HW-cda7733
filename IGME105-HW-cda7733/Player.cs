@@ -41,27 +41,53 @@ namespace IGME105_HW_cda7733
             set { playerIndex = value; }
         }
 
+        // constructors
+
+        internal Player()
+        {
+            // allows players to control this
+        }
+        internal Player(int difficulty)
+        {
+            // cpu player, automatically controlled
+            // their info can be randomly generated
+            // difficulty ranges 1-5
+        }
+
+
+
         int playerTokenIndex; // used for indexing & tracking which tokens are taken by other players
         internal int PlayerTokenIndex
         {
             get { return playerTokenIndex; }
         }
-        string[] playerTokenName = { "angelo","zoey","mcqueen","tailor","captain","hermes","fancy","flowerboy"};
+        string[] playerTokenName = { "cat", "dog", "car", "thimble", "ship", "shoe", "tophat", "wheelbarrow" };
         internal string[] PlayerTokenName
         {
-            get { return  playerTokenName; }
+            get { return playerTokenName; }
+        }
+        // for players to be named after their token
+        string[] playerTokenNickname = { "angelo","zoey","mcqueen","tailor","captain","hermes","fancy","flowerboy"};
+        internal string[] PlayerTokenNickname
+        {
+            get { return  playerTokenNickname; }
         }
         int playerColorIndex;
         internal int PlayerColorIndex
         {
-            get { return playerColorIndex; }
+            get{ return playerColorIndex; }
             set { playerColorIndex = value; }
         }
-
+        string[] playerColorNames = { "red", "orange","yellow","cyan","blue","purple","pink","white"};
+        internal string[] PlayerColorNames
+        {
+            get { return  playerColorNames; }
+        }
 
         // methods
         internal static void PromptName(Player playerX)
         {
+            Console.Clear();
             Console.Write($"what is the name of player {playerX.PlayerIndex + 1}? ");
             string input = Console.ReadLine().Trim();
             if (string.IsNullOrWhiteSpace(input))
@@ -91,7 +117,7 @@ namespace IGME105_HW_cda7733
                     {
                         if (string.IsNullOrWhiteSpace(playerX.PlayerName))
                         {
-                            playerX.PlayerName = playerX.PlayerTokenName[playerX.PlayerTokenIndex];
+                            playerX.PlayerName = playerX.PlayerTokenNickname[playerX.PlayerTokenIndex];
                         }
                         done = true;
                     }
@@ -105,59 +131,60 @@ namespace IGME105_HW_cda7733
                     Console.WriteLine("invalid entry! enter a numerical value. (0,1,2,3..)");
                 }
             }
-        }
-
-        internal static void DisplayAvailableColors()
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("red");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("orange");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("yellow");
-            //Console.ForegroundColor = ConsoleColor.Green;
-            //Console.WriteLine("green");
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("cyan");
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("blue");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine("purple");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("pink");
-            Console.ResetColor();
+            Console.Clear();
         }
         internal static void PromptColor(Player playerX)
         {
             bool done = false;
             while (!done)
             {
-                Console.WriteLine($"which color would you like {playerX.PlayerName} to be?");
+                Console.WriteLine($"which color would you like {playerX.PlayerName} to be? please enter the number preceding the color.");
                 DisplayAvailableColors();
                 string input = Console.ReadLine().Trim();
                 try
                 {
-                    Convert.ToInt32(input);
+                    int chosenColorIndex = Convert.ToInt32(input);
+                    if (chosenColorIndex >= 0 && chosenColorIndex <= 8)
+                    {
+                        playerX.PlayerColorIndex = chosenColorIndex;
+                    }
+                    done = true;
                 }
                 catch
                 {
                     Console.WriteLine("please enter a valid number!");
                 }
+                Console.WriteLine($"{playerX.playerName}'s color will be ");
             }
-            
-
+            Console.Clear();
         }
-        internal static void CyclePlayerIndex(int playerIndex, int currentMaxPlayers)
+        internal static void DisplayAvailableColors()
         {
-            if (playerIndex < currentMaxPlayers)
-            {
-                playerIndex++;
-            }
-            else 
-            {
-                playerIndex = 0;
-            }
-            Console.WriteLine("what would you like to do? ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("0. red");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("1. orange");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("2. yellow");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("3. cyan");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("4. blue");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("5. purple");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("6. pink");
+            Console.ResetColor();
+            Console.WriteLine("7. white");
+        }
+        internal static void DisplayPlayerInfo(Player playerX)
+        {
+            Utility.ColorPicker(playerX.PlayerColorIndex);
+            Console.WriteLine($"\nplayer {playerX.PlayerIndex + 1 } info:");
+            Console.WriteLine("name: " + playerX.PlayerName);
+            Console.WriteLine("color: " + playerX.PlayerColorNames[playerX.PlayerColorIndex]);
+            Console.WriteLine("token: " + playerX.PlayerTokenName[playerX.playerTokenIndex]);
+            Console.ResetColor();
         }
     }
 }

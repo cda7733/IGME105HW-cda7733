@@ -24,21 +24,23 @@ namespace IGME105_HW_cda7733
     {
         static void Main(string[] args)
         {
-            Utility.Welcome();
-            Utility.GameSetup();
+            GameSetup.Startup();
             Player player1 = new Player();
+            Player CPU1 = new Player(5);
             Player.PromptName(player1);
             Player.PromptToken(player1);
             Player.PromptColor(player1);
-            /* 
+            Player.DisplayPlayerInfo(player1);
+
+            // Utility.RollForMovement(player1,GameSetup.);
+
             DrawnCards.DisplayChanceCard(player1.PlayerName, 1, "advance to board walk! if you pass go, upgrade your weakest card!");
             DrawnCards.DisplayCommunityChestCard(player1.PlayerName, 6, "one of your properties got TPed! lose 5 property value for a random card.");
-            Utility.RollForMovement(player1);
             Utility.IndividualVandalism();
             Utility.GroupVandalism();
-            Utility.PropertyLanding(player1.PlayerName);
+            Utility.PropertyLanding(player1);
             Console.WriteLine("all methods have successfully been called!\n");
-            */
+            
         }
     }
 }
