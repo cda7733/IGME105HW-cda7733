@@ -41,21 +41,6 @@ namespace IGME105_HW_cda7733
             set { playerIndex = value; }
         }
 
-        // constructors
-
-        internal Player()
-        {
-            // allows players to control this
-        }
-        internal Player(int difficulty)
-        {
-            // cpu player, automatically controlled
-            // their info can be randomly generated
-            // difficulty ranges 1-5
-        }
-
-
-
         int playerTokenIndex; // used for indexing & tracking which tokens are taken by other players
         internal int PlayerTokenIndex
         {
@@ -82,6 +67,19 @@ namespace IGME105_HW_cda7733
         internal string[] PlayerColorNames
         {
             get { return  playerColorNames; }
+        }
+
+        // constructors
+
+        internal Player()
+        {
+            // allows players to control this
+        }
+        internal Player(int difficulty)
+        {
+            // cpu player, automatically controlled
+            // their info can be randomly generated
+            // difficulty ranges 1-5
         }
 
         // methods

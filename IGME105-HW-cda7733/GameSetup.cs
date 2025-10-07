@@ -31,7 +31,7 @@ namespace IGME105_HW_cda7733
             get { return maxSpaces; }
         }
 
-        const string gameName = "battle monopoly: vandalism edition";
+        const string gameName = "battle monopoly: capitalist punishment";
         internal string GameName
         {
             get { return gameName; }

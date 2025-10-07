@@ -34,6 +34,19 @@ namespace IGME105_HW_cda7733
 
             // Utility.RollForMovement(player1,GameSetup.);
 
+            // add a diceroll here to determine player order and starting properties
+            // first player's action turn
+                // they can choose to open the menu, view their/their property info, trade, and roll the dice to progress
+                // players can choose any number of actions until they roll, then
+                // player lands on a space and triggers that event
+                // player gets another action turn, mostlyyy same actions as before
+                    // players can choose to fight the space (IF it is a property space, otherwise the space would've already triggered)
+                        // ex. go space immediately upgrades ur card, chance/community chest immediately gives a card
+                    // players can't roll, just end their turn and pass to the next
+            // second player's action turn
+            // gameplay loop repeats from here until one player is left
+
+            // these are js examples of methods being printed, later, they will be triggered by certain events/landings
             DrawnCards.DisplayChanceCard(player1.PlayerName, 1, "advance to board walk! if you pass go, upgrade your weakest card!");
             DrawnCards.DisplayCommunityChestCard(player1.PlayerName, 6, "one of your properties got TPed! lose 5 property value for a random card.");
             Utility.IndividualVandalism();
