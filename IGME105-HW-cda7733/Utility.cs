@@ -14,6 +14,7 @@ using System.Threading.Tasks;
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 09/26/2025 - gave variables properties, all methods do somethingg
+ * 10/10/2025 - added roll for movement & first property
  */
 
 namespace IGME105_HW_cda7733
@@ -36,11 +37,20 @@ namespace IGME105_HW_cda7733
         }
 
         // methods
-        internal static void RollForMovement(Player playerX, Random random)
+        internal static void RollForMovement(Player playerX)
         {
             Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
-            int roll = random.Next(2,13);
-            Console.WriteLine("{0} rolled a {1}! they are now on space number {2}.\n", playerX.PlayerName, roll, 1 + roll);
+            int diceRoll = GameSetup.RNG.Next(2,13);
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("{0} rolled a {1}! they are now on space number {2}.\n", playerX.PlayerName, diceRoll, 1 + diceRoll);
+            Console.ResetColor();
+        }
+        internal static void RollForFirstProperty()
+        {
+            int diceRoll = GameSetup.RNG.Next(0,5);
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"you get the {diceRoll + 1}st/nd/rd/th property");
+            Console.ResetColor();
         }
         internal static void CyclePlayerIndex(string option, Player playerX, int currentMaxPlayers)
         {
@@ -70,8 +80,10 @@ namespace IGME105_HW_cda7733
         }
         internal static void ColorPicker (int colorIndex)
         {
+
             switch (colorIndex)
             {
+
                 case 0:
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;

@@ -3,18 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\igme105-hw-cda7733\\spaces.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\spaces.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\igme105-hw-cda7733\\architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\igme105-hw-cda7733\\drawncards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\drawncards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|c:\\users\\zodin\\source\\repos\\igme105-hw-cda7733\\igme105-hw-cda7733\\utility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\utility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,8 +15,20 @@
       "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\igme105-hw-cda7733\\architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\igme105-hw-cda7733\\drawncards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\drawncards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\igme105-hw-cda7733\\propertycards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\propertycards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\igme105-hw-cda7733\\spaces.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AE6E7FD-A386-46CE-8B11-5E1B16A1FE55}|IGME105-HW-cda7733\\IGME105-HW-cda7733.csproj|solutionrelative:igme105-hw-cda7733\\spaces.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,17 +38,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\Player.cs",
               "RelativeDocumentMoniker": "IGME105-HW-cda7733\\Player.cs",
               "ToolTip": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\Player.cs",
               "RelativeToolTip": "IGME105-HW-cda7733\\Player.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAADIAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAmwMQAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-26T23:10:58.38Z",
               "IsPinned": true,
@@ -56,72 +56,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "GameSetup.cs",
               "DocumentMoniker": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\GameSetup.cs",
               "RelativeDocumentMoniker": "IGME105-HW-cda7733\\GameSetup.cs",
               "ToolTip": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\GameSetup.cs",
               "RelativeToolTip": "IGME105-HW-cda7733\\GameSetup.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAQwCEAAABHAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-01T17:12:28.327Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Utility.cs",
               "DocumentMoniker": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\Utility.cs",
               "RelativeDocumentMoniker": "IGME105-HW-cda7733\\Utility.cs",
               "ToolTip": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\Utility.cs",
               "RelativeToolTip": "IGME105-HW-cda7733\\Utility.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAwGwAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAYwDMAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T14:28:09.153Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "DrawnCards.cs",
               "DocumentMoniker": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\DrawnCards.cs",
               "RelativeDocumentMoniker": "IGME105-HW-cda7733\\DrawnCards.cs",
               "ToolTip": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\DrawnCards.cs",
               "RelativeToolTip": "IGME105-HW-cda7733\\DrawnCards.cs",
-              "ViewState": "AgIAAD0AAAAAAAAAAADwv0cAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAwwEIAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T13:57:47.527Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Architecture.cs",
               "DocumentMoniker": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\Architecture.cs",
               "RelativeDocumentMoniker": "IGME105-HW-cda7733\\Architecture.cs",
               "ToolTip": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\Architecture.cs",
               "RelativeToolTip": "IGME105-HW-cda7733\\Architecture.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACsAAAB1AAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAxwCYAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T01:57:45.954Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "PropertyCards.cs",
               "DocumentMoniker": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\PropertyCards.cs",
               "RelativeDocumentMoniker": "IGME105-HW-cda7733\\PropertyCards.cs",
               "ToolTip": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\PropertyCards.cs",
               "RelativeToolTip": "IGME105-HW-cda7733\\PropertyCards.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAC0AAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAAkwC0AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T14:02:23.007Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "Spaces.cs",
               "DocumentMoniker": "C:\\Users\\zodin\\source\\repos\\IGME105-HW-cda7733\\IGME105-HW-cda7733\\Spaces.cs",
               "RelativeDocumentMoniker": "IGME105-HW-cda7733\\Spaces.cs",

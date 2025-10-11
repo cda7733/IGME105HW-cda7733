@@ -8,8 +8,8 @@ namespace IGME105_HW_cda7733
 {
     internal class GameSetup
     {
-        Random rng = new Random();
-        internal Random RNG
+        static Random rng = new Random();
+        internal static Random RNG
         {
             get { return rng; }
             set { rng = value; }

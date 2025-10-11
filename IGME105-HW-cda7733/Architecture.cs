@@ -16,6 +16,7 @@ using System.Threading.Tasks;
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - distrubuted comments to classes for HW3
  * 09/26/2025 - calling methods from all classes
+ * 10/10/2025 - called new methods w/ RNG elements
  */
 
 namespace IGME105_HW_cda7733
@@ -24,15 +25,23 @@ namespace IGME105_HW_cda7733
     {
         static void Main(string[] args)
         {
+
             GameSetup.Startup();
             Player player1 = new Player();
             Player CPU1 = new Player(5);
+
+            
             Player.PromptName(player1);
             Player.PromptToken(player1);
             Player.PromptColor(player1);
             Player.DisplayPlayerInfo(player1);
 
-            // Utility.RollForMovement(player1,GameSetup.);
+            Console.WriteLine("(randomly generated numbers are pink)");
+
+            Utility.RollForMovement(player1);
+            Utility.RollForFirstProperty();
+            Player.RollForOrder();
+
 
             // add a diceroll here to determine player order and starting properties
             // first player's action turn
@@ -47,8 +56,8 @@ namespace IGME105_HW_cda7733
             // gameplay loop repeats from here until one player is left
 
             // these are js examples of methods being printed, later, they will be triggered by certain events/landings
-            DrawnCards.DisplayChanceCard(player1.PlayerName, 1, "advance to board walk! if you pass go, upgrade your weakest card!");
-            DrawnCards.DisplayCommunityChestCard(player1.PlayerName, 6, "one of your properties got TPed! lose 5 property value for a random card.");
+            DrawnCards.DisplayChanceCard(player1.PlayerName, "advance to board walk! if you pass go, upgrade your weakest card!");
+            DrawnCards.DisplayCommunityChestCard(player1.PlayerName, "one of your properties got TPed! lose 5 property value for a random card.");
             Utility.IndividualVandalism();
             Utility.GroupVandalism();
             Utility.PropertyLanding(player1);

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 09/26/2025 - gave variables read-only properties, gave some detail to the card display methods
+ * 10/10/2025 - added RNG to display methods
  */
 
 namespace IGME105_HW_cda7733
@@ -57,16 +58,22 @@ namespace IGME105_HW_cda7733
                 this.text = text;
             }
         }
-        internal static void DisplayChanceCard(string playerName, int index, string text)
+        internal static void DisplayChanceCard(string playerName, string text)
         {
             Console.WriteLine(playerName + " drew a chance card!");
-            Console.WriteLine($"it is the {index}(st/nd/rd/th) chance card in its deck");
+            int number = GameSetup.RNG.Next(1,13);
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"it is the {number}(st/nd/rd/th) chance card in its deck");
+            Console.ResetColor();
             Console.WriteLine($"it says: {text}\n");
         }
-        internal static void DisplayCommunityChestCard(string playerName, int index, string text)
+        internal static void DisplayCommunityChestCard(string playerName, string text)
         {
             Console.WriteLine(playerName + " drew a community chest card!");
-            Console.WriteLine($"it is the {index}(st/nd/rd/th) community chest card in its deck");
+            int number = GameSetup.RNG.Next(1,13);
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"it is the {number}(st/nd/rd/th) community chest card in its deck");
+            Console.ResetColor();
             Console.WriteLine($"it says: {text}\n");
         }
     }

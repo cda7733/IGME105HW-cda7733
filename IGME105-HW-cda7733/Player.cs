@@ -12,6 +12,7 @@ using System.Threading.Tasks;
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 09/26/2025 - gave variables properties, all methods do somethingg
+ * 10/10/2025 - added roll for order method
  */
 
 
@@ -73,7 +74,8 @@ namespace IGME105_HW_cda7733
 
         internal Player()
         {
-            // allows players to control this
+            // actual player character
+            // filled with prompted info
         }
         internal Player(int difficulty)
         {
@@ -107,7 +109,6 @@ namespace IGME105_HW_cda7733
                 Console.WriteLine(" 0. cat \n 1. dog \n 2. car \n 3. thimble \n 4. ship \n 5. shoe \n 6. tophat \n 7. wheelbarrow");
                 string chosenTokenNumber = Console.ReadLine().Trim();
                 // make an array that translates the numerical id of the token to the name. wrap it in an if statement that checks if its a valid number
-                Console.WriteLine($"the player entered {chosenTokenNumber} \n");
                 try
                 {
                     playerX.playerTokenIndex = Convert.ToInt32(chosenTokenNumber);
@@ -144,9 +145,16 @@ namespace IGME105_HW_cda7733
                     int chosenColorIndex = Convert.ToInt32(input);
                     if (chosenColorIndex >= 0 && chosenColorIndex <= 8)
                     {
-                        playerX.PlayerColorIndex = chosenColorIndex;
+                        if (!string.IsNullOrWhiteSpace(input))
+                        {
+                            playerX.PlayerColorIndex = chosenColorIndex;
+                        }
+                        done = true;
                     }
-                    done = true;
+                    else
+                    {
+                        Console.WriteLine("out of range! enter a number 0-7.");
+                    }
                 }
                 catch
                 {
@@ -182,6 +190,14 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("name: " + playerX.PlayerName);
             Console.WriteLine("color: " + playerX.PlayerColorNames[playerX.PlayerColorIndex]);
             Console.WriteLine("token: " + playerX.PlayerTokenName[playerX.playerTokenIndex]);
+            Console.ResetColor();
+        }
+        internal static void RollForOrder()
+        {
+            int diceRoll = GameSetup.RNG.Next(4);
+            // keeping it 0-3 because i plan to set it = to player index
+            Console.ForegroundColor= ConsoleColor.Magenta;
+            Console.WriteLine($"you are player {diceRoll + 1}");
             Console.ResetColor();
         }
     }
