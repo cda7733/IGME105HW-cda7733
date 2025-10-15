@@ -15,6 +15,7 @@ using System.Threading.Tasks;
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 09/26/2025 - gave variables properties, all methods do somethingg
  * 10/10/2025 - added roll for movement & first property
+ * 10/15/2025 - added a switch case block to trigger space events
  */
 
 namespace IGME105_HW_cda7733
@@ -41,16 +42,57 @@ namespace IGME105_HW_cda7733
         {
             Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
             int diceRoll = GameSetup.RNG.Next(2,13);
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("{0} rolled a {1}! they are now on space number {2}.\n", playerX.PlayerName, diceRoll, 1 + diceRoll);
-            Console.ResetColor();
+            playerX.PlayerLocation[playerX.PlayerIndex] = playerX.PlayerLocation[playerX.PlayerIndex] + diceRoll;
+            Console.WriteLine("{0} rolled a {1}! they are now on {2}.\n", playerX.PlayerName, diceRoll, Spaces.DisplayPropertyName(diceRoll));
+            switch (playerX.PlayerLocation[playerX.PlayerIndex])
+            {
+                case 0: Spaces.GoSpace(); break;
+                case 1: Spaces.PropertySpace(); break;
+                case 2: Console.WriteLine("you've landed on a community chest space!"); break;
+                case 3: Spaces.PropertySpace(); break;
+                case 4: Spaces.TaxSpace(GameSetup.RNG); break;
+                case 5: 
+                case 6: Spaces.PropertySpace(); break;
+                case 7: Console.WriteLine("you've landed on a chance space!"); break;
+                case 8: 
+                case 9: Spaces.PropertySpace(); break;
+                case 10: Spaces.VandalismSpace(); break;
+                case 11: Spaces.PropertySpace(); break;
+                case 12: Spaces.UtilitySpace(GameSetup.RNG); break;
+                case 13:
+                case 14:
+                case 15: 
+                case 16: Spaces.PropertySpace(); break;
+                case 17: Console.WriteLine("you've landed on a community chest space!"); break;
+                case 18: 
+                case 19: Spaces.PropertySpace(); break;
+                case 20: Console.WriteLine("you've landed on a free repair space!"); break;
+                case 21: Spaces.PropertySpace(); break;
+                case 22: Console.WriteLine("you've landed on a chance space!"); break;
+                case 23:
+                case 24:
+                case 25: 
+                case 26:
+                case 27: Spaces.PropertySpace(); break;
+                case 28: Spaces.UtilitySpace(GameSetup.RNG); break;
+                case 29: Spaces.PropertySpace(); break;
+                case 30: Spaces.VandalismSpace(); break;
+                case 31: 
+                case 32: Spaces.PropertySpace(); break;
+                case 33: Console.WriteLine("you've landed on a community chest space!"); break;
+                case 34:
+                case 35: Spaces.PropertySpace(); break;
+                case 36: Console.WriteLine("you've landed on a chance space!"); break;
+                case 37: Spaces.PropertySpace(); break;
+                case 38: Spaces.TaxSpace(GameSetup.RNG); break;
+                case 39: Spaces.PropertySpace(); break;
+                default: break;
+            }
         }
         internal static void RollForFirstProperty()
         {
             int diceRoll = GameSetup.RNG.Next(0,5);
-            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine($"you get the {diceRoll + 1}st/nd/rd/th property");
-            Console.ResetColor();
         }
         internal static void CyclePlayerIndex(string option, Player playerX, int currentMaxPlayers)
         {

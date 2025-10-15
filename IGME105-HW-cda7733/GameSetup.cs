@@ -4,6 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * program name: IGME105 monopoly game
+ * created by: charisma allen
+ * purpose: make monopoly more fun by making it a card battler
+ * 
+ * 10/15/2025 - very slightly tweaked rules + header
+ */
+
 namespace IGME105_HW_cda7733
 {
     internal class GameSetup
@@ -84,7 +92,7 @@ namespace IGME105_HW_cda7733
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\n{0} has {1} spaces and supports {2}-{3} players.", gameName, maxSpaces, minPlayers, maxPlayers);
             Console.WriteLine("player order is the same order as registration.");
-            Console.WriteLine("players may have the same name, but never the same token or console color."); // barriers not yet coded in
+            Console.WriteLine("players may have the same name, token or console color, though this is ill advised."); // barriers not yet coded in
             Console.WriteLine($"movement in {gameName} is the same as base monopoly, rolling two 6-sided die, and moving that many spaces.");
             Console.WriteLine("in this version of the game, there is no money, or even \'health\' for cards.\ninstead, this game uses property value and vandalism damage!");
             Console.WriteLine("players can attack others in a 1v1, or trigger events for battle between everyone.");

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
  * 09/19/2025 - distrubuted comments to classes for HW3
  * 09/26/2025 - calling methods from all classes
  * 10/10/2025 - called new methods w/ RNG elements
+ * 10/15/2025 - cleanup! commented out game setup bc it was tedious for testing. removed magenta coloring.
  */
 
 namespace IGME105_HW_cda7733
@@ -26,7 +27,7 @@ namespace IGME105_HW_cda7733
         static void Main(string[] args)
         {
 
-            GameSetup.Startup();
+            // GameSetup.Startup();
             Player player1 = new Player();
             Player CPU1 = new Player(5);
 
@@ -56,8 +57,6 @@ namespace IGME105_HW_cda7733
             // gameplay loop repeats from here until one player is left
 
             // these are js examples of methods being printed, later, they will be triggered by certain events/landings
-            DrawnCards.DisplayChanceCard(player1.PlayerName, "advance to board walk! if you pass go, upgrade your weakest card!");
-            DrawnCards.DisplayCommunityChestCard(player1.PlayerName, "one of your properties got TPed! lose 5 property value for a random card.");
             Utility.IndividualVandalism();
             Utility.GroupVandalism();
             Utility.PropertyLanding(player1);
