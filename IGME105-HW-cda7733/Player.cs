@@ -69,6 +69,12 @@ namespace IGME105_HW_cda7733
         {
             get { return  playerColorNames; }
         }
+        string onSpaceType = "GO";
+        internal string OnSpaceType
+        {
+            get { return onSpaceType; }
+            set {  onSpaceType = value; }
+        }
 
         // constructors
 
@@ -85,10 +91,10 @@ namespace IGME105_HW_cda7733
         }
 
         // methods
-        internal static void PromptName(Player playerX)
+        internal void PromptName()
         {
             Console.Clear();
-            Console.Write($"what is the name of player {playerX.PlayerIndex + 1}? ");
+            Console.Write($"what is the name of player {PlayerIndex + 1}? ");
             string input = Console.ReadLine().Trim();
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -96,11 +102,11 @@ namespace IGME105_HW_cda7733
             }
             else
             {
-                playerX.PlayerName = input;
+                PlayerName = input;
             }
             Console.WriteLine("");
         }
-        internal static void PromptToken(Player playerX)
+        internal void PromptToken()
         {
             bool done = false;
             while (done == false)
@@ -111,12 +117,12 @@ namespace IGME105_HW_cda7733
                 // make an array that translates the numerical id of the token to the name. wrap it in an if statement that checks if its a valid number
                 try
                 {
-                    playerX.playerTokenIndex = Convert.ToInt32(chosenTokenNumber);
-                    if (playerX.playerTokenIndex >= 0 && playerX.PlayerTokenIndex <= 7)
+                    playerTokenIndex = Convert.ToInt32(chosenTokenNumber);
+                    if (playerTokenIndex >= 0 && PlayerTokenIndex <= 7)
                     {
-                        if (string.IsNullOrWhiteSpace(playerX.PlayerName))
+                        if (string.IsNullOrWhiteSpace(PlayerName))
                         {
-                            playerX.PlayerName = playerX.PlayerTokenNickname[playerX.PlayerTokenIndex];
+                            PlayerName = PlayerTokenNickname[PlayerTokenIndex];
                         }
                         done = true;
                     }
@@ -132,13 +138,13 @@ namespace IGME105_HW_cda7733
             }
             Console.Clear();
         }
-        internal static void PromptColor(Player playerX)
+        internal void PromptColor()
         {
             bool done = false;
             while (!done)
             {
-                Console.WriteLine($"which color would you like {playerX.PlayerName} to be? please enter the number preceding the color.");
-                DisplayAvailableColors();
+                Console.WriteLine($"which color would you like {PlayerName} to be? please enter the number preceding the color.");
+                Utility.DisplayAvailableColors();
                 string input = Console.ReadLine().Trim();
                 try
                 {
@@ -147,7 +153,7 @@ namespace IGME105_HW_cda7733
                     {
                         if (!string.IsNullOrWhiteSpace(input))
                         {
-                            playerX.PlayerColorIndex = chosenColorIndex;
+                            PlayerColorIndex = chosenColorIndex;
                         }
                         done = true;
                     }
@@ -160,44 +166,25 @@ namespace IGME105_HW_cda7733
                 {
                     Console.WriteLine("please enter a valid number!");
                 }
-                Console.WriteLine($"{playerX.playerName}'s color will be ");
+                Console.WriteLine($"{playerName}'s color will be ");
             }
             Console.Clear();
         }
-        internal static void DisplayAvailableColors()
+        internal void DisplayPlayerInfo()
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("0. red");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("1. orange");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("2. yellow");
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("3. cyan");
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("4. blue");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine("5. purple");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("6. pink");
-            Console.ResetColor();
-            Console.WriteLine("7. white");
-        }
-        internal static void DisplayPlayerInfo(Player playerX)
-        {
-            Utility.ColorPicker(playerX.PlayerColorIndex);
-            Console.WriteLine($"\nplayer {playerX.PlayerIndex + 1 } info:");
-            Console.WriteLine("name: " + playerX.PlayerName);
-            Console.WriteLine("color: " + playerX.PlayerColorNames[playerX.PlayerColorIndex]);
-            Console.WriteLine("token: " + playerX.PlayerTokenName[playerX.playerTokenIndex]);
+            Utility.ColorPicker(PlayerColorIndex);
+            Console.WriteLine($"\nplayer {PlayerIndex + 1 } info:");
+            Console.WriteLine("name: " + PlayerName);
+            Console.WriteLine("color: " + PlayerColorNames[PlayerColorIndex]);
+            Console.WriteLine("token: " + PlayerTokenName[playerTokenIndex]);
             Console.ResetColor();
         }
-        internal static void RollForOrder()
+        internal void RollForOrder()
         {
             int diceRoll = GameSetup.RNG.Next(4);
             // keeping it 0-3 because i plan to set it = to player index
             Console.ForegroundColor= ConsoleColor.Magenta;
-            Console.WriteLine($"you are player {diceRoll + 1}");
+            // Console.WriteLine($"you are player {diceRoll + 1}");
             Console.ResetColor();
         }
     }

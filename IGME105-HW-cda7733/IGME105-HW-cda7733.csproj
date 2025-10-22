@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="DrawnCards.cs" />
     <Compile Include="Architecture.cs" />
+    <Compile Include="GameEngine.cs" />
     <Compile Include="GameSetup.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Player.cs" />

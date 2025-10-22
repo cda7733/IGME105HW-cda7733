@@ -30,19 +30,18 @@ namespace IGME105_HW_cda7733
             // GameSetup.Startup();
             Player player1 = new Player();
             Player CPU1 = new Player(5);
+            GameEngine engine = new GameEngine();
 
             
-            Player.PromptName(player1);
-            Player.PromptToken(player1);
-            Player.PromptColor(player1);
-            Player.DisplayPlayerInfo(player1);
+            player1.PromptName();
+            player1.PromptToken();
+            player1.PromptColor();
+            // player1.DisplayPlayerInfo();
 
-            Console.WriteLine("(randomly generated numbers are pink)");
-
-            Utility.RollForMovement(player1);
             Utility.RollForFirstProperty();
-            Player.RollForOrder();
+            player1.RollForOrder();
 
+            engine.PlayerAction(player1);
 
             // add a diceroll here to determine player order and starting properties
             // first player's action turn
@@ -57,11 +56,6 @@ namespace IGME105_HW_cda7733
             // gameplay loop repeats from here until one player is left
 
             // these are js examples of methods being printed, later, they will be triggered by certain events/landings
-            Utility.IndividualVandalism();
-            Utility.GroupVandalism();
-            Utility.PropertyLanding(player1);
-            Console.WriteLine("all methods have successfully been called!\n");
-            
         }
     }
 }

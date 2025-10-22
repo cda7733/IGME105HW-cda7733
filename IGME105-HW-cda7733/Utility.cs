@@ -38,61 +38,11 @@ namespace IGME105_HW_cda7733
         }
 
         // methods
-        internal static void RollForMovement(Player playerX)
-        {
-            Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
-            int diceRoll = GameSetup.RNG.Next(2,13);
-            playerX.PlayerLocation[playerX.PlayerIndex] = playerX.PlayerLocation[playerX.PlayerIndex] + diceRoll;
-            Console.WriteLine("{0} rolled a {1}! they are now on {2}.\n", playerX.PlayerName, diceRoll, Spaces.DisplayPropertyName(diceRoll));
-            switch (playerX.PlayerLocation[playerX.PlayerIndex])
-            {
-                case 0: Spaces.GoSpace(); break;
-                case 1: Spaces.PropertySpace(); break;
-                case 2: Console.WriteLine("you've landed on a community chest space!"); break;
-                case 3: Spaces.PropertySpace(); break;
-                case 4: Spaces.TaxSpace(GameSetup.RNG); break;
-                case 5: 
-                case 6: Spaces.PropertySpace(); break;
-                case 7: Console.WriteLine("you've landed on a chance space!"); break;
-                case 8: 
-                case 9: Spaces.PropertySpace(); break;
-                case 10: Spaces.VandalismSpace(); break;
-                case 11: Spaces.PropertySpace(); break;
-                case 12: Spaces.UtilitySpace(GameSetup.RNG); break;
-                case 13:
-                case 14:
-                case 15: 
-                case 16: Spaces.PropertySpace(); break;
-                case 17: Console.WriteLine("you've landed on a community chest space!"); break;
-                case 18: 
-                case 19: Spaces.PropertySpace(); break;
-                case 20: Console.WriteLine("you've landed on a free repair space!"); break;
-                case 21: Spaces.PropertySpace(); break;
-                case 22: Console.WriteLine("you've landed on a chance space!"); break;
-                case 23:
-                case 24:
-                case 25: 
-                case 26:
-                case 27: Spaces.PropertySpace(); break;
-                case 28: Spaces.UtilitySpace(GameSetup.RNG); break;
-                case 29: Spaces.PropertySpace(); break;
-                case 30: Spaces.VandalismSpace(); break;
-                case 31: 
-                case 32: Spaces.PropertySpace(); break;
-                case 33: Console.WriteLine("you've landed on a community chest space!"); break;
-                case 34:
-                case 35: Spaces.PropertySpace(); break;
-                case 36: Console.WriteLine("you've landed on a chance space!"); break;
-                case 37: Spaces.PropertySpace(); break;
-                case 38: Spaces.TaxSpace(GameSetup.RNG); break;
-                case 39: Spaces.PropertySpace(); break;
-                default: break;
-            }
-        }
+        
         internal static void RollForFirstProperty()
         {
             int diceRoll = GameSetup.RNG.Next(0,5);
-            Console.WriteLine($"you get the {diceRoll + 1}st/nd/rd/th property");
+            // Console.WriteLine($"you get the {diceRoll + 1}st/nd/rd/th property");
         }
         internal static void CyclePlayerIndex(string option, Player playerX, int currentMaxPlayers)
         {
@@ -151,35 +101,25 @@ namespace IGME105_HW_cda7733
                     break;
             }
         }
-        internal static void IndividualVandalism()
+        internal static void DisplayAvailableColors()
         {
-            // battle method between players
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("0. red");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("1. orange");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("a 1v1 vandalism battle is occuring!\n");
+            Console.WriteLine("2. yellow");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("3. cyan");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("4. blue");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("5. purple");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("6. pink");
             Console.ResetColor();
+            Console.WriteLine("7. white");
         }
-        internal static void GroupVandalism()
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow; 
-            Console.WriteLine("a free-for-all vandalism event has been triggered!\n");
-            Console.ResetColor();
-        }
-        internal static void PropertyLanding(Player playerX)
-        {
-            ColorPicker(playerX.PlayerColorIndex);
-            Console.WriteLine($"{playerX.PlayerName} landed on a property space!\n");
-            Console.ResetColor();
-            /*
-             * if ownershipStatus = 0, int cost = PropertyCost[i] 
-                // cost regards not money, but how much damage a space can take before being acquired by a player
-                    players do not have to attack the property
-                    if they want the property, then Buy() method occurs
-                        they do damage to the property and try to bring it to 0
-                if ownershipStatus > 0, initiate Sabotage() between currentPlayer and player x
-                    check if currentPlayer + 1 == ownershipStatus, so that they don’t sabotage/start combat with themselves
-                        + 1 because indexing starts at 0
-                            i think, maybe 
-             */
-        }
+
     }
 }

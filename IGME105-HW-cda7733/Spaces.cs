@@ -63,7 +63,7 @@ namespace IGME105_HW_cda7733
         {
             // 1-20 healing
             int healedValue = rng.Next(20);
-            Console.WriteLine($"+{rng} property value to a card of your choosing!\n");
+            Console.WriteLine($"+{healedValue} property value to a card of your choosing!\n");
         }
 
 
