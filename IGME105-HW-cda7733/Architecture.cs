@@ -27,31 +27,34 @@ namespace IGME105_HW_cda7733
         static void Main(string[] args)
         {
 
-            // GameSetup.Startup();
-            Player player1 = new Player();
-            Player CPU1 = new Player(5);
+            GameSetup.Startup();
             GameEngine engine = new GameEngine();
+            Player player1 = new Player();
 
-            
             player1.PromptName();
             player1.PromptToken();
             player1.PromptColor();
-            // player1.DisplayPlayerInfo();
 
+            /*
+             * assign them in order, not random
             Utility.RollForFirstProperty();
             player1.RollForOrder();
+            */
 
-            engine.PlayerAction(player1);
+            while (Utility.GameOver == false)
+            {
+                engine.PlayerAction(player1);
+            }
 
             // add a diceroll here to determine player order and starting properties
             // first player's action turn
-                // they can choose to open the menu, view their/their property info, trade, and roll the dice to progress
-                // players can choose any number of actions until they roll, then
-                // player lands on a space and triggers that event
-                // player gets another action turn, mostlyyy same actions as before
-                    // players can choose to fight the space (IF it is a property space, otherwise the space would've already triggered)
-                        // ex. go space immediately upgrades ur card, chance/community chest immediately gives a card
-                    // players can't roll, just end their turn and pass to the next
+            // they can choose to open the menu, view their/their property info, trade, and roll the dice to progress
+            // players can choose any number of actions until they roll, then
+            // player lands on a space and triggers that event
+            // player gets another action turn, mostlyyy same actions as before
+            // players can choose to fight the space (IF it is a property space, otherwise the space would've already triggered)
+            // ex. go space immediately upgrades ur card, chance/community chest immediately gives a card
+            // players can't roll, just end their turn and pass to the next
             // second player's action turn
             // gameplay loop repeats from here until one player is left
 

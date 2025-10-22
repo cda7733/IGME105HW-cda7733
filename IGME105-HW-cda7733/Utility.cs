@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 /*
  * program name: IGME105 monopoly game
@@ -20,21 +21,34 @@ using System.Threading.Tasks;
 
 namespace IGME105_HW_cda7733
 {
-    internal class Utility
+    internal static class Utility
     {
         // variables & properties
-        
-        int currentNumberOfPlayers;
-        internal int CurrentNumberOfPlayers
+
+        static bool gameOver = false;
+        internal static bool GameOver
+        {
+            get { return gameOver; }
+            set { gameOver = value; }
+        }
+
+        static int currentNumberOfPlayers;
+        internal static int CurrentNumberOfPlayers
         {
             get { return currentNumberOfPlayers; }
             set { currentNumberOfPlayers = value; }
         }
-        int currentPlayerIndex = 0;
-        internal int CurrentPlayerIndex
+        static int currentPlayerIndex = 0;
+        internal static int CurrentPlayerIndex
         {
             get { return currentPlayerIndex; }
             set { currentPlayerIndex = value; }
+        }
+        static int cardQuantity = 12;
+        internal static int CardQuantity
+        {
+            get { return cardQuantity; }
+            set {  cardQuantity = value; }
         }
 
         // methods
@@ -43,6 +57,53 @@ namespace IGME105_HW_cda7733
         {
             int diceRoll = GameSetup.RNG.Next(0,5);
             // Console.WriteLine($"you get the {diceRoll + 1}st/nd/rd/th property");
+        }
+        internal static void SpaceAction(Player playerX)
+        {
+            switch (playerX.PlayerLocation)
+            {
+                case 0: break;
+                case 1: Spaces.PropertySpace(); break;
+                case 2: GameEngine.PullCommunityChestCard(playerX); break;
+                case 3: Spaces.PropertySpace(); break;
+                case 4: Spaces.TaxSpace(GameSetup.RNG); break;
+                case 5: Spaces.PropertySpace(); break;
+                case 6: Spaces.PropertySpace(); break;
+                case 7: GameEngine.PullChanceCard(playerX); break;
+                case 8: Spaces.PropertySpace(); break;
+                case 9: Spaces.PropertySpace(); break;
+                case 10: Spaces.VandalismSpace(); break;
+                case 11: Spaces.PropertySpace(); break;
+                case 12: Spaces.UtilitySpace(GameSetup.RNG); break;
+                case 13: Spaces.PropertySpace(); break;
+                case 14: Spaces.PropertySpace(); break;
+                case 15: Spaces.PropertySpace(); break;
+                case 16: Spaces.PropertySpace(); break;
+                case 17: GameEngine.PullCommunityChestCard(playerX); break;
+                case 18: Spaces.PropertySpace(); break;
+                case 19: Spaces.PropertySpace(); break;
+                case 20: Console.WriteLine("free repair space!\n"); break;
+                case 21: Spaces.PropertySpace(); break;
+                case 22: GameEngine.PullChanceCard(playerX); break;
+                case 23: Spaces.PropertySpace(); break;
+                case 24: Spaces.PropertySpace(); break;
+                case 25: Spaces.PropertySpace(); break;
+                case 26: Spaces.PropertySpace(); break;
+                case 27: Spaces.PropertySpace(); break;
+                case 28: Spaces.UtilitySpace(GameSetup.RNG); break;
+                case 29: Spaces.PropertySpace(); break;
+                case 30: Spaces.VandalismSpace(); break;
+                case 31: Spaces.PropertySpace(); break;
+                case 32: Spaces.PropertySpace(); break;
+                case 33: GameEngine.PullCommunityChestCard(playerX); break;
+                case 34: Spaces.PropertySpace(); break;
+                case 35: Spaces.PropertySpace(); break;
+                case 36: GameEngine.PullChanceCard(playerX); break;
+                case 37: Spaces.PropertySpace(); break;
+                case 38: Spaces.TaxSpace(GameSetup.RNG); break;
+                case 39: Spaces.PropertySpace(); break;
+                default: break;
+            }
         }
         internal static void CyclePlayerIndex(string option, Player playerX, int currentMaxPlayers)
         {
@@ -70,12 +131,19 @@ namespace IGME105_HW_cda7733
                 }
             }
         }
+        internal static void CyclePlayerLocation(Player playerX)
+        {
+            if (playerX.PlayerLocation >= 40)
+            {
+                playerX.PlayerLocation = playerX.PlayerLocation - 40;
+                Spaces.GoSpace(playerX);
+            }
+        }
         internal static void ColorPicker (int colorIndex)
         {
 
             switch (colorIndex)
             {
-
                 case 0:
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
@@ -98,8 +166,14 @@ namespace IGME105_HW_cda7733
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     break;
                 default:
-                    break;
+                    goto case 2;
             }
+        }
+        internal static void DisplayError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("\n" + message);
+            Console.ResetColor();
         }
         internal static void DisplayAvailableColors()
         {
@@ -118,8 +192,74 @@ namespace IGME105_HW_cda7733
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("6. pink");
             Console.ResetColor();
-            Console.WriteLine("7. white");
         }
-
+        internal static void DisplayHeldCards(Player playerX)
+        {
+            if (String.IsNullOrEmpty(playerX.DrawnCards))
+            {
+                Console.WriteLine(playerX.PlayerName + " currently has no cards!\n");
+            }
+            else
+            {
+                string[] drawnCardArray = playerX.DrawnCards.Split(',');
+                Console.WriteLine($"{playerX.PlayerName} is holding {drawnCardArray.Length} cards! they say..\n");
+                for (int i = 0; i < drawnCardArray.Length; i++)
+                {
+                    Console.WriteLine(TranslateCard(drawnCardArray[i]));
+                }
+                Console.WriteLine("");
+            }
+        }
+        internal static string TranslateCard(string cardTitle)
+        {
+            string cardText = "blank.";
+            if (cardTitle.Substring(0,5) == "chest")
+            {
+                string index = cardTitle.Substring(5);
+                switch (index)
+                {
+                    // placeholder text until i have the cards actually do stuff
+                    case "1": cardText = "this is the first community chest card"; break;
+                    case "2": cardText = "this is the second community chest card"; break;
+                    case "3": cardText = "this is the third community chest card"; break;
+                    case "4": cardText = "this is the fourth community chest card"; break;
+                    case "5": cardText = "this is the fifth community chest card"; break;
+                    case "6": cardText = "this is the sixth community chest card"; break;
+                    case "7": cardText = "this is the seventh community chest card"; break;
+                    case "8": cardText = "this is the eighth community chest card"; break;
+                    case "9": cardText = "this is the ninth community chest card"; break;
+                    case "10": cardText = "this is the tenth community chest card"; break;
+                    case "11": cardText = "this is the eleventh community chest card"; break;
+                    case "12": cardText = "this is the twelfth community chest card"; break;
+                    default: cardText = "range error"; break;
+                }
+            }
+            else if (cardTitle.Substring(0,6) == "chance")
+            {
+                string index = cardTitle.Substring(6);
+                switch (index)
+                {
+                    // also placeholder text
+                    case "1": cardText = "this is the first chance card"; break;
+                    case "2": cardText = "this is the second chance card"; break;
+                    case "3": cardText = "this is the third chance card"; break;
+                    case "4": cardText = "this is the fourth chance card"; break;
+                    case "5": cardText = "this is the fifth chance card"; break;
+                    case "6": cardText = "this is the sixth chance card"; break;
+                    case "7": cardText = "this is the seventh chance card"; break;
+                    case "8": cardText = "this is the eighth chance card"; break;
+                    case "9": cardText = "this is the ninth chance card"; break;
+                    case "10": cardText = "this is the tenth chance card"; break;
+                    case "11": cardText = "this is the eleventh chance card"; break;
+                    case "12": cardText = "this is the twelfth chance card"; break;
+                    default: cardText = "range error"; break;
+                }
+            }
+            else
+            {
+                cardText = "card could not be transcribed.";
+            }
+                return cardText;
+        }
     }
 }

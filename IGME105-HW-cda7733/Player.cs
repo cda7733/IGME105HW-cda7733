@@ -28,8 +28,8 @@ namespace IGME105_HW_cda7733
             set { playerName = value; }
         }
 
-        int[] playerLocation = { 0, 0, 0, 0 };
-        internal int[] PlayerLocation
+        int playerLocation = 0;
+        internal int PlayerLocation
         {
             get { return playerLocation; }
             set { playerLocation = value; }
@@ -53,7 +53,7 @@ namespace IGME105_HW_cda7733
             get { return playerTokenName; }
         }
         // for players to be named after their token
-        string[] playerTokenNickname = { "angelo","zoey","mcqueen","tailor","captain","hermes","fancy","flowerboy"};
+        string[] playerTokenNickname = { "angelo","zoey","mcqueen","tailor","captain","hermes","fancy","flowerboy" };
         internal string[] PlayerTokenNickname
         {
             get { return  playerTokenNickname; }
@@ -64,17 +64,24 @@ namespace IGME105_HW_cda7733
             get{ return playerColorIndex; }
             set { playerColorIndex = value; }
         }
-        string[] playerColorNames = { "red", "orange","yellow","cyan","blue","purple","pink","white"};
+        string[] playerColorNames = { "red","orange","yellow","cyan","blue","purple","pink" };
         internal string[] PlayerColorNames
         {
             get { return  playerColorNames; }
         }
-        string onSpaceType = "GO";
-        internal string OnSpaceType
+        string drawnCards = "";
+        internal string DrawnCards
         {
-            get { return onSpaceType; }
-            set {  onSpaceType = value; }
+            get { return drawnCards; }
+            set {  drawnCards = value; }
         }
+        int turnCount = 1;
+        internal int TurnCount
+        {
+            get { return turnCount; }
+            set { turnCount = value; }
+        }
+
 
         // constructors
 
@@ -128,12 +135,12 @@ namespace IGME105_HW_cda7733
                     }
                     else
                     {
-                        Console.WriteLine("out of range! enter a number 0-7.");
+                        Utility.DisplayError("out of range! enter a number 0-7.");
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("invalid entry! enter a numerical value. (0,1,2,3..)");
+                    Utility.DisplayError("invalid entry! enter a numerical value. (0,1,2,3..)");
                 }
             }
             Console.Clear();
@@ -149,7 +156,7 @@ namespace IGME105_HW_cda7733
                 try
                 {
                     int chosenColorIndex = Convert.ToInt32(input);
-                    if (chosenColorIndex >= 0 && chosenColorIndex <= 8)
+                    if (chosenColorIndex >= 0 && chosenColorIndex <= 6)
                     {
                         if (!string.IsNullOrWhiteSpace(input))
                         {
@@ -159,12 +166,12 @@ namespace IGME105_HW_cda7733
                     }
                     else
                     {
-                        Console.WriteLine("out of range! enter a number 0-7.");
+                        Utility.DisplayError("out of range! enter a number 0-6.");
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("please enter a valid number!");
+                    Utility.DisplayError("please enter a valid number!");
                 }
                 Console.WriteLine($"{playerName}'s color will be ");
             }
@@ -173,7 +180,7 @@ namespace IGME105_HW_cda7733
         internal void DisplayPlayerInfo()
         {
             Utility.ColorPicker(PlayerColorIndex);
-            Console.WriteLine($"\nplayer {PlayerIndex + 1 } info:");
+            Console.WriteLine($"\nplayer {PlayerIndex + 1 } info");
             Console.WriteLine("name: " + PlayerName);
             Console.WriteLine("color: " + PlayerColorNames[PlayerColorIndex]);
             Console.WriteLine("token: " + PlayerTokenName[playerTokenIndex]);

@@ -38,15 +38,20 @@ namespace IGME105_HW_cda7733
             return spaceNameArray[index];
         }
 
-        internal static void GoSpace()
+        internal static void GoSpace(Player playerX)
         {
-            Console.WriteLine("you landed on go! collect your free upgrade!");
+            if (playerX.TurnCount != 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("they passed go! collect a free upgrade!\n");
+                Console.ResetColor();
+            }
             // players get a free property upgrade for their weakest card
             // get RNG, set max to the amount of cards they have
         }
         internal static void VandalismSpace()
         {
-            Console.WriteLine("you have triggered a free-for-all vandalism battle!");
+            Console.WriteLine("a free-for-all vandalism battle has been triggered!\n");
             // each player chooses a card to be in danger of being vandalized
             // player with the most amount of property damage done gets their property card full repaired
             // player w / the least amount of damage loses their property card
@@ -57,30 +62,31 @@ namespace IGME105_HW_cda7733
         {
             // 1-20 damage
             int damagedValue = rng.Next(20);
-            Console.WriteLine($"-{damagedValue} property value to one of your cards.. which will take the damage?\n");
+            Console.WriteLine($"-{damagedValue} property value to one of their cards..\n");
         }
         internal static void UtilitySpace (Random rng)
         {
             // 1-20 healing
             int healedValue = rng.Next(20);
-            Console.WriteLine($"+{healedValue} property value to a card of your choosing!\n");
+            Console.WriteLine($"+{healedValue} property value to one of their cards!\n");
         }
 
 
         internal static void PropertySpace()
         {
+
             bool owned = false;
             if (owned == true)
             {
-                Console.WriteLine("you have landed on an owned property!\nyou will now enter battle with the owner!\n");
+                Console.WriteLine("they landed on an owned property!\nand will now enter battle with the owner!\n");
             }
             else if (owned == false)
             {
-                Console.WriteLine("you have landed on an unowned property!\nyou can damage the property to try and obtain it.\n");
+                Console.WriteLine("they have landed on an unowned property!\nand can damage the property to try and obtain it.\n");
             }
             else
             {
-                Console.WriteLine("!! error: ownership status unavailable.\n");
+                Utility.DisplayError("!! error: ownership status unavailable.\n");
             }
             /*
              * all property spaces are set to 0 at the start of the game, meaning they are unowned and players can acquire them
@@ -91,6 +97,17 @@ namespace IGME105_HW_cda7733
                     they can choose not to attack it if no other player owns it
                 damage done to property carries over between players
                 whoever does the finishing blow, get the card
+             */
+            /*
+             * if ownershipStatus = 0, int cost = PropertyCost[i] 
+                // cost regards not money, but how much damage a space can take before being acquired by a player
+                    players do not have to attack the property
+                    if they want the property, then Buy() method occurs
+                        they do damage to the property and try to bring it to 0
+                if ownershipStatus > 0, initiate Sabotage() between currentPlayer and player x
+                    check if currentPlayer + 1 == ownershipStatus, so that they don’t sabotage/start combat with themselves
+                        + 1 because indexing starts at 0
+                            i think, maybe 
              */
         }
     }
