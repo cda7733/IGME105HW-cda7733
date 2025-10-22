@@ -24,7 +24,12 @@ namespace IGME105_HW_cda7733
     internal static class Utility
     {
         // variables & properties
-
+        static Random rng = new Random();
+        internal static Random RNG
+        {
+            get { return rng; }
+            set { rng = value; }
+        }
         static bool gameOver = false;
         internal static bool GameOver
         {
@@ -55,7 +60,7 @@ namespace IGME105_HW_cda7733
         
         internal static void RollForFirstProperty()
         {
-            int diceRoll = GameSetup.RNG.Next(0,5);
+            int diceRoll = RNG.Next(0,5);
             // Console.WriteLine($"you get the {diceRoll + 1}st/nd/rd/th property");
         }
         internal static void SpaceAction(Player playerX)
@@ -63,47 +68,59 @@ namespace IGME105_HW_cda7733
             switch (playerX.PlayerLocation)
             {
                 case 0: break;
-                case 1: Spaces.PropertySpace(); break;
+                case 1: Spaces.PropertySpace(playerX); break;
                 case 2: GameEngine.PullCommunityChestCard(playerX); break;
-                case 3: Spaces.PropertySpace(); break;
-                case 4: Spaces.TaxSpace(GameSetup.RNG); break;
-                case 5: Spaces.PropertySpace(); break;
-                case 6: Spaces.PropertySpace(); break;
+                case 3: Spaces.PropertySpace(playerX); break;
+                case 4: Spaces.TaxSpace(playerX, RNG); break;
+                case 5: Spaces.PropertySpace(playerX); break;
+                case 6: Spaces.PropertySpace(playerX); break;
                 case 7: GameEngine.PullChanceCard(playerX); break;
-                case 8: Spaces.PropertySpace(); break;
-                case 9: Spaces.PropertySpace(); break;
-                case 10: Spaces.VandalismSpace(); break;
-                case 11: Spaces.PropertySpace(); break;
-                case 12: Spaces.UtilitySpace(GameSetup.RNG); break;
-                case 13: Spaces.PropertySpace(); break;
-                case 14: Spaces.PropertySpace(); break;
-                case 15: Spaces.PropertySpace(); break;
-                case 16: Spaces.PropertySpace(); break;
+                case 8: Spaces.PropertySpace(playerX); break;
+                case 9: Spaces.PropertySpace(playerX); break;
+                case 10: Spaces.VandalismSpace(playerX); break;
+                case 11: Spaces.PropertySpace(playerX); break;
+                case 12: Spaces.UtilitySpace(playerX, RNG); break;
+                case 13: Spaces.PropertySpace(playerX); break;
+                case 14: Spaces.PropertySpace(playerX); break;
+                case 15: Spaces.PropertySpace(playerX); break;
+                case 16: Spaces.PropertySpace(playerX); break;
                 case 17: GameEngine.PullCommunityChestCard(playerX); break;
-                case 18: Spaces.PropertySpace(); break;
-                case 19: Spaces.PropertySpace(); break;
+                case 18: Spaces.PropertySpace(playerX); break;
+                case 19: Spaces.PropertySpace(playerX); break;
                 case 20: Console.WriteLine("free repair space!\n"); break;
-                case 21: Spaces.PropertySpace(); break;
+                case 21: Spaces.PropertySpace(playerX); break;
                 case 22: GameEngine.PullChanceCard(playerX); break;
-                case 23: Spaces.PropertySpace(); break;
-                case 24: Spaces.PropertySpace(); break;
-                case 25: Spaces.PropertySpace(); break;
-                case 26: Spaces.PropertySpace(); break;
-                case 27: Spaces.PropertySpace(); break;
-                case 28: Spaces.UtilitySpace(GameSetup.RNG); break;
-                case 29: Spaces.PropertySpace(); break;
-                case 30: Spaces.VandalismSpace(); break;
-                case 31: Spaces.PropertySpace(); break;
-                case 32: Spaces.PropertySpace(); break;
+                case 23: Spaces.PropertySpace(playerX); break;
+                case 24: Spaces.PropertySpace(playerX); break;
+                case 25: Spaces.PropertySpace(playerX); break;
+                case 26: Spaces.PropertySpace(playerX); break;
+                case 27: Spaces.PropertySpace(playerX); break;
+                case 28: Spaces.UtilitySpace(playerX, RNG); break;
+                case 29: Spaces.PropertySpace(playerX); break;
+                case 30: Spaces.VandalismSpace(playerX); break;
+                case 31: Spaces.PropertySpace(playerX); break;
+                case 32: Spaces.PropertySpace(playerX); break;
                 case 33: GameEngine.PullCommunityChestCard(playerX); break;
-                case 34: Spaces.PropertySpace(); break;
-                case 35: Spaces.PropertySpace(); break;
+                case 34: Spaces.PropertySpace(playerX); break;
+                case 35: Spaces.PropertySpace(playerX); break;
                 case 36: GameEngine.PullChanceCard(playerX); break;
-                case 37: Spaces.PropertySpace(); break;
-                case 38: Spaces.TaxSpace(GameSetup.RNG); break;
-                case 39: Spaces.PropertySpace(); break;
+                case 37: Spaces.PropertySpace(playerX); break;
+                case 38: Spaces.TaxSpace(playerX, RNG); break;
+                case 39: Spaces.PropertySpace(playerX); break;
                 default: break;
             }
+        }
+        internal static void ChangeSpaceType(Player playerX, string spaceType)
+        {
+            if (spaceType == "GO" || spaceType == "OP" || spaceType == "UP" || spaceType == "TX" || spaceType == "UT" || spaceType == "VS")
+            {
+                playerX.OnSpaceType = spaceType;
+            }
+            else
+            {
+                DisplayError("code error: invalid space type assigned.");
+            }
+
         }
         internal static void CyclePlayerIndex(string option, Player playerX, int currentMaxPlayers)
         {
@@ -261,5 +278,21 @@ namespace IGME105_HW_cda7733
             }
                 return cardText;
         }
+        internal static string TranslateSpaceType(string spaceType)
+        {
+            string typeName;
+            switch (spaceType)
+            {
+                case "GO": typeName = "go"; break;
+                case "OP": typeName = "owned property"; break;
+                case "UP": typeName = "unowned property"; break;
+                case "TX": typeName = "tax"; break;
+                case "UT": typeName = "utility"; break;
+                case "VS": typeName = "vandalism"; break;
+                default: typeName = "ER"; break;
+            }
+            return typeName;
+        }
+        
     }
 }

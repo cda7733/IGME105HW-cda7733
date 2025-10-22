@@ -32,14 +32,15 @@ namespace IGME105_HW_cda7733
             get { return spaceName; }
             set { spaceName = value; }
         }
-        internal static string DisplayPropertyName(int index)
+        internal static string SpaceArrayToName(Player playerX)
         {
             string[] spaceNameArray = SpaceName.Split(',');
-            return spaceNameArray[index];
+            return spaceNameArray[playerX.PlayerLocation];
         }
 
         internal static void GoSpace(Player playerX)
         {
+            Utility.ChangeSpaceType(playerX, "GO");
             if (playerX.TurnCount != 1)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -49,35 +50,40 @@ namespace IGME105_HW_cda7733
             // players get a free property upgrade for their weakest card
             // get RNG, set max to the amount of cards they have
         }
-        internal static void VandalismSpace()
+        internal static void VandalismSpace(Player playerX)
         {
+            Utility.ChangeSpaceType(playerX, "VS");
             Console.WriteLine("a free-for-all vandalism battle has been triggered!\n");
+            
             // each player chooses a card to be in danger of being vandalized
             // player with the most amount of property damage done gets their property card full repaired
             // player w / the least amount of damage loses their property card
                // for player(s) in the middle, nothing happens
                // damage calculation is explained in detail later, but it’s basically card damage x diceroll
         }
-        internal static void TaxSpace(Random rng)
+        internal static void TaxSpace(Player playerX, Random rng)
         {
+            Utility.ChangeSpaceType(playerX, "TX");
             // 1-20 damage
             int damagedValue = rng.Next(20);
             Console.WriteLine($"-{damagedValue} property value to one of their cards..\n");
         }
-        internal static void UtilitySpace (Random rng)
+        internal static void UtilitySpace (Player playerX, Random rng)
         {
+            Utility.ChangeSpaceType(playerX, "UT");
             // 1-20 healing
             int healedValue = rng.Next(20);
             Console.WriteLine($"+{healedValue} property value to one of their cards!\n");
         }
 
 
-        internal static void PropertySpace()
+        internal static void PropertySpace(Player playerX)
         {
-
+            Utility.ChangeSpaceType(playerX, "UP");
             bool owned = false;
             if (owned == true)
             {
+                Utility.ChangeSpaceType(playerX, "OP");
                 Console.WriteLine("they landed on an owned property!\nand will now enter battle with the owner!\n");
             }
             else if (owned == false)

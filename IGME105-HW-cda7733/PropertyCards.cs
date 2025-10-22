@@ -19,7 +19,7 @@ namespace IGME105_HW_cda7733
     internal class PropertyCards
     {
         // variables & properties
-        // therye alllllll gets. 
+        // therye alllllll gets (except health) 
         int propertyCardIndex = 0;
         internal int PropertyCardIndex
         {
@@ -30,10 +30,16 @@ namespace IGME105_HW_cda7733
         {
             get { return propertyCardName; }
         }
-        int propertyValue;
-        internal int PropertyValue
+        int currentPropertyValue;
+        internal int CurrentPropertyValue
         {
-            get { return propertyValue; }
+            get { return currentPropertyValue; }
+            set { currentPropertyValue = value; }
+        }
+        int maxPropertyValue;
+        internal int MaxPropertyValue
+        {
+            get { return maxPropertyValue; }
         }
         int damageMultiplier;
         internal int DamageMultiplier
@@ -57,6 +63,7 @@ namespace IGME105_HW_cda7733
         }
         internal PropertyCards()
         {
+            
             /*
              * PropertyCards()
             if owned:
@@ -82,6 +89,13 @@ namespace IGME105_HW_cda7733
             int houseUpgrades (how much each house upgrade increases pv)
             int hotelUpgrades (multiply it with houseUpgrades)
            */
+        }
+        internal void PropertySetup()
+        {
+            for (int i = 0; i < GameSetup.MaxSpaces; i++)
+            {
+                Console.WriteLine("creating space" + i);
+            }
         }
     }
 }

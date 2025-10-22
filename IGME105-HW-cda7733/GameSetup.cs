@@ -15,33 +15,27 @@ using System.Threading.Tasks;
 
 namespace IGME105_HW_cda7733
 {
-    internal class GameSetup
+    internal static class GameSetup
     {
-        static Random rng = new Random();
-        internal static Random RNG
-        {
-            get { return rng; }
-            set { rng = value; }
-        }
         const int minPlayers = 2;
-        internal int MinPlayers
+        internal static int MinPlayers
         {
             get { return minPlayers; }
         }
 
         const int maxPlayers = 4;
-        internal int MaxPlayers
+        internal static int MaxPlayers
         {
             get { return maxPlayers; }
         }
         const int maxSpaces = 40;
-        internal int MaxSpaces
+        internal static int MaxSpaces
         {
             get { return maxSpaces; }
         }
 
         const string gameName = "battle monopoly: capitalist punishment";
-        internal string GameName
+        internal static string GameName
         {
             get { return gameName; }
         }
@@ -90,13 +84,13 @@ namespace IGME105_HW_cda7733
             {
                 Console.WriteLine($"welcome to {gameName}!\n");
                 Console.Write("would you like to view the rules? (y/n): ");
-                string input1 = Console.ReadLine().Trim().ToLower();
-                if (input1.StartsWith("y"))
+                string input = Console.ReadLine().Trim().ToLower();
+                if (input.StartsWith("y"))
                 {
                     GameSetup.DisplayRules();
                     done = true;
                 }
-                else if (input1.StartsWith("n"))
+                else if (input.StartsWith("n"))
                 {
                     done = true;
                 }

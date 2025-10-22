@@ -81,6 +81,12 @@ namespace IGME105_HW_cda7733
             get { return turnCount; }
             set { turnCount = value; }
         }
+        string onSpaceType = "GO";
+        internal string OnSpaceType
+        {
+            get { return onSpaceType; }
+            set { onSpaceType = value; }
+        }
 
 
         // constructors
@@ -124,8 +130,8 @@ namespace IGME105_HW_cda7733
                 // make an array that translates the numerical id of the token to the name. wrap it in an if statement that checks if its a valid number
                 try
                 {
-                    playerTokenIndex = Convert.ToInt32(chosenTokenNumber);
-                    if (playerTokenIndex >= 0 && PlayerTokenIndex <= 7)
+                    playerTokenIndex = int.Parse(chosenTokenNumber);
+                    if (PlayerTokenIndex >= 0 && PlayerTokenIndex <= 7)
                     {
                         if (string.IsNullOrWhiteSpace(PlayerName))
                         {
@@ -182,17 +188,18 @@ namespace IGME105_HW_cda7733
             Utility.ColorPicker(PlayerColorIndex);
             Console.WriteLine($"\nplayer {PlayerIndex + 1 } info");
             Console.WriteLine("name: " + PlayerName);
-            Console.WriteLine("color: " + PlayerColorNames[PlayerColorIndex]);
             Console.WriteLine("token: " + PlayerTokenName[playerTokenIndex]);
+            Console.WriteLine("color: " + PlayerColorNames[PlayerColorIndex]);
             Console.ResetColor();
         }
-        internal void RollForOrder()
+
+        /* internal void RollForOrder()
         {
             int diceRoll = GameSetup.RNG.Next(4);
             // keeping it 0-3 because i plan to set it = to player index
             Console.ForegroundColor= ConsoleColor.Magenta;
             // Console.WriteLine($"you are player {diceRoll + 1}");
             Console.ResetColor();
-        }
+        } */
     }
 }

@@ -10,24 +10,55 @@ namespace IGME105_HW_cda7733
 {
     internal class GameEngine
     {
-
         internal void PlayerAction(Player playerX)
         {
             bool done = false;
+            bool rolled = false;
+            bool attacked = false;
             while (!done && Utility.GameOver == false)
             {
                 Console.WriteLine($"what would {playerX.PlayerName} like to do?");
-                Console.WriteLine("0. roll\n1. view cards\n2. open menu\n3. trade");
-                string input = Console.ReadLine();
-                Console.Clear();
-                switch (input)
+
+                if (rolled == false)
                 {
-                    case "0": RollForMovement(playerX); done = true; break;
-                    case "1":Utility.DisplayHeldCards(playerX); break;
-                    case "2": Menu(playerX); break;
-                    case "3": Console.WriteLine("this is where the trade menu will be!\n"); break;
-                    default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
+                    Console.WriteLine("0. roll\n1. view cards\n2. check space\n3. open menu\n4. trade");
                 }
+                else
+                {
+                    // removes the option to roll again
+                    Console.WriteLine("0. end turn\n1. view cards\n2. check space\n3. open menu\n4. trade");
+                }
+                string input = Console.ReadLine().Trim().ToLower();
+                Console.Clear();
+
+                if (rolled == false || attacked == false)
+                {
+                    switch (input)
+                    {
+                        case "0": RollForMovement(playerX); rolled = true; break;
+                        case "1": Utility.DisplayHeldCards(playerX); break;
+                        case "2": Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space."); 
+                            CheckUnownedProperty(playerX); break;
+                        case "3": Menu(playerX); break;
+                        case "4": Console.WriteLine("this is where the trade menu will be!\n"); break;
+                        default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
+                    }
+                }
+                else if (rolled == false && attacked == false)
+                {
+                    // removes the option to roll again
+                    switch (input)
+                    {
+                        case "0": done = true; break;
+                        case "1": Utility.DisplayHeldCards(playerX); break;
+                        case "2": Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space.\n");
+                            CheckUnownedProperty(playerX); break;
+                        case "3": Menu(playerX); break;
+                        case "4": Console.WriteLine("this is where the trade menu will be!\n"); break;
+                        default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
+                    }
+                }
+                
             }
         }
         internal static void Menu(Player playerX)
@@ -36,7 +67,7 @@ namespace IGME105_HW_cda7733
             while (!done && Utility.GameOver == false)
             {
                 Console.WriteLine("\n0. resume\n1. view player info\n2. rulebook\n3. quit");
-                string input = Console.ReadLine();
+                string input = Console.ReadLine().Trim().ToLower();
                 Console.Clear();
                 switch (input)
                 {
@@ -53,12 +84,39 @@ namespace IGME105_HW_cda7733
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine($"it is {playerX.PlayerName}'s turn.\n");
             Console.ResetColor();
-            int diceRoll = GameSetup.RNG.Next(2, 13);
+            int diceRoll = Utility.RNG.Next(2, 13);
             playerX.PlayerLocation = playerX.PlayerLocation + diceRoll;
             Utility.CyclePlayerLocation(playerX);
-            Console.WriteLine("{0} rolled a {1}! they are now on {2}, space number {3}\n", playerX.PlayerName, diceRoll, Spaces.DisplayPropertyName(playerX.PlayerLocation), playerX.PlayerLocation);
+            Console.WriteLine("{0} rolled a {1}! they are now on {2}, space number {3}\n", playerX.PlayerName, diceRoll, Spaces.SpaceArrayToName(playerX), playerX.PlayerLocation);
             Utility.SpaceAction(playerX);
             playerX.TurnCount++;
+        }
+        internal static void CheckUnownedProperty(Player playerX)
+        {
+            if (playerX.OnSpaceType == "UP")
+            {
+                bool done = false;
+                while (!done)
+                {
+                    Console.WriteLine("pretend im displaying specific property info.\ncurrent health. dice multiplier.");
+                    Console.WriteLine($"will {playerX.PlayerName} damage this property? this will end your turn (y/n): ");
+                    string input = Console.ReadLine().Trim().ToLower();
+                    if (input.StartsWith("y"))
+                    {
+
+                        Console.WriteLine(Utility.RNG.Next(2,13));
+                        done = true;
+                    }
+                    else if (input.StartsWith("n"))
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        Utility.DisplayError("invalid answer, try again!\n");
+                    }
+                }
+            }
         }
         internal void Sabotage()
         {
@@ -72,7 +130,7 @@ namespace IGME105_HW_cda7733
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine("they drew a chance card!");
             Console.ResetColor();
-            int cardIndex = GameSetup.RNG.Next(1, Utility.CardQuantity);
+            int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
             string currentCardTitle;
             if (String.IsNullOrEmpty(playerX.DrawnCards))
             {
@@ -91,7 +149,7 @@ namespace IGME105_HW_cda7733
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine("they drew a community chest card!");
             Console.ResetColor();
-            int cardIndex = GameSetup.RNG.Next(1, Utility.CardQuantity);
+            int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
             string currentCardTitle;
             if (String.IsNullOrEmpty(playerX.DrawnCards))
             {
