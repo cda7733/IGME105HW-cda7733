@@ -26,13 +26,15 @@ namespace IGME105_HW_cda7733
     {
         static void Main(string[] args)
         {
-
+            
             GameSetup.Startup();
             Player player1 = new Player();
+            Player player2 = new Player();
+            Player player3 = new Player();
+            Player player4 = new Player();
 
-            player1.PromptName();
-            player1.PromptToken();
-            player1.PromptColor();
+            GameSetup.DetermineCreationAmount(player1, player2, player3, player4);
+
 
             /*
              * assign them in order, not random
@@ -42,7 +44,7 @@ namespace IGME105_HW_cda7733
 
             while (Utility.GameOver == false)
             {
-                GameEngine.PlayerAction(player1);
+                Utility.GameplayLoop(player1, player2, player3, player4);
             }
 
             // add a diceroll here to determine player order and starting properties

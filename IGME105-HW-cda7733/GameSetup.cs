@@ -51,6 +51,84 @@ namespace IGME105_HW_cda7733
             } */
 
         }
+        internal static void CreatePlayers(Player player1, Player player2)
+        {
+            player1.PlayerIndex = 0;
+            player1.PromptName();
+            player1.PromptToken();
+            player1.PromptColor();
+            player1.OwnedProperties = player1.OwnedProperties + "01,";
+
+            player2.PlayerIndex = 1;
+            player2.PromptName();
+            player2.PromptToken();
+            player2.PromptColor();
+            player2.OwnedProperties = player2.OwnedProperties + "03,";
+        }
+        internal static void CreatePlayers(Player player1, Player player2, Player player3)
+        {
+            player1.PlayerIndex = 0;
+            player1.PromptName();
+            player1.PromptToken();
+            player1.PromptColor();
+            player1.OwnedProperties = player1.OwnedProperties + "01,";
+
+            player2.PlayerIndex = 1;
+            player2.PromptName();
+            player2.PromptToken();
+            player2.PromptColor();
+            player2.OwnedProperties = player2.OwnedProperties + "03,";
+
+            player3.PlayerIndex = 2;
+            player3.PromptName();
+            player3.PromptToken();
+            player3.PromptColor();
+            player3.OwnedProperties = player3.OwnedProperties + "06,";
+        }
+        internal static void CreatePlayers(Player player1, Player player2, Player player3, Player player4)
+        {
+            player1.PlayerIndex = 0;
+            player1.PromptName();
+            player1.PromptToken();
+            player1.PromptColor();
+            player1.OwnedProperties = player1.OwnedProperties + "01,";
+
+            player2.PlayerIndex = 1;
+            player2.PromptName();
+            player2.PromptToken();
+            player2.PromptColor();
+            player2.OwnedProperties = player2.OwnedProperties + "03,";
+
+            player3.PlayerIndex = 2;
+            player3.PromptName();
+            player3.PromptToken();
+            player3.PromptColor();
+            player3.OwnedProperties = player3.OwnedProperties + "06,";
+
+            player4.PlayerIndex = 3;
+            player4.PromptName();
+            player4.PromptToken();
+            player4.PromptColor();
+            player4.OwnedProperties = player4.OwnedProperties + "08,";
+        }
+        internal static void DisplayRules()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nGENERAL INFO:"); Console.ResetColor();
+            Console.WriteLine("{0} has {1} spaces and supports {2}-{3} players. turn order follows the order of creation.", gameName, maxSpaces, minPlayers, maxPlayers);
+            Console.WriteLine("players may have the same name, token or console color, though this is ill advised."); // barriers not yet coded in
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nCHANGES / DIFFERENCES"); Console.ResetColor();
+            Console.WriteLine($"board movement is the same as base monopoly, rolling two 6-sided die, and moving that many spaces, not counting the one you're on.");
+            Console.WriteLine("in this version of the game, there is no money, or even \'health\' for cards.\ninstead, this game uses property value and vandalism damage!");
+            Console.WriteLine("humans and ai players can be created to play with (this current iteration does not have AI players yet)");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nBATTLE"); Console.ResetColor();
+            Console.WriteLine("players can attack others in a 1v1, or trigger events for battle between everyone.");
+            Console.WriteLine("battle/vandalism is done with property cards, which are collected from unowned property spaces.");
+            Console.WriteLine("property cards have stats: color, property value, damage multiplier, house upgrade value, and hotel upgrade value.");
+            Console.WriteLine("damage to other players property is calculated as (diceroll x damage multiplier).");
+            Console.WriteLine("if ANY (owned/unowned) property card's value is reduced to 0, the player who defeated it gets the card.");
+            Console.WriteLine("players can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.\n");
+        }
         internal static void PromptMaxPlayers()
         {
             bool done = false;
@@ -100,39 +178,16 @@ namespace IGME105_HW_cda7733
                 }
             }
         }
-        internal static void DisplayRules()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nGENERAL INFO:"); Console.ResetColor();
-            Console.WriteLine("{0} has {1} spaces and supports {2}-{3} players. turn order follows the order of creation.", gameName, maxSpaces, minPlayers, maxPlayers);
-            Console.WriteLine("players may have the same name, token or console color, though this is ill advised."); // barriers not yet coded in
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nCHANGES / DIFFERENCES"); Console.ResetColor();
-            Console.WriteLine($"board movement is the same as base monopoly, rolling two 6-sided die, and moving that many spaces, not counting the one you're on.");
-            Console.WriteLine("in this version of the game, there is no money, or even \'health\' for cards.\ninstead, this game uses property value and vandalism damage!");
-            Console.WriteLine("humans and ai players can be created to play with (this current iteration does not have AI players yet)");
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nBATTLE"); Console.ResetColor();
-            Console.WriteLine("players can attack others in a 1v1, or trigger events for battle between everyone.");
-            Console.WriteLine("battle/vandalism is done with property cards, which are collected from unowned property spaces.");
-            Console.WriteLine("property cards have stats: color, property value, damage multiplier, house upgrade value, and hotel upgrade value.");
-            Console.WriteLine("damage to other players property is calculated as (diceroll x damage multiplier).");
-            Console.WriteLine("if ANY (owned/unowned) property card's value is reduced to 0, the player who defeated it gets the card.");
-            Console.WriteLine("players can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.\n");
-        }
 
-        /* internal static void DetermineCreationAmount()
+        internal static void DetermineCreationAmount(Player player1, Player player2, Player player3, Player player4)
         {
-            int players = Utility.CurrentPlayerIndex;
-            if (players == 2)
+            switch (Utility.CurrentNumberOfPlayers)
             {
-                
+                case 2: CreatePlayers(player1, player2); break;
+                case 3: CreatePlayers(player1, player2, player3); break;
+                case 4: CreatePlayers(player1, player2, player3, player4); break;
+                default: break;
             }
         }
-        internal static Player CreatePlayer(out Player playerX)
-        {
-            playerX.PromptName();
-            playerX.PromptToken();
-            playerX.PromptColor();
-        }
-        */
     }
 }

@@ -75,6 +75,12 @@ namespace IGME105_HW_cda7733
             get { return drawnCards; }
             set {  drawnCards = value; }
         }
+        string ownedProperties = ""; // formatted with their as 00. boardwalk = 39. 
+        internal string OwnedProperties
+        {
+            get { return ownedProperties; }
+            set {  ownedProperties = value; }
+        }
         int turnCount = 1;
         internal int TurnCount
         {
@@ -192,14 +198,5 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("color: " + PlayerColorNames[PlayerColorIndex]);
             Console.ResetColor();
         }
-
-        /* internal void RollForOrder()
-        {
-            int diceRoll = GameSetup.RNG.Next(4);
-            // keeping it 0-3 because i plan to set it = to player index
-            Console.ForegroundColor= ConsoleColor.Magenta;
-            // Console.WriteLine($"you are player {diceRoll + 1}");
-            Console.ResetColor();
-        } */
     }
 }

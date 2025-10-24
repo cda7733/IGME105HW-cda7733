@@ -58,11 +58,11 @@ namespace IGME105_HW_cda7733
 
         // methods
         
-        internal static void RollForFirstProperty()
+        /* internal static void RollForFirstProperty(int chosenPlayer, Player player1, Player player2, Player player3, Player player4)
         {
-            int diceRoll = RNG.Next(0,5);
-            // Console.WriteLine($"you get the {diceRoll + 1}st/nd/rd/th property");
+            int diceRoll = RNG.Next(0, 5);
         }
+        */
         internal static void SpaceAction(Player playerX)
         {
             switch (playerX.PlayerLocation)
@@ -124,7 +124,7 @@ namespace IGME105_HW_cda7733
         }
         internal static void CyclePlayerIndex(string option, Player playerX, int currentMaxPlayers)
         {
-            // 0 is previous, 1 is next
+            // FIX THIS.
             if (option == "increase")
             {
                 if (playerX.PlayerIndex < currentMaxPlayers)
@@ -293,6 +293,34 @@ namespace IGME105_HW_cda7733
             }
             return typeName;
         }
-        
+        internal static void Turn(Player player1, Player player2)
+        {
+            GameEngine.PlayerAction(player1);
+            GameEngine.PlayerAction(player2);
+        }
+        internal static void Turn(Player player1, Player player2, Player player3)
+        {
+            GameEngine.PlayerAction(player1);
+            GameEngine.PlayerAction(player2);
+            GameEngine.PlayerAction(player3);
+        }
+        internal static void Turn(Player player1, Player player2, Player player3, Player player4)
+        {
+            GameEngine.PlayerAction(player1);
+            GameEngine.PlayerAction(player2);
+            GameEngine.PlayerAction(player3);
+            GameEngine.PlayerAction(player4);
+        }
+        internal static void GameplayLoop(Player player1, Player player2, Player player3, Player player4)
+        {
+            switch (CurrentNumberOfPlayers)
+            {
+                case 2: Turn(player1, player2); break;
+                case 3: Turn(player1, player2, player3); break;
+                case 4: Turn(player1, player2, player3, player4); break;
+                default: break;
+            }
+        }
+
     }
 }
