@@ -28,7 +28,6 @@ namespace IGME105_HW_cda7733
         {
 
             GameSetup.Startup();
-            GameEngine engine = new GameEngine();
             Player player1 = new Player();
 
             player1.PromptName();
@@ -43,7 +42,7 @@ namespace IGME105_HW_cda7733
 
             while (Utility.GameOver == false)
             {
-                engine.PlayerAction(player1);
+                GameEngine.PlayerAction(player1);
             }
 
             // add a diceroll here to determine player order and starting properties

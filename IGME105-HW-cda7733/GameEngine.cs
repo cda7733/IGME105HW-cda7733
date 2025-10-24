@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace IGME105_HW_cda7733
 {
-    internal class GameEngine
+    internal static class GameEngine
     {
-        internal void PlayerAction(Player playerX)
+        internal static void PlayerAction(Player playerX)
         {
             bool done = false;
             bool rolled = false;
@@ -21,45 +21,47 @@ namespace IGME105_HW_cda7733
 
                 if (rolled == false)
                 {
+                    // just landed
                     Console.WriteLine("0. roll\n1. view cards\n2. check space\n3. open menu\n4. trade");
                 }
-                else
+                else if (rolled == true)
                 {
-                    // removes the option to roll again
+                    // rolled, but hasn't attacked
                     Console.WriteLine("0. end turn\n1. view cards\n2. check space\n3. open menu\n4. trade");
                 }
                 string input = Console.ReadLine().Trim().ToLower();
                 Console.Clear();
 
-                if (rolled == false || attacked == false)
+                if (input == "0")
                 {
-                    switch (input)
+                    // if they haven't rolled, they can roll
+                    if (rolled == false)
                     {
-                        case "0": RollForMovement(playerX); rolled = true; break;
-                        case "1": Utility.DisplayHeldCards(playerX); break;
-                        case "2": Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space."); 
-                            CheckUnownedProperty(playerX); break;
-                        case "3": Menu(playerX); break;
-                        case "4": Console.WriteLine("this is where the trade menu will be!\n"); break;
-                        default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
+                        RollForMovement(playerX);
+                        rolled = true;
+                    }
+                    else
+                    {
+                        done = true;
                     }
                 }
-                else if (rolled == false && attacked == false)
+                switch (input)
                 {
-                    // removes the option to roll again
-                    switch (input)
-                    {
-                        case "0": done = true; break;
-                        case "1": Utility.DisplayHeldCards(playerX); break;
-                        case "2": Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space.\n");
-                            CheckUnownedProperty(playerX); break;
-                        case "3": Menu(playerX); break;
-                        case "4": Console.WriteLine("this is where the trade menu will be!\n"); break;
-                        default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
-                    }
+                    case "0": break;
+                    case "1": Utility.DisplayHeldCards(playerX); break;
+                    case "2":
+                        Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space.\n");
+                        attacked = CheckUnownedProperty(playerX, attacked); break;
+                    case "3": Menu(playerX); break;
+                    case "4": Console.WriteLine("this is where the trade menu will be!\n"); break;
+                    default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
                 }
-                
+
             }
+        }
+        internal static void PlayerOptions(Player playerX, string input, bool rolled, bool done, bool attacked)
+        {
+            
         }
         internal static void Menu(Player playerX)
         {
@@ -79,7 +81,7 @@ namespace IGME105_HW_cda7733
                 }
             }
         }
-        internal void RollForMovement(Player playerX)
+        internal static void RollForMovement(Player playerX)
         {
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine($"it is {playerX.PlayerName}'s turn.\n");
@@ -91,7 +93,7 @@ namespace IGME105_HW_cda7733
             Utility.SpaceAction(playerX);
             playerX.TurnCount++;
         }
-        internal static void CheckUnownedProperty(Player playerX)
+        internal static bool CheckUnownedProperty(Player playerX, bool attacked)
         {
             if (playerX.OnSpaceType == "UP")
             {
@@ -99,26 +101,33 @@ namespace IGME105_HW_cda7733
                 while (!done)
                 {
                     Console.WriteLine("pretend im displaying specific property info.\ncurrent health. dice multiplier.");
-                    Console.WriteLine($"will {playerX.PlayerName} damage this property? this will end your turn (y/n): ");
-                    string input = Console.ReadLine().Trim().ToLower();
-                    if (input.StartsWith("y"))
+                    if (attacked == false)
                     {
-
-                        Console.WriteLine(Utility.RNG.Next(2,13));
-                        done = true;
-                    }
-                    else if (input.StartsWith("n"))
-                    {
-                        done = true;
+                        Console.WriteLine($"will {playerX.PlayerName} damage this property? (y/n): ");
+                        string input = Console.ReadLine().Trim().ToLower();
+                        if (input.StartsWith("y"))
+                        {
+                            Console.WriteLine(Utility.RNG.Next(2, 13));
+                            done = true; attacked = true;
+                        }
+                        else if (input.StartsWith("n"))
+                        {
+                            done = true;
+                        }
+                        else
+                        {
+                            Utility.DisplayError("invalid answer, try again!\n");
+                        }
                     }
                     else
                     {
-                        Utility.DisplayError("invalid answer, try again!\n");
+                        done = true;
                     }
                 }
             }
+            return attacked;
         }
-        internal void Sabotage()
+        internal static void Sabotage()
         {
             // battle method between players
             Console.ForegroundColor = ConsoleColor.Yellow;
