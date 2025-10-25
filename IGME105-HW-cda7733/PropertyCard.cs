@@ -19,19 +19,13 @@ namespace IGME105_HW_cda7733
     internal static class PropertyCard
     {
         // variables & properties
-        // therye alllllll gets (except health) 
 
-        /* int propertyCardIndex = 0;
-        internal int PropertyCardIndex
-        {
-            get { return propertyCardIndex; }
-        } */
         static int[] currentPropertyValue = 
         {
-            5,5,5,5,5,5,5,5,5,5,
-            5,5,5,5,5,5,5,5,5,5,
-            5,5,5,5,5,5,5,5,5,5,
-            5,5,5,5,5,5,5,5,5,5
+            10,10,10,10,10,10,10,10,10,10,
+            10,10,10,10,10,10,10,10,10,10,
+            10,10,10,10,10,10,10,10,10,10,
+            10,10,10,10,10,10,10,10,10,10
         };
         internal static int[] CurrentPropertyValue
         {
@@ -40,10 +34,10 @@ namespace IGME105_HW_cda7733
         }
         static int[] maxPropertyValue =
         {
-            5,5,5,5,5,5,5,5,5,5,
-            5,5,5,5,5,5,5,5,5,5,
-            5,5,5,5,5,5,5,5,5,5,
-            5,5,5,5,5,5,5,5,5,5
+            10,10,10,10,10,10,10,10,10,10,
+            10,10,10,10,10,10,10,10,10,10,
+            10,10,10,10,10,10,10,10,10,10,
+            10,10,10,10,10,10,10,10,10,10
         };
         internal static int[] MaxPropertyValue
         {
@@ -103,13 +97,7 @@ namespace IGME105_HW_cda7733
         } */
 
 
-        /*
-        internal PropertyCard()
-        {
-            
-            
-             * PropertyCards()
-            if owned:
+        /*  if owned:
             // order doesn’t factor into damage calculation, but the player who landed on the space rolls first
             // combat in this edition of the game is called sabotaging
             the player who lands on a space can choose which card they would like to fight with from their own deck
@@ -135,20 +123,22 @@ namespace IGME105_HW_cda7733
         internal static void AcquirePropertyCard(int playerNumber, Player playerX)
         {
             // first properties given
+            // gives players one of the first row of properties, auto-equips it, and increases their owned property count
             switch (playerNumber)
             {
-                case 1: playerX.OwnedProperties = "01"; owned[1] = true; Utility.EquipNewCard(playerX, 1) ; break;
-                case 2: playerX.OwnedProperties = "03"; owned[3] = true; Utility.EquipNewCard(playerX, 3); break;
-                case 3: playerX.OwnedProperties = "06"; owned[6] = true; Utility.EquipNewCard(playerX, 6); break;
-                case 4: playerX.OwnedProperties = "08"; owned[8] = true; Utility.EquipNewCard(playerX, 8); break;
+                case 1: playerX.OwnedProperties = "01"; owned[1] = true; Utility.EquipNewCard(playerX, 1); playerX.OwnedPropertyCount++; break;
+                case 2: playerX.OwnedProperties = "03"; owned[3] = true; Utility.EquipNewCard(playerX, 3); playerX.OwnedPropertyCount++; break;
+                case 3: playerX.OwnedProperties = "06"; owned[6] = true; Utility.EquipNewCard(playerX, 6); playerX.OwnedPropertyCount++; break;
+                case 4: playerX.OwnedProperties = "08"; owned[8] = true; Utility.EquipNewCard(playerX, 8); playerX.OwnedPropertyCount++; break;
                 default: Utility.DisplayError("!! error: invalid player index"); break;
             }
         }
         internal static void AcquirePropertyCard(Player playerX)
         {
+            // gives players the property they're on and increases their owned property count
+            playerX.OwnedPropertyCount++;
             playerX.OwnedProperties = playerX.OwnedProperties + "," + PropertyID[playerX.PlayerLocation];
             owned[playerX.PlayerLocation] = true;
         }
-        
     }
 }

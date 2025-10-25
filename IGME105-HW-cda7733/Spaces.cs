@@ -49,7 +49,6 @@ namespace IGME105_HW_cda7733
                 Console.ResetColor();
             }
             // players get a free property upgrade for their weakest card
-            // get RNG, set max to the amount of cards they have
         }
         internal static void VandalismSpace(Player playerX)
         {
@@ -65,28 +64,32 @@ namespace IGME105_HW_cda7733
         internal static void TaxSpace(Player playerX, Random rng)
         {
             Utility.ChangeSpaceType(playerX, "TX");
-            // 1-20 damage
-            int damagedValue = rng.Next(20);
-            Console.WriteLine($"-{damagedValue} property value to their health..\n");
-
+            // 1-5 damage
+            int damagedValue = rng.Next(10);
+            Console.WriteLine($"-{damagedValue} to their health..");
+            if (damagedValue == 0)
+            {
+                Console.WriteLine("lucky!");
+            }
+            Console.WriteLine();
             playerX.CurrentHealth -= damagedValue;
             if (playerX.CurrentHealth <= 0)
             {
-                Console.WriteLine("this player has bankrupted! they are no longer in the game!");
+                playerX.CurrentHealth = 0;
                 Utility.KillPlayer(playerX);
-                if (Utility.CurrentNumberOfPlayers >= 2)
-                {
-                    Console.WriteLine($"good luck to the remaining {Utility.CurrentNumberOfPlayers} players!\n");
-                }
             }
         }
         internal static void UtilitySpace (Player playerX, Random rng)
         {
             Utility.ChangeSpaceType(playerX, "UT");
             // 1-20 healing
-            int healedValue = rng.Next(20);
-            Console.WriteLine($"+{healedValue} property value to their health!\n");
-            
+            int healedValue = rng.Next(10);
+            Console.WriteLine($"+{healedValue} to their health!\n");
+            if (healedValue == 0)
+            {
+                Console.WriteLine("unlucky..");
+            }
+            Console.WriteLine();
             playerX.CurrentHealth += healedValue;
             if (playerX.CurrentHealth > playerX.MaxHealth)
             {
@@ -96,13 +99,12 @@ namespace IGME105_HW_cda7733
         internal static void PropertySpace(Player playerX)
         {
             Utility.ChangeSpaceType(playerX, "UP");
-            bool owned = false;
-            if (owned == true)
+            if (PropertyCard.Owned[playerX.PlayerLocation] == true)
             {
                 Utility.ChangeSpaceType(playerX, "OP");
                 Console.WriteLine("they landed on an owned property!\nand will now enter battle with the owner!\n");
             }
-            else if (owned == false)
+            else if (PropertyCard.Owned[playerX.PlayerLocation] == false)
             {
                 Console.WriteLine("they have landed on an unowned property!\nand can damage the property to try and obtain it.\n");
             }
@@ -110,27 +112,6 @@ namespace IGME105_HW_cda7733
             {
                 Utility.DisplayError("!! error: ownership status unavailable.\n");
             }
-            /*
-             * all property spaces are set to 0 at the start of the game, meaning they are unowned and players can acquire them
-               if unowned:
-                    property cards have a set property value, and a 0 damage multiplier
-                        players can only take damage from community chest cards and other players, never from unowned property spaces
-                players can attack a card on their turn
-                    they can choose not to attack it if no other player owns it
-                damage done to property carries over between players
-                whoever does the finishing blow, get the card
-             */
-            /*
-             * if ownershipStatus = 0, int cost = PropertyCost[i] 
-                // cost regards not money, but how much damage a space can take before being acquired by a player
-                    players do not have to attack the property
-                    if they want the property, then Buy() method occurs
-                        they do damage to the property and try to bring it to 0
-                if ownershipStatus > 0, initiate Sabotage() between currentPlayer and player x
-                    check if currentPlayer + 1 == ownershipStatus, so that they don’t sabotage/start combat with themselves
-                        + 1 because indexing starts at 0
-                            i think, maybe 
-             */
         }
     }
 }

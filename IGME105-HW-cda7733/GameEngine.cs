@@ -12,66 +12,62 @@ namespace IGME105_HW_cda7733
     {
         internal static void PlayerAction(Player playerX)
         {
-            if (playerX.Active == true)
+            // options for player turn
+            bool done = false;
+            bool rolled = false;
+            bool attacked = false;
+            while (!done && Utility.GameOver == false)
             {
-                bool done = false;
-                bool rolled = false;
-                bool attacked = false;
-                while (!done && Utility.GameOver == false)
-                {
-                    Utility.CheckWin();
-                    Utility.ColorPicker(playerX.PlayerColorIndex);
-                    Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
-                    if (playerX.Active == false)
-                    {
-                        Console.WriteLine("their LAST one before they go to heaven");
-                    }
-                    Console.ResetColor();
-                    Console.WriteLine($"what would they like to do?\n");
+                if (!playerX.Active) break;
+                Utility.ColorPicker(playerX.PlayerColorIndex);
+                Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
 
+                Console.ResetColor();
+                Console.WriteLine($"what would they like to do?\n");
+
+                if (rolled == false)
+                {
+                    // just landed
+                    Console.WriteLine("0. roll\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade");
+                }
+                else if (rolled == true)
+                {
+                    // rolled, but hasn't attacked
+                    Console.WriteLine("0. end turn\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade");
+                }
+                string input = Console.ReadLine().Trim().ToLower();
+                Console.Clear();
+
+                if (input == "0")
+                {
+                    // if they haven't rolled, they can roll
                     if (rolled == false)
                     {
-                        // just landed
-                        Console.WriteLine("0. roll\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade");
+                        RollForMovement(playerX);
+                        rolled = true;
                     }
-                    else if (rolled == true)
+                    else
                     {
-                        // rolled, but hasn't attacked
-                        Console.WriteLine("0. end turn\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade");
-                    }
-                    string input = Console.ReadLine().Trim().ToLower();
-                    Console.Clear();
-
-                    if (input == "0")
-                    {
-                        // if they haven't rolled, they can roll
-                        if (rolled == false)
-                        {
-                            RollForMovement(playerX);
-                            rolled = true;
-                        }
-                        else
-                        {
-                            done = true;
-                        }
-                    }
-                    switch (input)
-                    {
-                        case "0": break;
-                        case "1": Utility.DisplayHeldCards(playerX); break;
-                        case "2": Utility.DisplayOwnedProperties(playerX); break;
-                        case "3":
-                            Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space.\n");
-                            attacked = CheckUnownedProperty(playerX, attacked); break;
-                        case "4": Menu(playerX); break;
-                        case "5": Console.WriteLine("this is where the trade menu will be!\n"); break;
-                        default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
+                        done = true;
                     }
                 }
-            } 
+                switch (input)
+                {
+                    case "0": break;
+                    case "1": Utility.DisplayHeldCards(playerX); break;
+                    case "2": Utility.DisplayOwnedProperties(playerX); break;
+                    case "3":
+                        Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space.\n");
+                        attacked = CheckUnownedProperty(playerX, attacked); break;
+                    case "4": Menu(playerX); break;
+                    case "5": Console.WriteLine("this is where the trade menu will be!\n"); break;
+                    default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
+                }
+            }
         }
         internal static void Menu(Player playerX)
         {
+            // displays options for menu
             bool done = false;
             while (!done && Utility.GameOver == false)
             {
@@ -118,15 +114,17 @@ namespace IGME105_HW_cda7733
         */
         internal static void RollForMovement(Player playerX)
         {
+            // rolls "two dice" (2-12) and moves the player to the appropriate location
             int diceRoll = Utility.RNG.Next(2, 13);
             playerX.PlayerLocation = playerX.PlayerLocation + diceRoll;
             Utility.CyclePlayerLocation(playerX);
             Console.WriteLine("{0} rolled a {1}! they are now on {2}, space number {3}\n", playerX.PlayerName, diceRoll, Spaces.SpaceNameArray[playerX.PlayerLocation], playerX.PlayerLocation);
-            Utility.SpaceAction(playerX);
             playerX.TurnCount++;
+            Utility.SpaceAction(playerX);
         }
         internal static bool CheckUnownedProperty(Player playerX, bool attacked)
         {
+            // checks if player is on an unowned property, and allows them to attack it if they haven't already
             if (playerX.OnSpaceType == "UP")
             {
                 bool done = false;
@@ -145,9 +143,9 @@ namespace IGME105_HW_cda7733
                             int damage = 0;
                             for (int i = 0; i < playerX.Dice; i++)
                             {
-                                damage = Utility.RNG.Next(2,13);
+                                damage += Utility.RNG.Next(2,13);
                             }
-                            Console.WriteLine($"they did {Utility.RNG.Next(2, 13)} damage!\n");
+                            Console.WriteLine($"they did {damage} damage!\n");
                             PropertyCard.CurrentPropertyValue[playerX.PlayerLocation] -= damage;
                             if (PropertyCard.CurrentPropertyValue[playerX.PlayerLocation] <= 0)
                             {
@@ -177,13 +175,14 @@ namespace IGME105_HW_cda7733
         }
         internal static void Sabotage()
         {
-            // battle method between players
+            // battle between two players
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("a 1v1 sabotage event is occuring!\n");
             Console.ResetColor();
         }
         internal static int PullChanceCard(Player playerX)
         {
+            // gives player a chance card, displays the text on it, and adds it to their inventory/bag/card stack
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine("they drew a chance card!");
             Console.ResetColor();
@@ -204,6 +203,7 @@ namespace IGME105_HW_cda7733
         }
         internal static int PullCommunityChestCard(Player playerX)
         {
+            // gives player a chance card, displays the text on it, and adds it to their inventory/bag/card stack
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine("they drew a community chest card!");
             Console.ResetColor();

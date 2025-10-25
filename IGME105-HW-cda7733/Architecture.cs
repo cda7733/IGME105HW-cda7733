@@ -21,6 +21,8 @@ using System.Threading.Tasks;
  * 10/24/2025 - the game works for most things. win conditions, property acquisition, cards, etc.
  */
 
+// github link: https://github.com/cda7733/IGME105HW-cda7733
+
 namespace IGME105_HW_cda7733
 {
     internal class Architecture
@@ -32,25 +34,6 @@ namespace IGME105_HW_cda7733
 
             Player player1 = new Player();  Player player2 = new Player();
             Player player3 = new Player();  Player player4 = new Player();
-
-            // collectible properties
-            // i know this probably takes up a billion memory, but it's the only way i got it working with what we were taught so far </3
-
-            /*
-            PropertyCard propertydeed01 = new PropertyCard();   PropertyCard propertydeed03 = new PropertyCard();
-            PropertyCard propertydeed05 = new PropertyCard();   PropertyCard propertydeed06 = new PropertyCard();
-            PropertyCard propertydeed08 = new PropertyCard();   PropertyCard propertydeed09 = new PropertyCard();
-            PropertyCard propertydeed11 = new PropertyCard();   PropertyCard propertydeed13 = new PropertyCard();
-            PropertyCard propertydeed14 = new PropertyCard();   PropertyCard propertydeed15 = new PropertyCard();
-            PropertyCard propertydeed16 = new PropertyCard();   PropertyCard propertydeed18 = new PropertyCard();
-            PropertyCard propertydeed19 = new PropertyCard();   PropertyCard propertydeed21 = new PropertyCard();
-            PropertyCard propertydeed23 = new PropertyCard();   PropertyCard propertydeed24 = new PropertyCard();
-            PropertyCard propertydeed25 = new PropertyCard();   PropertyCard propertydeed26 = new PropertyCard();
-            PropertyCard propertydeed27 = new PropertyCard();   PropertyCard propertydeed29 = new PropertyCard();
-            PropertyCard propertydeed31 = new PropertyCard();   PropertyCard propertydeed32 = new PropertyCard();
-            PropertyCard propertydeed34 = new PropertyCard();   PropertyCard propertydeed35 = new PropertyCard();
-            PropertyCard propertydeed37 = new PropertyCard();   PropertyCard propertydeed39 = new PropertyCard(); 
-            */
 
             GameSetup.DetermineCreationAmount(player1, player2, player3, player4);
             

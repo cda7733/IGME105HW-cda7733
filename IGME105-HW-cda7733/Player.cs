@@ -146,6 +146,8 @@ namespace IGME105_HW_cda7733
         }
         internal Player(int difficulty)
         {
+            // not made yet!!
+
             // cpu player, automatically controlled
             // their info can be randomly generated
             // difficulty ranges 1-5
@@ -154,6 +156,7 @@ namespace IGME105_HW_cda7733
         // methods
         internal void PromptName()
         {
+            // ask player what name they want
             Console.Clear();
             Console.Write($"what is the name of player {PlayerIndex + 1}? ");
             string input = Console.ReadLine().Trim();
@@ -165,10 +168,11 @@ namespace IGME105_HW_cda7733
             {
                 PlayerName = input;
             }
-            Console.WriteLine("");
+            Console.WriteLine();
         }
         internal void PromptToken()
         {
+            // ask player what token they want
             bool done = false;
             while (done == false)
             {
@@ -201,11 +205,12 @@ namespace IGME105_HW_cda7733
         }
         internal void PromptColor()
         {
+            // ask player what color they want
             bool done = false;
             while (!done)
             {
                 Console.WriteLine($"which color would you like {PlayerName} to be? please enter the number preceding the color.");
-                Utility.DisplayAvailableColors();
+                GameSetup.DisplayAvailableColors();
                 string input = Console.ReadLine().Trim();
                 try
                 {
@@ -233,6 +238,7 @@ namespace IGME105_HW_cda7733
         }
         internal void DisplayPlayerInfo()
         {
+            // displays a bunch of player info to console
             Utility.ColorPicker(PlayerColorIndex);
             Console.WriteLine($"\nplayer {PlayerIndex + 1 } info");
             Console.WriteLine("  name: " + PlayerName);
