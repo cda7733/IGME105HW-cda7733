@@ -18,6 +18,7 @@ using System.Threading.Tasks;
  * 09/26/2025 - calling methods from all classes
  * 10/10/2025 - called new methods w/ RNG elements
  * 10/15/2025 - cleanup! commented out game setup bc it was tedious for testing. removed magenta coloring.
+ * 10/24/2025 - the game works for most things. win conditions, property acquisition, cards, etc.
  */
 
 namespace IGME105_HW_cda7733
@@ -28,38 +29,36 @@ namespace IGME105_HW_cda7733
         {
             
             GameSetup.Startup();
-            Player player1 = new Player();
-            Player player2 = new Player();
-            Player player3 = new Player();
-            Player player4 = new Player();
 
-            GameSetup.DetermineCreationAmount(player1, player2, player3, player4);
+            Player player1 = new Player();  Player player2 = new Player();
+            Player player3 = new Player();  Player player4 = new Player();
 
+            // collectible properties
+            // i know this probably takes up a billion memory, but it's the only way i got it working with what we were taught so far </3
 
             /*
-             * assign them in order, not random
-            Utility.RollForFirstProperty();
-            player1.RollForOrder();
+            PropertyCard propertydeed01 = new PropertyCard();   PropertyCard propertydeed03 = new PropertyCard();
+            PropertyCard propertydeed05 = new PropertyCard();   PropertyCard propertydeed06 = new PropertyCard();
+            PropertyCard propertydeed08 = new PropertyCard();   PropertyCard propertydeed09 = new PropertyCard();
+            PropertyCard propertydeed11 = new PropertyCard();   PropertyCard propertydeed13 = new PropertyCard();
+            PropertyCard propertydeed14 = new PropertyCard();   PropertyCard propertydeed15 = new PropertyCard();
+            PropertyCard propertydeed16 = new PropertyCard();   PropertyCard propertydeed18 = new PropertyCard();
+            PropertyCard propertydeed19 = new PropertyCard();   PropertyCard propertydeed21 = new PropertyCard();
+            PropertyCard propertydeed23 = new PropertyCard();   PropertyCard propertydeed24 = new PropertyCard();
+            PropertyCard propertydeed25 = new PropertyCard();   PropertyCard propertydeed26 = new PropertyCard();
+            PropertyCard propertydeed27 = new PropertyCard();   PropertyCard propertydeed29 = new PropertyCard();
+            PropertyCard propertydeed31 = new PropertyCard();   PropertyCard propertydeed32 = new PropertyCard();
+            PropertyCard propertydeed34 = new PropertyCard();   PropertyCard propertydeed35 = new PropertyCard();
+            PropertyCard propertydeed37 = new PropertyCard();   PropertyCard propertydeed39 = new PropertyCard(); 
             */
 
+            GameSetup.DetermineCreationAmount(player1, player2, player3, player4);
+            
+            // this is the whole game
             while (Utility.GameOver == false)
             {
                 Utility.GameplayLoop(player1, player2, player3, player4);
             }
-
-            // add a diceroll here to determine player order and starting properties
-            // first player's action turn
-            // they can choose to open the menu, view their/their property info, trade, and roll the dice to progress
-            // players can choose any number of actions until they roll, then
-            // player lands on a space and triggers that event
-            // player gets another action turn, mostlyyy same actions as before
-            // players can choose to fight the space (IF it is a property space, otherwise the space would've already triggered)
-            // ex. go space immediately upgrades ur card, chance/community chest immediately gives a card
-            // players can't roll, just end their turn and pass to the next
-            // second player's action turn
-            // gameplay loop repeats from here until one player is left
-
-            // these are js examples of methods being printed, later, they will be triggered by certain events/landings
         }
     }
 }

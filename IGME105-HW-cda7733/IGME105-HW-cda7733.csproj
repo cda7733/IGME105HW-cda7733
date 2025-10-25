@@ -49,7 +49,7 @@
     <Compile Include="Utility.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyCards.cs" />
+    <Compile Include="PropertyCard.cs" />
     <Compile Include="Spaces.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -53,63 +53,73 @@ namespace IGME105_HW_cda7733
         }
         internal static void CreatePlayers(Player player1, Player player2)
         {
+            player1.Active = true;
             player1.PlayerIndex = 0;
             player1.PromptName();
             player1.PromptToken();
             player1.PromptColor();
-            player1.OwnedProperties = player1.OwnedProperties + "01,";
+            PropertyCard.AcquirePropertyCard(1, player1);
+            
 
+            player2.Active = true;
             player2.PlayerIndex = 1;
             player2.PromptName();
             player2.PromptToken();
             player2.PromptColor();
-            player2.OwnedProperties = player2.OwnedProperties + "03,";
+            PropertyCard.AcquirePropertyCard(2, player2);
         }
         internal static void CreatePlayers(Player player1, Player player2, Player player3)
         {
+            player1.Active = true;
             player1.PlayerIndex = 0;
             player1.PromptName();
             player1.PromptToken();
             player1.PromptColor();
-            player1.OwnedProperties = player1.OwnedProperties + "01,";
+            PropertyCard.AcquirePropertyCard(1, player1);
 
+            player2.Active = true;
             player2.PlayerIndex = 1;
             player2.PromptName();
             player2.PromptToken();
             player2.PromptColor();
-            player2.OwnedProperties = player2.OwnedProperties + "03,";
+            PropertyCard.AcquirePropertyCard(2, player2);
 
+            player3.Active = true;
             player3.PlayerIndex = 2;
             player3.PromptName();
             player3.PromptToken();
             player3.PromptColor();
-            player3.OwnedProperties = player3.OwnedProperties + "06,";
+            PropertyCard.AcquirePropertyCard(3, player3);
         }
         internal static void CreatePlayers(Player player1, Player player2, Player player3, Player player4)
         {
+            player1.Active = true;
             player1.PlayerIndex = 0;
             player1.PromptName();
             player1.PromptToken();
             player1.PromptColor();
-            player1.OwnedProperties = player1.OwnedProperties + "01,";
+            PropertyCard.AcquirePropertyCard(1, player1);
 
+            player2.Active = true;
             player2.PlayerIndex = 1;
             player2.PromptName();
             player2.PromptToken();
             player2.PromptColor();
-            player2.OwnedProperties = player2.OwnedProperties + "03,";
+            PropertyCard.AcquirePropertyCard(2, player2);
 
+            player3.Active = true;
             player3.PlayerIndex = 2;
             player3.PromptName();
             player3.PromptToken();
             player3.PromptColor();
-            player3.OwnedProperties = player3.OwnedProperties + "06,";
+            PropertyCard.AcquirePropertyCard(3, player3);
 
+            player4.Active = true;
             player4.PlayerIndex = 3;
             player4.PromptName();
             player4.PromptToken();
             player4.PromptColor();
-            player4.OwnedProperties = player4.OwnedProperties + "08,";
+            PropertyCard.AcquirePropertyCard(4, player4);
         }
         internal static void DisplayRules()
         {
@@ -127,7 +137,9 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("property cards have stats: color, property value, damage multiplier, house upgrade value, and hotel upgrade value.");
             Console.WriteLine("damage to other players property is calculated as (diceroll x damage multiplier).");
             Console.WriteLine("if ANY (owned/unowned) property card's value is reduced to 0, the player who defeated it gets the card.");
-            Console.WriteLine("players can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.\n");
+            Console.WriteLine("players can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\nDEMO INFO (you can just read this)"); Console.ResetColor();
+            Console.WriteLine("property value of all cards is set to 5 for easier testing.\nplayer health is also maxed at 5 as a result.\n");
         }
         internal static void PromptMaxPlayers()
         {
@@ -161,7 +173,7 @@ namespace IGME105_HW_cda7733
             while (done == false)
             {
                 Console.WriteLine($"welcome to {gameName}!\n");
-                Console.Write("would you like to view the rules? (y/n): ");
+                Console.Write("it is recommended for you to read the rules. would you like to? (y/n): ");
                 string input = Console.ReadLine().Trim().ToLower();
                 if (input.StartsWith("y"))
                 {
@@ -178,7 +190,6 @@ namespace IGME105_HW_cda7733
                 }
             }
         }
-
         internal static void DetermineCreationAmount(Player player1, Player player2, Player player3, Player player4)
         {
             switch (Utility.CurrentNumberOfPlayers)

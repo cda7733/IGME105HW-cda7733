@@ -16,37 +16,77 @@ using System.Threading.Tasks;
 
 namespace IGME105_HW_cda7733
 {
-    internal class PropertyCards
+    internal static class PropertyCard
     {
         // variables & properties
         // therye alllllll gets (except health) 
-        int propertyCardIndex = 0;
+
+        /* int propertyCardIndex = 0;
         internal int PropertyCardIndex
         {
             get { return propertyCardIndex; }
-        }
-        string propertyCardName;
-        internal string PropertyCardName
+        } */
+        static int[] currentPropertyValue = 
         {
-            get { return propertyCardName; }
-        }
-        int currentPropertyValue;
-        internal int CurrentPropertyValue
+            5,5,5,5,5,5,5,5,5,5,
+            5,5,5,5,5,5,5,5,5,5,
+            5,5,5,5,5,5,5,5,5,5,
+            5,5,5,5,5,5,5,5,5,5
+        };
+        internal static int[] CurrentPropertyValue
         {
             get { return currentPropertyValue; }
             set { currentPropertyValue = value; }
         }
-        int maxPropertyValue;
-        internal int MaxPropertyValue
+        static int[] maxPropertyValue =
+        {
+            5,5,5,5,5,5,5,5,5,5,
+            5,5,5,5,5,5,5,5,5,5,
+            5,5,5,5,5,5,5,5,5,5,
+            5,5,5,5,5,5,5,5,5,5
+        };
+        internal static int[] MaxPropertyValue
         {
             get { return maxPropertyValue; }
         }
-        int damageMultiplier;
-        internal int DamageMultiplier
+        static int[] damageMultiplier =
+        {
+            1,1,1,1,1,1,1,1,1,1,
+            2,2,2,2,2,2,2,2,2,2,
+            3,3,3,3,3,3,3,3,3,3,
+            4,4,4,4,4,4,4,4,4,4
+        };
+        internal static int[] DamageMultiplier
         {
             get { return damageMultiplier; }
         }
-        int houseUpgradeValue;
+        static bool[] owned =
+        {
+            false,false,false,false,false,false,false,false,false,false,
+            false,false,false,false,false,false,false,false,false,false,
+            false,false,false,false,false,false,false,false,false,false,
+            false,false,false,false,false,false,false,false,false,false
+        };
+        internal static bool[] Owned
+        {
+            get { return owned; }
+            set { owned = value; }
+        }
+
+        static string[] propertyID =
+        {
+            "00","01","02","03","04","05","06","07","08","09",
+            "10","11","12","13","14","15","16","17","18","19",
+            "20","21","22","23","24","25","26","27","28","29",
+            "30","31","32","33","34","35","36","37","38","39"
+        };
+    
+        internal static string[] PropertyID
+        {
+            get { return propertyID; }
+        }
+
+        /* int houseUpgradeValue;
         internal int HouseUpgradeValue
         {
             get { return houseUpgradeValue; }
@@ -59,12 +99,15 @@ namespace IGME105_HW_cda7733
         string color;
         internal string Color
         {
-            get { return  color; }
-        }
-        internal PropertyCards()
+            get { return color; }
+        } */
+
+
+        /*
+        internal PropertyCard()
         {
             
-            /*
+            
              * PropertyCards()
             if owned:
             // order doesn’t factor into damage calculation, but the player who landed on the space rolls first
@@ -88,14 +131,24 @@ namespace IGME105_HW_cda7733
             multiply by dice roll. low level cards have a x1 multiplier. the highest multiplier is x6. 
             int houseUpgrades (how much each house upgrade increases pv)
             int hotelUpgrades (multiply it with houseUpgrades)
-           */
-        }
-        internal void PropertySetup()
+        } */
+        internal static void AcquirePropertyCard(int playerNumber, Player playerX)
         {
-            for (int i = 0; i < GameSetup.MaxSpaces; i++)
+            // first properties given
+            switch (playerNumber)
             {
-                Console.WriteLine("creating space" + i);
+                case 1: playerX.OwnedProperties = "01"; owned[1] = true; Utility.EquipNewCard(playerX, 1) ; break;
+                case 2: playerX.OwnedProperties = "03"; owned[3] = true; Utility.EquipNewCard(playerX, 3); break;
+                case 3: playerX.OwnedProperties = "06"; owned[6] = true; Utility.EquipNewCard(playerX, 6); break;
+                case 4: playerX.OwnedProperties = "08"; owned[8] = true; Utility.EquipNewCard(playerX, 8); break;
+                default: Utility.DisplayError("!! error: invalid player index"); break;
             }
         }
+        internal static void AcquirePropertyCard(Player playerX)
+        {
+            playerX.OwnedProperties = playerX.OwnedProperties + "," + PropertyID[playerX.PlayerLocation];
+            owned[playerX.PlayerLocation] = true;
+        }
+        
     }
 }

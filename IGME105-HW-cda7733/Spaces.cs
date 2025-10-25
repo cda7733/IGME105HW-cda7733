@@ -32,12 +32,13 @@ namespace IGME105_HW_cda7733
             get { return spaceName; }
             set { spaceName = value; }
         }
-        internal static string SpaceArrayToName(Player playerX)
+        static string[] spaceNameArray = SpaceName.Split(',');
+        internal static string[] SpaceNameArray
         {
-            string[] spaceNameArray = SpaceName.Split(',');
-            return spaceNameArray[playerX.PlayerLocation];
+            get { return spaceNameArray; }
+            set { spaceNameArray = value; }
         }
-
+        
         internal static void GoSpace(Player playerX)
         {
             Utility.ChangeSpaceType(playerX, "GO");
@@ -66,17 +67,32 @@ namespace IGME105_HW_cda7733
             Utility.ChangeSpaceType(playerX, "TX");
             // 1-20 damage
             int damagedValue = rng.Next(20);
-            Console.WriteLine($"-{damagedValue} property value to one of their cards..\n");
+            Console.WriteLine($"-{damagedValue} property value to their health..\n");
+
+            playerX.CurrentHealth -= damagedValue;
+            if (playerX.CurrentHealth <= 0)
+            {
+                Console.WriteLine("this player has bankrupted! they are no longer in the game!");
+                Utility.KillPlayer(playerX);
+                if (Utility.CurrentNumberOfPlayers >= 2)
+                {
+                    Console.WriteLine($"good luck to the remaining {Utility.CurrentNumberOfPlayers} players!\n");
+                }
+            }
         }
         internal static void UtilitySpace (Player playerX, Random rng)
         {
             Utility.ChangeSpaceType(playerX, "UT");
             // 1-20 healing
             int healedValue = rng.Next(20);
-            Console.WriteLine($"+{healedValue} property value to one of their cards!\n");
+            Console.WriteLine($"+{healedValue} property value to their health!\n");
+            
+            playerX.CurrentHealth += healedValue;
+            if (playerX.CurrentHealth > playerX.MaxHealth)
+            {
+                playerX.CurrentHealth = playerX.MaxHealth;
+            }
         }
-
-
         internal static void PropertySpace(Player playerX)
         {
             Utility.ChangeSpaceType(playerX, "UP");

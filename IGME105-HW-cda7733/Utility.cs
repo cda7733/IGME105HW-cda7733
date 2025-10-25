@@ -118,7 +118,7 @@ namespace IGME105_HW_cda7733
             }
             else
             {
-                DisplayError("code error: invalid space type assigned.");
+                DisplayError("!! error: invalid space type assigned.");
             }
 
         }
@@ -186,6 +186,19 @@ namespace IGME105_HW_cda7733
                     goto case 2;
             }
         }
+
+        /* internal static void DisplayBoard()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("UNOWNED properties are green");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("OWNED properties are red");
+            Console.ResetColor();
+            for (int i = 0; i < GameSetup.MaxSpaces-1; i+=2)
+            {
+                Console.WriteLine(Spaces.SpaceNameArray[i] + "        " + (Spaces.SpaceNameArray[i+1]));
+            }
+        } */
         internal static void DisplayError(string message)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -227,6 +240,73 @@ namespace IGME105_HW_cda7733
                 Console.WriteLine("");
             }
         }
+        internal static void DisplayOwnedProperties(Player playerX)
+        {
+            if (String.IsNullOrEmpty(playerX.OwnedProperties))
+            {
+                DisplayError("!! error: this player should not exist.");
+            }
+            else
+            {
+                string[] propertyArray = playerX.OwnedProperties.Split(',');
+                Console.WriteLine($"{playerX.PlayerName} owns {propertyArray.Length} properties!\ntheir names and values are as follows..\n");
+                for (int i = 0; i < propertyArray.Length; i++)
+                {
+                    Console.WriteLine(TranslateProperty(propertyArray[i]));
+                }
+            }
+            Console.WriteLine("");
+        }
+        internal static void DisplayCardComparison(Player playerX)
+        {
+            
+            Console.WriteLine($"they currently have {Spaces.SpaceNameArray[playerX.EquippedCardIndex]} equipped");
+            Console.WriteLine("current health: " + playerX.CurrentHealth);
+            Console.WriteLine("max health: " + playerX.MaxHealth);
+            Console.WriteLine("damage multiplier: " + playerX.Dice);
+            Console.WriteLine("\nthese are the stats of the new card, " + Spaces.SpaceNameArray[playerX.PlayerLocation]);
+            Console.WriteLine("max health: " + PropertyCard.MaxPropertyValue[playerX.PlayerLocation]);
+            Console.WriteLine("damage multiplier: " + PropertyCard.DamageMultiplier[playerX.PlayerLocation]);
+            ColorPicker(playerX.PlayerColorIndex);
+            Console.Write($"\nswitch {playerX.PlayerName}'s card? (y/n): ");
+            Console.ResetColor();
+            string input = Console.ReadLine().Trim().ToLower();
+
+            bool done = false;
+            while (!done)
+            {
+                if (input == "y")
+                {
+                    EquipNewCard(playerX);
+                    done = true;
+                }
+                else if (input == "n")
+                {
+                    done = true;
+                }
+                else
+                {
+                    DisplayError("invalid input. please try again.");
+                }
+            }
+            
+        }
+        internal static void EquipNewCard(Player playerX, int cardIndex)
+        {
+            // equipping first cards
+            playerX.EquippedCardIndex = cardIndex;
+            playerX.MaxHealth = PropertyCard.MaxPropertyValue[cardIndex];
+            playerX.CurrentHealth = PropertyCard.CurrentPropertyValue[cardIndex];
+            playerX.Dice = PropertyCard.DamageMultiplier[cardIndex];
+        }
+        internal static void EquipNewCard(Player playerX)
+        {
+            // equipping cards after the first ones
+            playerX.EquippedCardIndex = playerX.PlayerLocation;
+            playerX.MaxHealth = PropertyCard.MaxPropertyValue[playerX.PlayerLocation];
+            playerX.CurrentHealth = PropertyCard.MaxPropertyValue[playerX.PlayerLocation];
+            playerX.Dice = PropertyCard.DamageMultiplier[playerX.PlayerLocation];
+        }
         internal static string TranslateCard(string cardTitle)
         {
             string cardText = "blank.";
@@ -248,7 +328,7 @@ namespace IGME105_HW_cda7733
                     case "10": cardText = "this is the tenth community chest card"; break;
                     case "11": cardText = "this is the eleventh community chest card"; break;
                     case "12": cardText = "this is the twelfth community chest card"; break;
-                    default: cardText = "range error"; break;
+                    default: cardText = "!! error: invalid range"; break;
                 }
             }
             else if (cardTitle.Substring(0,6) == "chance")
@@ -269,7 +349,7 @@ namespace IGME105_HW_cda7733
                     case "10": cardText = "this is the tenth chance card"; break;
                     case "11": cardText = "this is the eleventh chance card"; break;
                     case "12": cardText = "this is the twelfth chance card"; break;
-                    default: cardText = "range error"; break;
+                    default: cardText = "!! error: invalid range"; break;
                 }
             }
             else
@@ -292,6 +372,20 @@ namespace IGME105_HW_cda7733
                 default: typeName = "ER"; break;
             }
             return typeName;
+        }
+        internal static string TranslateProperty(string propertyTitle)
+        {
+            string propertyName = "n/a";
+            try
+            {
+                int propertyIndex = int.Parse(propertyTitle.TrimStart('0'));
+                propertyName = Spaces.SpaceNameArray[propertyIndex];
+            }
+            catch
+            {
+                DisplayError("!! error: could not convert property index to int.");
+            }
+            return propertyName;
         }
         internal static void Turn(Player player1, Player player2)
         {
@@ -321,6 +415,37 @@ namespace IGME105_HW_cda7733
                 default: break;
             }
         }
-
+        internal static void CheckWin()
+        {
+            if (currentNumberOfPlayers <= 1)
+            {
+                Console.WriteLine($"congratualations to for winning the game!");
+                // Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", winningPlayer.PlayerName, winningPlayer.TurnCount, winningPlayer.HeldCardCount, winningPlayer.OwnedPropertyCount);
+                Console.WriteLine("thank you for playing!\n\n");
+                GameOver = true;
+            }
+        }
+       
+        internal static void KillPlayer(Player playerX)
+        {
+            string[] propertyArray = playerX.OwnedProperties.Split(',');
+            playerX.Active = false;
+            try
+            {
+                int index;
+                for (int i = 0; i < playerX.OwnedPropertyCount; i++)
+                {
+                    index = int.Parse(playerX.OwnedProperties.TrimStart('0'));
+                    PropertyCard.Owned[index] = false;
+                    Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
+                }
+                currentNumberOfPlayers--;
+            }
+            catch
+            {
+                DisplayError("!! error: cannot convert to int");
+            }
+           
+        }
     }
 }
