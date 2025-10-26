@@ -40,7 +40,7 @@ namespace IGME105_HW_cda7733
             // this is the whole game
             while (Utility.GameOver == false)
             {
-                Utility.GameplayLoop(player1, player2, player3, player4);
+                GameEngine.GameplayLoop(player1, player2, player3, player4);
             }
         }
     }

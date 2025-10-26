@@ -1,12 +1,4 @@
-﻿using Microsoft.SqlServer.Server;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.ExceptionServices;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System;
 
 /*
  * program name: IGME105 monopoly game
@@ -60,61 +52,19 @@ namespace IGME105_HW_cda7733
         internal static void SpaceAction(Player playerX)
         {
             // triggers space methods depending on location
-            switch (playerX.PlayerLocation)
+
+            switch (Spaces.SpaceType[playerX.PlayerLocation])
             {
-                case 0: break;
-                case 1: Spaces.PropertySpace(playerX); break;
-                case 2: GameEngine.PullCommunityChestCard(playerX); break;
-                case 3: Spaces.PropertySpace(playerX); break;
-                case 4: Spaces.TaxSpace(playerX, RNG); break;
-                case 5: Spaces.PropertySpace(playerX); break;
-                case 6: Spaces.PropertySpace(playerX); break;
-                case 7: GameEngine.PullChanceCard(playerX); break;
-                case 8: Spaces.PropertySpace(playerX); break;
-                case 9: Spaces.PropertySpace(playerX); break;
-                case 10: Spaces.VandalismSpace(playerX); break;
-                case 11: Spaces.PropertySpace(playerX); break;
-                case 12: Spaces.UtilitySpace(playerX, RNG); break;
-                case 13: Spaces.PropertySpace(playerX); break;
-                case 14: Spaces.PropertySpace(playerX); break;
-                case 15: Spaces.PropertySpace(playerX); break;
-                case 16: Spaces.PropertySpace(playerX); break;
-                case 17: GameEngine.PullCommunityChestCard(playerX); break;
-                case 18: Spaces.PropertySpace(playerX); break;
-                case 19: Spaces.PropertySpace(playerX); break;
-                case 20: Console.WriteLine("free repair space!\n"); break;
-                case 21: Spaces.PropertySpace(playerX); break;
-                case 22: GameEngine.PullChanceCard(playerX); break;
-                case 23: Spaces.PropertySpace(playerX); break;
-                case 24: Spaces.PropertySpace(playerX); break;
-                case 25: Spaces.PropertySpace(playerX); break;
-                case 26: Spaces.PropertySpace(playerX); break;
-                case 27: Spaces.PropertySpace(playerX); break;
-                case 28: Spaces.UtilitySpace(playerX, RNG); break;
-                case 29: Spaces.PropertySpace(playerX); break;
-                case 30: Spaces.VandalismSpace(playerX); break;
-                case 31: Spaces.PropertySpace(playerX); break;
-                case 32: Spaces.PropertySpace(playerX); break;
-                case 33: GameEngine.PullCommunityChestCard(playerX); break;
-                case 34: Spaces.PropertySpace(playerX); break;
-                case 35: Spaces.PropertySpace(playerX); break;
-                case 36: GameEngine.PullChanceCard(playerX); break;
-                case 37: Spaces.PropertySpace(playerX); break;
-                case 38: Spaces.TaxSpace(playerX, RNG); break;
-                case 39: Spaces.PropertySpace(playerX); break;
-                default: break;
-            }
-        }
-        internal static void ChangeSpaceType(Player playerX, string spaceType)
-        {
-            // assigns the space type that the player is currently on
-            if (spaceType == "GO" || spaceType == "OP" || spaceType == "UP" || spaceType == "TX" || spaceType == "UT" || spaceType == "VS")
-            {
-                playerX.OnSpaceType = spaceType;
-            }
-            else
-            {
-                DisplayError("!! error: invalid space type assigned.");
+                case "GO": break;
+                case "UP": Spaces.PropertySpace(playerX); break;
+                case "OP": Spaces.PropertySpace(playerX); break;
+                case "CH": GameEngine.PullChanceCard(playerX); break;
+                case "CO": GameEngine.PullCommunityChestCard(playerX); break;
+                case "UT": Spaces.UtilitySpace(playerX, RNG); break;
+                case "TX": Spaces.TaxSpace(playerX, RNG); break;
+                case "VS": Spaces.VandalismSpace(playerX); break;
+
+                default: DisplayError("!! error: player on unrecognised space type"); break;
             }
         }
         internal static void CyclePlayerLocation(Player playerX)
@@ -205,12 +155,14 @@ namespace IGME105_HW_cda7733
             else
             {
                 string[] propertyArray = playerX.OwnedProperties.Split(',');
+                int propertyIndex;
                 Console.WriteLine($"{playerX.PlayerName} owns {propertyArray.Length} properties!\ntheir names and values are as follows..\n");
                 for (int i = 0; i < propertyArray.Length; i++)
                 {
+                    propertyIndex = int.Parse(propertyArray[i].TrimStart('0'));
                     Console.WriteLine(TranslateProperty(propertyArray[i]));
-                    Console.WriteLine($"health: ({PropertyCard.CurrentPropertyValue[i]}/{PropertyCard.MaxPropertyValue[i]})");
-                    Console.WriteLine($"damage multiplier: {PropertyCard.DamageMultiplier[i]}\n");
+                    Console.WriteLine($"health: ({PropertyCard.CurrentPropertyValue[propertyIndex]}/{PropertyCard.MaxPropertyValue[propertyIndex]})");
+                    Console.WriteLine($"damage multiplier: {PropertyCard.DamageMultiplier[propertyIndex]}\n");
                 }
             }
             Console.WriteLine();
@@ -218,7 +170,8 @@ namespace IGME105_HW_cda7733
         internal static void DisplayCardComparison(Player playerX)
         {
             // displays equipped card info and the newly acquired card's info
-            Console.WriteLine($"they currently have {Spaces.SpaceNameArray[playerX.EquippedCardIndex]} equipped");
+            
+            Console.WriteLine($"{playerX.PlayerName} currently has {Spaces.SpaceNameArray[playerX.EquippedCardIndex]} equipped");
             Console.WriteLine("current health: " + playerX.CurrentHealth);
             Console.WriteLine("max health: " + playerX.MaxHealth);
             Console.WriteLine("damage multiplier: " + playerX.Dice);
@@ -228,27 +181,26 @@ namespace IGME105_HW_cda7733
             ColorPicker(playerX.PlayerColorIndex);
             Console.Write($"\nswitch {playerX.PlayerName}'s card? (y/n): ");
             Console.ResetColor();
-            string input = Console.ReadLine().Trim().ToLower();
-
+            string input;
             bool done = false;
             while (!done)
             {
-                if (input == "y")
+                input = Console.ReadLine().Trim().ToLower();
+                Console.Clear();
+                if (input.StartsWith("y"))
                 {
-                    Console.Clear();
                     EquipNewCard(playerX);
                     done = true;
                 }
-                else if (input == "n")
+                else if (input.StartsWith("n"))
                 {
                     done = true;
                 }
                 else
                 {
-                    DisplayError("invalid input. please try again.");
+                    DisplayError("invalid input! please enter a 'y' or an 'n'");
                 }
             }
-            
         }
         internal static void EquipNewCard(Player playerX, int cardIndex)
         {
@@ -320,22 +272,6 @@ namespace IGME105_HW_cda7733
             }
                 return cardText;
         }
-        internal static string TranslateSpaceType(string spaceType)
-        {
-            // changes space identifier to text
-            string typeName;
-            switch (spaceType)
-            {
-                case "GO": typeName = "go"; break;
-                case "OP": typeName = "owned property"; break;
-                case "UP": typeName = "unowned property"; break;
-                case "TX": typeName = "tax"; break;
-                case "UT": typeName = "utility"; break;
-                case "VS": typeName = "vandalism"; break;
-                default: typeName = "ER"; break;
-            }
-            return typeName;
-        }
         internal static string TranslateProperty(string propertyTitle)
         {
             // changes property identifier to text
@@ -352,200 +288,29 @@ namespace IGME105_HW_cda7733
             }
             return propertyName;
         }
-        internal static void Turn(Player player1, Player player2)
+        internal static string TranslateSpaceType(Player playerX)
         {
-            // cycles between 2 players turns if they are alive/active, else it skips
-            if (player1.Active == true)
-            {
-                GameEngine.PlayerAction(player1);
-                CheckWin(player1, player2);
-            }
-            if (player2.Active == true)
-            {
-                GameEngine.PlayerAction(player2);
-                CheckWin(player1, player2);
-            }
-        }
-        internal static void Turn(Player player1, Player player2, Player player3)
-        {
-            // cycles between 2 players turns if they are alive/active, else it skips
-            if (player1.Active == true)
-            {
-                GameEngine.PlayerAction(player1);
-                CheckWin(player1, player2, player3);
-            }
-            if (player2.Active == true)
-            {
-                GameEngine.PlayerAction(player2);
-                CheckWin(player1, player2, player3);
-            }
-            if (player3.Active)
-            {
-                GameEngine.PlayerAction(player3);
-                CheckWin(player1, player2, player3);
-            }
-        }
-        internal static void Turn(Player player1, Player player2, Player player3, Player player4)
-        {
-            // cycles between 2 players turns if they are alive/active, else it skips
-            if (player1.Active == true)
-            {
-                GameEngine.PlayerAction(player1);
-                CheckWin(player1, player2, player3, player4);
-            }
-            if (player2.Active == true)
-            {
-                GameEngine.PlayerAction(player2);
-                CheckWin(player1, player2, player3, player4);
-            }
-            if (player3.Active)
-            {
-                GameEngine.PlayerAction(player3);
-                CheckWin(player1, player2, player3, player4);
-            }
-            if (player4.Active)
-            {
-                GameEngine.PlayerAction(player4);
-                CheckWin(player1, player2, player3, player4);
-            }
-        }
-        internal static void GameplayLoop(Player player1, Player player2, Player player3, Player player4)
-        {
-            // loops for 2, 3, and 4 players
-            switch (CurrentNumberOfPlayers)
-            {
-                case 2: Turn(player1, player2);  break;
-                case 3: Turn(player1, player2, player3); break;
-                case 4: Turn(player1, player2, player3, player4); break;
-                default: break;
-            }
-        }
-        internal static void CheckWin(Player player1, Player player2)
-        {
-            // checks if there is only one player, then the game ends. displays winner info between 2 players
-            if (currentNumberOfPlayers <= 1)
-            {
-                
-                if (player1.Active == true && player2.Active == false)
-                {
-                    ColorPicker(player1.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 1 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == true)
-                {
-                    ColorPicker(player2.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 2 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
-                }
-                Console.ResetColor();
-                Console.WriteLine("\nthank you for playing!\n\n");
-                GameOver = true;
-            }
-        }
-        internal static void CheckWin(Player player1, Player player2, Player player3)
-        {
-            // checks if there is only one player, then the game ends. displays winner info between 2 players
-            if (currentNumberOfPlayers <= 1)
-            {
+            // changes space identifier to text
 
-                if (player1.Active == true && player2.Active == false && player3.Active == false)
-                {
-                    ColorPicker(player1.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 1 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == true && player3.Active == false)
-                {
-                    ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 2 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == false && player3.Active == true)
-                {
-                    ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 3 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player3.PlayerName, player3.TurnCount, player3.HeldCardCount, player3.OwnedPropertyCount);
-                }
-                Console.WriteLine("\nthank you for playing!\n\n");
-                GameOver = true;
-            }
-        }
-        internal static void CheckWin(Player player1, Player player2, Player player3, Player player4)
-        {
-            // checks if there is only one player, then the game ends. displays winner info between 2 players
-            if (currentNumberOfPlayers <= 1)
-            {
 
-                if (player1.Active == true && player2.Active == false && player3.Active == false && player4.Active == false)
-                {
-                    ColorPicker(player1.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 1 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == true && player3.Active == false && player4.Active == false)
-                {
-                    ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 2 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == false && player3.Active == true && player4.Active == false)
-                {
-                    ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 3 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player3.PlayerName, player3.TurnCount, player3.HeldCardCount, player3.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == false && player3.Active == false && player4.Active == true)
-                {
-                    ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 4 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player4.PlayerName, player4.TurnCount, player4.HeldCardCount, player4.OwnedPropertyCount);
-                }
-                else
-                {
-                    DisplayError("!! error: multiple players were active or all were inactive");
-                }
-                    Console.WriteLine("\nthank you for playing!\n\n");
-                GameOver = true;
-            }
-        }
-        internal static void KillPlayer(Player playerX)
-        {
-            // deactivates a player, returns their properties to the board, decreases current # of players
-            int index;
-            currentNumberOfPlayers--;
-            ColorPicker(playerX.PlayerColorIndex);
-            Console.WriteLine(playerX.PlayerName + " has bankrupted! they are no longer in the game!\n");
-            Console.ResetColor();
-            if (CurrentNumberOfPlayers >= 2)
+
+            string typeName = "";
+            string spaceType = Spaces.SpaceType[playerX.PlayerLocation];
+            
+            switch (spaceType)
             {
-                Console.WriteLine($"good luck to the remaining {CurrentNumberOfPlayers} players!\n");
-                string[] propertyArray = playerX.OwnedProperties.Split(',');
-                for (int i = 0; i < propertyArray.Length; i++)
-                {
-                    if (!string.IsNullOrWhiteSpace(propertyArray[i]))
-                    {
-                        index = int.Parse(propertyArray[i].TrimStart('0'));
-                        PropertyCard.Owned[index] = false;
-                        playerX.OwnedPropertyCount--;
-                        Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
-                    }
-                }
-                Console.WriteLine();
-                playerX.OwnedProperties = "";
-                playerX.HeldCardCount = 0;
-                playerX.DrawnCards = "";
-            }
-            playerX.Active = false;
+                case "GO": typeName = "go"; break;
+                case "OP": typeName = "owned property"; break;
+                case "UP": typeName = "unowned property"; break;
+                case "CH": typeName = "chance"; break;
+                case "CO": typeName = "community chest"; break;
+                case "TX": typeName = "tax"; break;
+                case "UT": typeName = "utility"; break;
+                case "VS": typeName = "vandalism"; break;
+                default: typeName = "non-existent"; break;
+            } 
+
+            return typeName;
         }
     }
 }

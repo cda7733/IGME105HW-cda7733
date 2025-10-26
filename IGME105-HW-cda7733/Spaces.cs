@@ -38,10 +38,22 @@ namespace IGME105_HW_cda7733
             get { return spaceNameArray; }
             set { spaceNameArray = value; }
         }
-        
+
+        internal static string[] spaceType =
+        {
+            "GO","UP","CO","UP","TX","UP","UP","CH","UP","UP",
+            "VS","UP","UT","UP","UP","UP","UP","CO","UP","UP",
+            "UP","UP","CH","UP","UP","UP","UP","UP","UT","UP",
+            "VS","UP","UP","CO","UP","UP","CH","UP","TX","UP",
+        };
+        internal static string[] SpaceType
+        {
+            get { return spaceType; }
+            set {  spaceType = value; }
+        }
+
         internal static void GoSpace(Player playerX)
         {
-            Utility.ChangeSpaceType(playerX, "GO");
             if (playerX.TurnCount != 1)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -52,7 +64,6 @@ namespace IGME105_HW_cda7733
         }
         internal static void VandalismSpace(Player playerX)
         {
-            Utility.ChangeSpaceType(playerX, "VS");
             Console.WriteLine("a free-for-all vandalism battle has been triggered!\n");
             
             // each player chooses a card to be in danger of being vandalized
@@ -63,7 +74,6 @@ namespace IGME105_HW_cda7733
         }
         internal static void TaxSpace(Player playerX, Random rng)
         {
-            Utility.ChangeSpaceType(playerX, "TX");
             // 1-5 damage
             int damagedValue = rng.Next(10);
             Console.WriteLine($"-{damagedValue} to their health..");
@@ -76,12 +86,11 @@ namespace IGME105_HW_cda7733
             if (playerX.CurrentHealth <= 0)
             {
                 playerX.CurrentHealth = 0;
-                Utility.KillPlayer(playerX);
+                GameEngine.KillPlayer(playerX);
             }
         }
         internal static void UtilitySpace (Player playerX, Random rng)
         {
-            Utility.ChangeSpaceType(playerX, "UT");
             // 1-20 healing
             int healedValue = rng.Next(10);
             Console.WriteLine($"+{healedValue} to their health!\n");
@@ -98,10 +107,9 @@ namespace IGME105_HW_cda7733
         }
         internal static void PropertySpace(Player playerX)
         {
-            Utility.ChangeSpaceType(playerX, "UP");
+            
             if (PropertyCard.Owned[playerX.PlayerLocation] == true)
             {
-                Utility.ChangeSpaceType(playerX, "OP");
                 Console.WriteLine("they landed on an owned property!\nand will now enter battle with the owner!\n");
             }
             else if (PropertyCard.Owned[playerX.PlayerLocation] == false)

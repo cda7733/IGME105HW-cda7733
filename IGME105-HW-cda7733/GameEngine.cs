@@ -57,7 +57,7 @@ namespace IGME105_HW_cda7733
                     case "1": Utility.DisplayHeldCards(playerX); break;
                     case "2": Utility.DisplayOwnedProperties(playerX); break;
                     case "3":
-                        Console.WriteLine($"{playerX.PlayerName} is currently on a {Utility.TranslateSpaceType(playerX.OnSpaceType)} space.\n");
+                        Console.WriteLine($"{playerX.PlayerName} is currently on {Spaces.SpaceNameArray[playerX.PlayerLocation]}, a {Utility.TranslateSpaceType(playerX)} space.\n");
                         attacked = CheckUnownedProperty(playerX, attacked); break;
                     case "4": Menu(playerX); break;
                     case "5": Console.WriteLine("this is where the trade menu will be!\n"); break;
@@ -79,45 +79,45 @@ namespace IGME105_HW_cda7733
                     case "0": done = true; break;
                     case "1": playerX.DisplayPlayerInfo(); break;
                     case "2": GameSetup.DisplayRules(); break;
-                    case "3": Utility.DisplayError("access denied."); break;
+                    case "3": Cheats(playerX); break;
                     case "4": Utility.GameOver = true; break;
                     default: Utility.DisplayError("invalid input. please enter one of the listed numbers."); break;
                 }
             }
         }
 
-        /* internal static void Cheats(Player playerX)
+        internal static void Cheats(Player playerX)
         {
             bool done = false;
             Console.WriteLine("enter the password.\n(hint: the password is password)");
             string input = Console.ReadLine().Trim().ToLower();
+            Console.Clear();
             if (input == "password")
             {
                 while (!done && Utility.GameOver == false)
                 {
-                    Console.Clear();
                     Console.WriteLine("0. kill a player");
+                    Console.WriteLine();
                     string selection = Console.ReadLine().Trim().ToLower();
                     switch (selection)
                     {
-                        case "0": Utility.KillPlayer(); break;
-                            default
+                        case "0": KillPlayer(playerX); done = true; break;
+                        default: break;
                     }
                 }
             }
             else
             {
-                Console.Clear();
                 Utility.DisplayError("access denied.");
             }
         }
-        */
         internal static void RollForMovement(Player playerX)
         {
             // rolls "two dice" (2-12) and moves the player to the appropriate location
             int diceRoll = Utility.RNG.Next(2, 13);
             playerX.PlayerLocation = playerX.PlayerLocation + diceRoll;
             Utility.CyclePlayerLocation(playerX);
+            playerX.OnSpaceType = Spaces.SpaceType[playerX.PlayerLocation];
             Console.WriteLine("{0} rolled a {1}! they are now on {2}, space number {3}\n", playerX.PlayerName, diceRoll, Spaces.SpaceNameArray[playerX.PlayerLocation], playerX.PlayerLocation);
             playerX.TurnCount++;
             Utility.SpaceAction(playerX);
@@ -127,30 +127,31 @@ namespace IGME105_HW_cda7733
             // checks if player is on an unowned property, and allows them to attack it if they haven't already
             if (playerX.OnSpaceType == "UP")
             {
+                Console.WriteLine(Spaces.SpaceNameArray[playerX.PlayerLocation]);
+                Console.WriteLine($"property value: {PropertyCard.CurrentPropertyValue[playerX.PlayerLocation]}/{PropertyCard.MaxPropertyValue[playerX.PlayerLocation]}");
+                Console.WriteLine("damage multiplier: " + PropertyCard.DamageMultiplier[playerX.PlayerLocation] + "\n");
                 bool done = false;
                 while (!done)
                 {
-                    Console.WriteLine(Spaces.SpaceNameArray[playerX.PlayerLocation]);
-                    Console.WriteLine($"property value: {PropertyCard.CurrentPropertyValue[playerX.PlayerLocation]}/{PropertyCard.MaxPropertyValue[playerX.PlayerLocation]}");
-                    Console.WriteLine("damage multiplier: " + PropertyCard.DamageMultiplier[playerX.PlayerLocation] + "\n");
                     if (attacked == false)
                     {
                         Console.WriteLine($"will {playerX.PlayerName} damage this property? (y/n): ");
                         string input = Console.ReadLine().Trim().ToLower();
+                        Console.Clear();
                         if (input.StartsWith("y"))
                         {
-                            Console.Clear();
+                            
                             int damage = 0;
                             for (int i = 0; i < playerX.Dice; i++)
                             {
                                 damage += Utility.RNG.Next(2,13);
                             }
-                            Console.WriteLine($"they did {damage} damage!\n");
+                            Console.WriteLine($"{playerX.PlayerName} did {damage} damage!\n");
                             PropertyCard.CurrentPropertyValue[playerX.PlayerLocation] -= damage;
                             if (PropertyCard.CurrentPropertyValue[playerX.PlayerLocation] <= 0)
                             {
                                 PropertyCard.CurrentPropertyValue[playerX.PlayerLocation] = 0;
-                                Console.WriteLine($"you acquired {Spaces.SpaceNameArray[playerX.PlayerLocation]}!");
+                                Console.WriteLine($"they acquired {Spaces.SpaceNameArray[playerX.PlayerLocation]}!");
                                 PropertyCard.AcquirePropertyCard(playerX);
                                 Utility.DisplayCardComparison(playerX);
                             } 
@@ -162,7 +163,7 @@ namespace IGME105_HW_cda7733
                         }
                         else
                         {
-                            Utility.DisplayError("invalid answer, try again!\n");
+                            Utility.DisplayError("invalid input! please enter a 'y' or an 'n'");
                         }
                     }
                     else
@@ -221,6 +222,210 @@ namespace IGME105_HW_cda7733
             Console.WriteLine($"it says: {Utility.TranslateCard(currentCardTitle)}\n");
             playerX.HeldCardCount++;
             return cardIndex;
+        }
+
+        internal static void Turn(Player player1, Player player2)
+        {
+            // cycles between 2 players turns if they are alive/active, else it skips
+            if (player1.Active == true)
+            {
+                PlayerAction(player1);
+                CheckWin(player1, player2);
+                if (Utility.GameOver) return;
+            }
+            if (player2.Active == true)
+            {
+                PlayerAction(player2);
+                CheckWin(player1, player2);
+                if (Utility.GameOver) return;
+            }
+        }
+        internal static void Turn(Player player1, Player player2, Player player3)
+        {
+            // cycles between 2 players turns if they are alive/active, else it skips
+            if (player1.Active == true)
+            {
+                PlayerAction(player1);
+                CheckWin(player1, player2, player3);
+                if (Utility.GameOver) return;
+            }
+            if (player2.Active == true)
+            {
+                PlayerAction(player2);
+                CheckWin(player1, player2, player3);
+                if (Utility.GameOver) return;
+            }
+            if (player3.Active)
+            {
+                PlayerAction(player3);
+                CheckWin(player1, player2, player3);
+                if (Utility.GameOver) return;
+            }
+        }
+        internal static void Turn(Player player1, Player player2, Player player3, Player player4)
+        {
+            // cycles between 2 players turns if they are alive/active, else it skips
+            if (player1.Active == true)
+            {
+                PlayerAction(player1);
+                CheckWin(player1, player2, player3, player4);
+                if (Utility.GameOver) return;
+            }
+            if (player2.Active == true)
+            {
+                PlayerAction(player2);
+                CheckWin(player1, player2, player3, player4);
+                if (Utility.GameOver) return;
+            }
+            if (player3.Active)
+            {
+                PlayerAction(player3);
+                CheckWin(player1, player2, player3, player4);
+                if (Utility.GameOver) return;
+            }
+            if (player4.Active)
+            {
+                PlayerAction(player4);
+                CheckWin(player1, player2, player3, player4);
+                if (Utility.GameOver) return;
+            }
+        }
+        internal static void GameplayLoop(Player player1, Player player2, Player player3, Player player4)
+        {
+            // loops for 2, 3, and 4 players
+            switch (Utility.CurrentNumberOfPlayers)
+            {
+                case 2: Turn(player1, player2); break;
+                case 3: Turn(player1, player2, player3); break;
+                case 4: Turn(player1, player2, player3, player4); break;
+                default: break;
+            }
+        }
+        internal static void CheckWin(Player player1, Player player2)
+        {
+            // checks if there is only one player, then the game ends. displays winner info between 2 players
+            if (Utility.CurrentNumberOfPlayers <= 1)
+            {
+
+                if (player1.Active == true && player2.Active == false)
+                {
+                    Utility.ColorPicker(player1.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 1 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
+                }
+                else if (player1.Active == false && player2.Active == true)
+                {
+                    Utility.ColorPicker(player2.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 2 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
+                }
+                Console.WriteLine("\nthank you for playing!\n\n");
+                Utility.GameOver = true;
+            }
+        }
+        internal static void CheckWin(Player player1, Player player2, Player player3)
+        {
+            // checks if there is only one player, then the game ends. displays winner info between 2 players
+            if (Utility.CurrentNumberOfPlayers <= 1)
+            {
+                if (player1.Active == true && player2.Active == false && player3.Active == false)
+                {
+                    Utility.ColorPicker(player1.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 1 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
+                }
+                else if (player1.Active == false && player2.Active == true && player3.Active == false)
+                {
+                    Utility.ColorPicker(player3.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 2 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
+                }
+                else if (player1.Active == false && player2.Active == false && player3.Active == true)
+                {
+                    Utility.ColorPicker(player3.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 3 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player3.PlayerName, player3.TurnCount, player3.HeldCardCount, player3.OwnedPropertyCount);
+                }
+                Console.WriteLine("\nthank you for playing!\n\n");
+                Utility.GameOver = true;
+            }
+        }
+        internal static void CheckWin(Player player1, Player player2, Player player3, Player player4)
+        {
+            // checks if there is only one player, then the game ends. displays winner info between 2 players
+            if (Utility.CurrentNumberOfPlayers <= 1)
+            {
+
+                if (player1.Active == true && player2.Active == false && player3.Active == false && player4.Active == false)
+                {
+                    Utility.ColorPicker(player1.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 1 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
+                }
+                else if (player1.Active == false && player2.Active == true && player3.Active == false && player4.Active == false)
+                {
+                    Utility.ColorPicker(player3.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 2 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
+                }
+                else if (player1.Active == false && player2.Active == false && player3.Active == true && player4.Active == false)
+                {
+                    Utility.ColorPicker(player3.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 3 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player3.PlayerName, player3.TurnCount, player3.HeldCardCount, player3.OwnedPropertyCount);
+                }
+                else if (player1.Active == false && player2.Active == false && player3.Active == false && player4.Active == true)
+                {
+                    Utility.ColorPicker(player3.PlayerColorIndex);
+                    Console.WriteLine($"congratualations to player 4 for winning the game!");
+                    Console.ResetColor();
+                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player4.PlayerName, player4.TurnCount, player4.HeldCardCount, player4.OwnedPropertyCount);
+                }
+                else
+                {
+                    Utility.DisplayError("!! error: multiple players were active or all were inactive");
+                }
+                Console.WriteLine("\nthank you for playing!\n\n");
+                Utility.GameOver = true;
+            }
+        }
+        internal static void KillPlayer(Player playerX)
+        {
+            // deactivates a player, returns their properties to the board, decreases current # of players
+            int index;
+            Utility.CurrentNumberOfPlayers--;
+            Utility.ColorPicker(playerX.PlayerColorIndex);
+            Console.WriteLine(playerX.PlayerName + " has bankrupted! they are no longer in the game!\n");
+            Console.ResetColor();
+            if (Utility.CurrentNumberOfPlayers >= 2)
+            {
+                Console.WriteLine($"good luck to the remaining {Utility.CurrentNumberOfPlayers} players!\n");
+                string[] propertyArray = playerX.OwnedProperties.Split(',');
+                for (int i = 0; i < propertyArray.Length; i++)
+                {
+                    if (!string.IsNullOrWhiteSpace(propertyArray[i]))
+                    {
+                        index = int.Parse(propertyArray[i].TrimStart('0'));
+                        PropertyCard.Owned[index] = false;
+                        PropertyCard.ChangeToUnowned(playerX, i);
+                        playerX.OwnedPropertyCount--;
+                        Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
+                    }
+                }
+                Console.WriteLine();
+                playerX.OwnedProperties = "";
+                playerX.HeldCardCount = 0;
+                playerX.DrawnCards = "";
+            }
+            playerX.Active = false;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,10 +23,10 @@ namespace IGME105_HW_cda7733
 
         static int[] currentPropertyValue = 
         {
-            10,10,10,10,10,10,10,10,10,10,
-            10,10,10,10,10,10,10,10,10,10,
-            10,10,10,10,10,10,10,10,10,10,
-            10,10,10,10,10,10,10,10,10,10
+            10,10,10,10,10,15,10,10,10,10,
+            20,15,15,15,15,20,15,15,15,15,
+            20,20,20,20,20,25,20,20,20,20,
+            25,25,25,25,25,30,25,25,25,25
         };
         internal static int[] CurrentPropertyValue
         {
@@ -34,10 +35,10 @@ namespace IGME105_HW_cda7733
         }
         static int[] maxPropertyValue =
         {
-            10,10,10,10,10,10,10,10,10,10,
-            10,10,10,10,10,10,10,10,10,10,
-            10,10,10,10,10,10,10,10,10,10,
-            10,10,10,10,10,10,10,10,10,10
+            10,10,10,10,10,15,10,10,10,10,
+            20,15,15,15,15,20,15,15,15,15,
+            20,20,20,20,20,25,20,20,20,20,
+            25,25,25,25,25,30,25,25,25,25
         };
         internal static int[] MaxPropertyValue
         {
@@ -45,10 +46,10 @@ namespace IGME105_HW_cda7733
         }
         static int[] damageMultiplier =
         {
-            1,1,1,1,1,1,1,1,1,1,
-            2,2,2,2,2,2,2,2,2,2,
-            3,3,3,3,3,3,3,3,3,3,
-            4,4,4,4,4,4,4,4,4,4
+            1,1,1,1,1,2,1,1,1,1,
+            1,2,2,2,2,3,2,2,2,2,
+            3,3,3,3,3,4,3,3,3,3,
+            4,4,4,4,4,5,4,4,4,4
         };
         internal static int[] DamageMultiplier
         {
@@ -120,16 +121,27 @@ namespace IGME105_HW_cda7733
             int houseUpgrades (how much each house upgrade increases pv)
             int hotelUpgrades (multiply it with houseUpgrades)
         } */
+        internal static void ChangeToOwned(Player playerX, int index)
+        {
+
+            owned[index] = true;
+            Spaces.SpaceType[index] = "OP";
+        }
+        internal static void ChangeToUnowned(Player playerX, int index)
+        {
+            owned[index] = false;
+            Spaces.SpaceType[index] = "UP";
+        }
         internal static void AcquirePropertyCard(int playerNumber, Player playerX)
         {
             // first properties given
             // gives players one of the first row of properties, auto-equips it, and increases their owned property count
             switch (playerNumber)
             {
-                case 1: playerX.OwnedProperties = "01"; owned[1] = true; Utility.EquipNewCard(playerX, 1); playerX.OwnedPropertyCount++; break;
-                case 2: playerX.OwnedProperties = "03"; owned[3] = true; Utility.EquipNewCard(playerX, 3); playerX.OwnedPropertyCount++; break;
-                case 3: playerX.OwnedProperties = "06"; owned[6] = true; Utility.EquipNewCard(playerX, 6); playerX.OwnedPropertyCount++; break;
-                case 4: playerX.OwnedProperties = "08"; owned[8] = true; Utility.EquipNewCard(playerX, 8); playerX.OwnedPropertyCount++; break;
+                case 1: playerX.OwnedProperties = "01"; ChangeToOwned(playerX, 01); Utility.EquipNewCard(playerX, 1); playerX.OwnedPropertyCount++; break;
+                case 2: playerX.OwnedProperties = "03"; ChangeToOwned(playerX, 03); Utility.EquipNewCard(playerX, 3); playerX.OwnedPropertyCount++; break;
+                case 3: playerX.OwnedProperties = "06"; ChangeToOwned(playerX, 06); Utility.EquipNewCard(playerX, 6); playerX.OwnedPropertyCount++; break;
+                case 4: playerX.OwnedProperties = "08"; ChangeToOwned(playerX, 08); Utility.EquipNewCard(playerX, 8); playerX.OwnedPropertyCount++; break;
                 default: Utility.DisplayError("!! error: invalid player index"); break;
             }
         }
@@ -138,7 +150,8 @@ namespace IGME105_HW_cda7733
             // gives players the property they're on and increases their owned property count
             playerX.OwnedPropertyCount++;
             playerX.OwnedProperties = playerX.OwnedProperties + "," + PropertyID[playerX.PlayerLocation];
-            owned[playerX.PlayerLocation] = true;
+            CurrentPropertyValue[playerX.PlayerLocation] = MaxPropertyValue[playerX.PlayerLocation];
+            ChangeToOwned(playerX, playerX.PlayerLocation);
         }
     }
 }

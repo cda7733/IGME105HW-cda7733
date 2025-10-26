@@ -28,6 +28,13 @@ namespace IGME105_HW_cda7733
         {
             get { return maxPlayers; }
         }
+        static int currentMaxPlayers;
+        internal static int CurrentMaxPlayers
+        {
+            get { return currentMaxPlayers; }
+            set { currentMaxPlayers = value; }
+            
+        }
         const int maxSpaces = 40;
         internal static int MaxSpaces
         {
@@ -51,73 +58,120 @@ namespace IGME105_HW_cda7733
             // creates 2 players
             player1.Active = true;
             player1.PlayerIndex = 0;
-            player1.PromptName();
-            player1.PromptToken();
-            player1.PromptColor();
+            bool complete1 = false;
+            while (!complete1)
+            {
+                player1.PromptName();
+                player1.PromptToken();
+                player1.PromptColor();
+                complete1 = VerifyGivenInfo(player1);
+            }
             PropertyCard.AcquirePropertyCard(1, player1);
             
-
             player2.Active = true;
             player2.PlayerIndex = 1;
-            player2.PromptName();
-            player2.PromptToken();
-            player2.PromptColor();
+            bool complete2 = false;
+            while (!complete2)
+            {
+                player2.PromptName();
+                player2.PromptToken();
+                player2.PromptColor();
+                complete2 = VerifyGivenInfo(player2);
+            }
             PropertyCard.AcquirePropertyCard(2, player2);
+            Console.Clear();
         }
         internal static void CreatePlayers(Player player1, Player player2, Player player3)
         {
             // creates 3 players
             player1.Active = true;
             player1.PlayerIndex = 0;
-            player1.PromptName();
-            player1.PromptToken();
-            player1.PromptColor();
+            bool complete1 = false;
+            while (!complete1)
+            {
+                player1.PromptName();
+                player1.PromptToken();
+                player1.PromptColor();
+                complete1 = VerifyGivenInfo(player1);
+            }
             PropertyCard.AcquirePropertyCard(1, player1);
 
             player2.Active = true;
             player2.PlayerIndex = 1;
-            player2.PromptName();
-            player2.PromptToken();
-            player2.PromptColor();
+            bool complete2 = false;
+            while (!complete2)
+            {
+                player2.PromptName();
+                player2.PromptToken();
+                player2.PromptColor();
+                complete2 = VerifyGivenInfo(player2);
+            }
             PropertyCard.AcquirePropertyCard(2, player2);
 
             player3.Active = true;
             player3.PlayerIndex = 2;
-            player3.PromptName();
-            player3.PromptToken();
-            player3.PromptColor();
+            bool complete3 = false;
+            while (!complete3)
+            {
+                player3.PromptName();
+                player3.PromptToken();
+                player3.PromptColor();
+                complete3 = VerifyGivenInfo(player3);
+            }
             PropertyCard.AcquirePropertyCard(3, player3);
+            Console.Clear();
         }
         internal static void CreatePlayers(Player player1, Player player2, Player player3, Player player4)
         {
             // creates 3 players
             player1.Active = true;
             player1.PlayerIndex = 0;
-            player1.PromptName();
-            player1.PromptToken();
-            player1.PromptColor();
+            bool complete1 = false;
+            while (!complete1)
+            {
+                player1.PromptName();
+                player1.PromptToken();
+                player1.PromptColor();
+                complete1 = VerifyGivenInfo(player1);
+            }
             PropertyCard.AcquirePropertyCard(1, player1);
 
             player2.Active = true;
             player2.PlayerIndex = 1;
-            player2.PromptName();
-            player2.PromptToken();
-            player2.PromptColor();
+            bool complete2 = false;
+            while (!complete2)
+            {
+                player2.PromptName();
+                player2.PromptToken();
+                player2.PromptColor();
+                complete2 = VerifyGivenInfo(player2);
+            }
             PropertyCard.AcquirePropertyCard(2, player2);
 
             player3.Active = true;
             player3.PlayerIndex = 2;
-            player3.PromptName();
-            player3.PromptToken();
-            player3.PromptColor();
+            bool complete3 = false;
+            while (!complete3)
+            {
+                player3.PromptName();
+                player3.PromptToken();
+                player3.PromptColor();
+                complete3 = VerifyGivenInfo(player3);
+            }
             PropertyCard.AcquirePropertyCard(3, player3);
 
             player4.Active = true;
             player4.PlayerIndex = 3;
-            player4.PromptName();
-            player4.PromptToken();
-            player4.PromptColor();
+            bool complete4 = false;
+            while (!complete4)
+            {
+                player4.PromptName();
+                player4.PromptToken();
+                player4.PromptColor();
+                complete4 = VerifyGivenInfo(player4);
+            }
             PropertyCard.AcquirePropertyCard(4, player4);
+            Console.Clear();
         }
         internal static void DisplayAvailableColors()
         {
@@ -158,7 +212,9 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("players can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.");
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\nDEMO INFO (you can just read this)"); Console.ResetColor();
             Console.WriteLine("this current iteration does not have AI players yet, nor battle between players or a trade menu");
-            Console.WriteLine("win condition: everyone else dies. player health is nerfed to facilitate this.\nplayers can only take damage from tax spaces.");
+            Console.WriteLine("WIN CONDITION: everyone else dies. player health is nerfed to facilitate this.\nplayers can only take damage from tax spaces.");
+            Console.WriteLine("to make testing easier, there is a cheat menu which allows you to eliminate players");
+
         }
         internal static void PromptMaxPlayers()
         {
@@ -177,6 +233,7 @@ namespace IGME105_HW_cda7733
                     }
                     else
                     {
+                        CurrentMaxPlayers = players;
                         Utility.CurrentNumberOfPlayers = players;
                         done = true;
                     }
@@ -194,11 +251,11 @@ namespace IGME105_HW_cda7733
             while (done == false)
             {
                 Console.WriteLine($"welcome to {gameName}!\n");
-                Console.Write("it is recommended for you to read the rules. would you like to? (y/n): ");
+                Console.Write("would you like to view the rules? (y/n): ");
                 string input = Console.ReadLine().Trim().ToLower();
                 if (input.StartsWith("y"))
                 {
-                    GameSetup.DisplayRules();
+                    DisplayRules();
                     done = true;
                 }
                 else if (input.StartsWith("n"))
@@ -207,9 +264,38 @@ namespace IGME105_HW_cda7733
                 }
                 else
                 {
-                    Utility.DisplayError("invalid answer, try again!\n");
+                    Utility.DisplayError("invalid input! please enter a 'y' or an 'n'");
                 }
             }
+        }
+        internal static bool VerifyGivenInfo(Player playerX)
+        {
+            Console.Clear();
+            string input;
+            bool done = false;
+            bool correct = false;
+            Console.WriteLine("is this information correct?");
+            playerX.DisplaySimplePlayerInfo();
+            Console.WriteLine("\n(y/n): ");
+            while (!done)
+            {
+                input = Console.ReadLine().Trim().ToLower();
+                if (input.StartsWith("y"))
+                {
+                    correct = true;
+                    done = true;
+                }
+                else if (input.StartsWith("n"))
+                {
+                    correct = false;
+                    done = true;
+                }
+                else
+                {
+                    Utility.DisplayError("invalid input! please enter a 'y' or an 'n'");
+                }
+            }
+            return correct;
         }
         internal static void DetermineCreationAmount(Player player1, Player player2, Player player3, Player player4)
         {

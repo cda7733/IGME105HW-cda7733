@@ -42,7 +42,7 @@ namespace IGME105_HW_cda7733
             set { playerIndex = value; }
         }
 
-        int playerTokenIndex; // used for indexing & tracking which tokens are taken by other players
+        int playerTokenIndex;
         internal int PlayerTokenIndex
         {
             get { return playerTokenIndex; }
@@ -69,20 +69,20 @@ namespace IGME105_HW_cda7733
         {
             get { return  playerColorNames; }
         }
-        string drawnCards = "";
+        string drawnCards = ""; // formatted 
         internal string DrawnCards
         {
             get { return drawnCards; }
             set {  drawnCards = value; }
         }
-        int heldCardCount = 0;
+        int heldCardCount = 0; // formatted as chanceX or chestX, ex. chance2, chest11
         internal int HeldCardCount
         {
             get { return heldCardCount; }
             set { heldCardCount = value; }
         }
 
-        string ownedProperties = ""; // formatted with their as 00. boardwalk = 39. 
+        string ownedProperties = ""; // formatted as 00, ex. boardwalk = 39
         internal string OwnedProperties
         {
             get { return ownedProperties; }
@@ -248,6 +248,16 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("  token: " + PlayerTokenName[playerTokenIndex]);
             Console.WriteLine("  color: " + PlayerColorNames[PlayerColorIndex]);
             Console.WriteLine("  turn: " + TurnCount);
+            Console.ResetColor();
+        }
+        internal void DisplaySimplePlayerInfo()
+        {
+            // displays a bit of player info to the console, used for verification during setup
+            Utility.ColorPicker(PlayerColorIndex);
+            Console.WriteLine($"\nplayer {PlayerIndex + 1} info");
+            Console.WriteLine("  name: " + PlayerName);
+            Console.WriteLine("  token: " + PlayerTokenName[playerTokenIndex]);
+            Console.WriteLine("  color: " + PlayerColorNames[PlayerColorIndex]);
             Console.ResetColor();
         }
     }
