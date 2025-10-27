@@ -235,6 +235,8 @@ namespace IGME105_HW_cda7733
         internal static void CheckWin(List<Player> players)
         {
             // checks if there is only one player, then the game ends. displays winner info between 2 players
+            players.RemoveAll(player => !player.Active);
+
             if (players.Count <= 1)
             {
                 Utility.ColorPicker(players[0].PlayerColorIndex);
@@ -269,9 +271,10 @@ namespace IGME105_HW_cda7733
                     }
                 }
                 Console.WriteLine();
+                
                 playerX.OwnedProperties = "";
                 playerX.HeldCardCount = 0;
-                playerX.DrawnCards = "";
+                playerX.DrawnCards = ""; 
             }
             playerX.Active = false;
         }

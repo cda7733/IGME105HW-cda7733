@@ -167,6 +167,7 @@ namespace IGME105_HW_cda7733
                 }
                 else if (input.StartsWith("n"))
                 {
+                    playerX.PlayerName = "";
                     correct = false;
                     done = true;
                 }
