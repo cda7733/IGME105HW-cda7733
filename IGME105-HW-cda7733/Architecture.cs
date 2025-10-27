@@ -30,17 +30,15 @@ namespace IGME105_HW_cda7733
         static void Main(string[] args)
         {
             
+            List<Player>players = new List<Player>();
+
             GameSetup.Startup();
-
-            Player player1 = new Player();  Player player2 = new Player();
-            Player player3 = new Player();  Player player4 = new Player();
-
-            GameSetup.DetermineCreationAmount(player1, player2, player3, player4);
+            GameSetup.CreatePlayers(players);
             
             // this is the whole game
             while (Utility.GameOver == false)
             {
-                GameEngine.GameplayLoop(player1, player2, player3, player4);
+                GameEngine.GameplayLoop(players);
             }
         }
     }

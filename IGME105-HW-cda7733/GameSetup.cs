@@ -53,126 +53,6 @@ namespace IGME105_HW_cda7733
             PromptMaxPlayers();
 
         }
-        internal static void CreatePlayers(Player player1, Player player2)
-        {
-            // creates 2 players
-            player1.Active = true;
-            player1.PlayerIndex = 0;
-            bool complete1 = false;
-            while (!complete1)
-            {
-                player1.PromptName();
-                player1.PromptToken();
-                player1.PromptColor();
-                complete1 = VerifyGivenInfo(player1);
-            }
-            PropertyCard.AcquirePropertyCard(1, player1);
-            
-            player2.Active = true;
-            player2.PlayerIndex = 1;
-            bool complete2 = false;
-            while (!complete2)
-            {
-                player2.PromptName();
-                player2.PromptToken();
-                player2.PromptColor();
-                complete2 = VerifyGivenInfo(player2);
-            }
-            PropertyCard.AcquirePropertyCard(2, player2);
-            Console.Clear();
-        }
-        internal static void CreatePlayers(Player player1, Player player2, Player player3)
-        {
-            // creates 3 players
-            player1.Active = true;
-            player1.PlayerIndex = 0;
-            bool complete1 = false;
-            while (!complete1)
-            {
-                player1.PromptName();
-                player1.PromptToken();
-                player1.PromptColor();
-                complete1 = VerifyGivenInfo(player1);
-            }
-            PropertyCard.AcquirePropertyCard(1, player1);
-
-            player2.Active = true;
-            player2.PlayerIndex = 1;
-            bool complete2 = false;
-            while (!complete2)
-            {
-                player2.PromptName();
-                player2.PromptToken();
-                player2.PromptColor();
-                complete2 = VerifyGivenInfo(player2);
-            }
-            PropertyCard.AcquirePropertyCard(2, player2);
-
-            player3.Active = true;
-            player3.PlayerIndex = 2;
-            bool complete3 = false;
-            while (!complete3)
-            {
-                player3.PromptName();
-                player3.PromptToken();
-                player3.PromptColor();
-                complete3 = VerifyGivenInfo(player3);
-            }
-            PropertyCard.AcquirePropertyCard(3, player3);
-            Console.Clear();
-        }
-        internal static void CreatePlayers(Player player1, Player player2, Player player3, Player player4)
-        {
-            // creates 3 players
-            player1.Active = true;
-            player1.PlayerIndex = 0;
-            bool complete1 = false;
-            while (!complete1)
-            {
-                player1.PromptName();
-                player1.PromptToken();
-                player1.PromptColor();
-                complete1 = VerifyGivenInfo(player1);
-            }
-            PropertyCard.AcquirePropertyCard(1, player1);
-
-            player2.Active = true;
-            player2.PlayerIndex = 1;
-            bool complete2 = false;
-            while (!complete2)
-            {
-                player2.PromptName();
-                player2.PromptToken();
-                player2.PromptColor();
-                complete2 = VerifyGivenInfo(player2);
-            }
-            PropertyCard.AcquirePropertyCard(2, player2);
-
-            player3.Active = true;
-            player3.PlayerIndex = 2;
-            bool complete3 = false;
-            while (!complete3)
-            {
-                player3.PromptName();
-                player3.PromptToken();
-                player3.PromptColor();
-                complete3 = VerifyGivenInfo(player3);
-            }
-            PropertyCard.AcquirePropertyCard(3, player3);
-
-            player4.Active = true;
-            player4.PlayerIndex = 3;
-            bool complete4 = false;
-            while (!complete4)
-            {
-                player4.PromptName();
-                player4.PromptToken();
-                player4.PromptColor();
-                complete4 = VerifyGivenInfo(player4);
-            }
-            PropertyCard.AcquirePropertyCard(4, player4);
-            Console.Clear();
-        }
         internal static void DisplayAvailableColors()
         {
             // displays colors availablee for player text
@@ -297,15 +177,23 @@ namespace IGME105_HW_cda7733
             }
             return correct;
         }
-        internal static void DetermineCreationAmount(Player player1, Player player2, Player player3, Player player4)
+        internal static void CreatePlayers(List<Player> players)
         {
-            // creates 2,3, or 4 players
-            switch (Utility.CurrentNumberOfPlayers)
+            for (int i = 0; i < CurrentMaxPlayers; i++)
             {
-                case 2: CreatePlayers(player1, player2); break;
-                case 3: CreatePlayers(player1, player2, player3); break;
-                case 4: CreatePlayers(player1, player2, player3, player4); break;
-                default: break;
+                players.Add(new Player());
+                players[i].Active = true;
+                bool complete = false;
+                while (!complete)
+                {
+                    players[i].PlayerIndex = i;
+                    players[i].PromptName();
+                    players[i].PromptToken();
+                    players[i].PromptColor();
+                    complete = VerifyGivenInfo(players[i]);
+                    PropertyCard.AcquirePropertyCard(i + 1, players[i]);
+                    Console.Clear();
+                }
             }
         }
     }

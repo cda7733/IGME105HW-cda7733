@@ -223,176 +223,24 @@ namespace IGME105_HW_cda7733
             playerX.HeldCardCount++;
             return cardIndex;
         }
-
-        internal static void Turn(Player player1, Player player2)
+        internal static void GameplayLoop(List<Player> players)
         {
-            // cycles between 2 players turns if they are alive/active, else it skips
-            if (player1.Active == true)
+            foreach (Player player in players)
             {
-                PlayerAction(player1);
-                CheckWin(player1, player2);
-                if (Utility.GameOver) return;
-            }
-            if (player2.Active == true)
-            {
-                PlayerAction(player2);
-                CheckWin(player1, player2);
+                PlayerAction(player);
+                CheckWin(players);
                 if (Utility.GameOver) return;
             }
         }
-        internal static void Turn(Player player1, Player player2, Player player3)
-        {
-            // cycles between 2 players turns if they are alive/active, else it skips
-            if (player1.Active == true)
-            {
-                PlayerAction(player1);
-                CheckWin(player1, player2, player3);
-                if (Utility.GameOver) return;
-            }
-            if (player2.Active == true)
-            {
-                PlayerAction(player2);
-                CheckWin(player1, player2, player3);
-                if (Utility.GameOver) return;
-            }
-            if (player3.Active)
-            {
-                PlayerAction(player3);
-                CheckWin(player1, player2, player3);
-                if (Utility.GameOver) return;
-            }
-        }
-        internal static void Turn(Player player1, Player player2, Player player3, Player player4)
-        {
-            // cycles between 2 players turns if they are alive/active, else it skips
-            if (player1.Active == true)
-            {
-                PlayerAction(player1);
-                CheckWin(player1, player2, player3, player4);
-                if (Utility.GameOver) return;
-            }
-            if (player2.Active == true)
-            {
-                PlayerAction(player2);
-                CheckWin(player1, player2, player3, player4);
-                if (Utility.GameOver) return;
-            }
-            if (player3.Active)
-            {
-                PlayerAction(player3);
-                CheckWin(player1, player2, player3, player4);
-                if (Utility.GameOver) return;
-            }
-            if (player4.Active)
-            {
-                PlayerAction(player4);
-                CheckWin(player1, player2, player3, player4);
-                if (Utility.GameOver) return;
-            }
-        }
-        internal static void GameplayLoop(Player player1, Player player2, Player player3, Player player4)
-        {
-            // loops for 2, 3, and 4 players
-            switch (Utility.CurrentNumberOfPlayers)
-            {
-                case 2: Turn(player1, player2); break;
-                case 3: Turn(player1, player2, player3); break;
-                case 4: Turn(player1, player2, player3, player4); break;
-                default: break;
-            }
-        }
-        internal static void CheckWin(Player player1, Player player2)
+        internal static void CheckWin(List<Player> players)
         {
             // checks if there is only one player, then the game ends. displays winner info between 2 players
-            if (Utility.CurrentNumberOfPlayers <= 1)
+            if (players.Count <= 1)
             {
-
-                if (player1.Active == true && player2.Active == false)
-                {
-                    Utility.ColorPicker(player1.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 1 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == true)
-                {
-                    Utility.ColorPicker(player2.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 2 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
-                }
-                Console.WriteLine("\nthank you for playing!\n\n");
-                Utility.GameOver = true;
-            }
-        }
-        internal static void CheckWin(Player player1, Player player2, Player player3)
-        {
-            // checks if there is only one player, then the game ends. displays winner info between 2 players
-            if (Utility.CurrentNumberOfPlayers <= 1)
-            {
-                if (player1.Active == true && player2.Active == false && player3.Active == false)
-                {
-                    Utility.ColorPicker(player1.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 1 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == true && player3.Active == false)
-                {
-                    Utility.ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 2 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == false && player3.Active == true)
-                {
-                    Utility.ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 3 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player3.PlayerName, player3.TurnCount, player3.HeldCardCount, player3.OwnedPropertyCount);
-                }
-                Console.WriteLine("\nthank you for playing!\n\n");
-                Utility.GameOver = true;
-            }
-        }
-        internal static void CheckWin(Player player1, Player player2, Player player3, Player player4)
-        {
-            // checks if there is only one player, then the game ends. displays winner info between 2 players
-            if (Utility.CurrentNumberOfPlayers <= 1)
-            {
-
-                if (player1.Active == true && player2.Active == false && player3.Active == false && player4.Active == false)
-                {
-                    Utility.ColorPicker(player1.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 1 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player1.PlayerName, player1.TurnCount, player1.HeldCardCount, player1.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == true && player3.Active == false && player4.Active == false)
-                {
-                    Utility.ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 2 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player2.PlayerName, player2.TurnCount, player2.HeldCardCount, player2.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == false && player3.Active == true && player4.Active == false)
-                {
-                    Utility.ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 3 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player3.PlayerName, player3.TurnCount, player3.HeldCardCount, player3.OwnedPropertyCount);
-                }
-                else if (player1.Active == false && player2.Active == false && player3.Active == false && player4.Active == true)
-                {
-                    Utility.ColorPicker(player3.PlayerColorIndex);
-                    Console.WriteLine($"congratualations to player 4 for winning the game!");
-                    Console.ResetColor();
-                    Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", player4.PlayerName, player4.TurnCount, player4.HeldCardCount, player4.OwnedPropertyCount);
-                }
-                else
-                {
-                    Utility.DisplayError("!! error: multiple players were active or all were inactive");
-                }
+                Utility.ColorPicker(players[0].PlayerColorIndex);
+                Console.WriteLine($"congratualations to player 1 for winning the game!");
+                Console.ResetColor();
+                Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", players[0].PlayerName, players[0].TurnCount, players[0].HeldCardCount, players[0].OwnedPropertyCount);
                 Console.WriteLine("\nthank you for playing!\n\n");
                 Utility.GameOver = true;
             }
