@@ -57,7 +57,7 @@ namespace IGME105_HW_cda7733
                     case "1": Utility.DisplayHeldCards(playerX); break;
                     case "2": Utility.DisplayOwnedProperties(playerX); break;
                     case "3":
-                        Console.WriteLine($"{playerX.PlayerName} is currently on {Spaces.SpaceNameArray[playerX.PlayerLocation]}, a {Utility.TranslateSpaceType(playerX)} space.\n");
+                        Console.WriteLine($"{playerX.PlayerName} is currently on {Spaces.SpaceNameArray[playerX.PlayerLocation]}, a {Utility.TranslateSpaceType(playerX,Utility.SpaceTypes)} space.\n");
                         attacked = CheckUnownedProperty(playerX, attacked); break;
                     case "4": Menu(playerX); break;
                     case "5": Console.WriteLine("this is where the trade menu will be!\n"); break;

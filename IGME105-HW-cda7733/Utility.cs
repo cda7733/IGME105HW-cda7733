@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 /*
  * program name: IGME105 monopoly game
@@ -48,6 +49,24 @@ namespace IGME105_HW_cda7733
             get { return cardQuantity; }
             set {  cardQuantity = value; }
         }
+
+        internal static Dictionary<string, string> SpaceTypes = new Dictionary<string, string>()
+        {
+            {"GO","go"},{"OP","owned property"}, {"UP","unowned property"}, {"CH","chance"}, 
+            {"CO","community chest"}, {"TX","tax"}, {"UT","utility"}, {"VS","vansalism"}
+            /*
+                case "GO": typeName = "go"; break;
+                case "OP": typeName = "owned property"; break;
+                case "UP": typeName = "unowned property"; break;
+                case "CH": typeName = "chance"; break;
+                case "CO": typeName = "community chest"; break;
+                case "TX": typeName = "tax"; break;
+                case "UT": typeName = "utility"; break;
+                case "VS": typeName = "vandalism"; break;
+                default: typeName = "non-existent"; break;
+             */
+        };
+        
 
         internal static void SpaceAction(Player playerX)
         {
@@ -187,6 +206,7 @@ namespace IGME105_HW_cda7733
             {
                 input = Console.ReadLine().Trim().ToLower();
                 Console.Clear();
+
                 if (input.StartsWith("y"))
                 {
                     EquipNewCard(playerX);
@@ -288,29 +308,14 @@ namespace IGME105_HW_cda7733
             }
             return propertyName;
         }
-        internal static string TranslateSpaceType(Player playerX)
+        internal static string TranslateSpaceType(Player playerX, Dictionary<string,string> translations)
         {
             // changes space identifier to text
-
-
-
-            string typeName = "";
-            string spaceType = Spaces.SpaceType[playerX.PlayerLocation];
             
-            switch (spaceType)
-            {
-                case "GO": typeName = "go"; break;
-                case "OP": typeName = "owned property"; break;
-                case "UP": typeName = "unowned property"; break;
-                case "CH": typeName = "chance"; break;
-                case "CO": typeName = "community chest"; break;
-                case "TX": typeName = "tax"; break;
-                case "UT": typeName = "utility"; break;
-                case "VS": typeName = "vandalism"; break;
-                default: typeName = "non-existent"; break;
-            } 
-
-            return typeName;
+            string typeName = "";
+            string type = Spaces.SpaceType[playerX.PlayerLocation];
+            type = translations.ContainsKey(type) ? typeName = translations[type]: typeName = "ERROR";
+            return typeName; 
         }
     }
 }
