@@ -179,7 +179,6 @@ namespace IGME105_HW_cda7733
                 Console.WriteLine($"which token would you like this player to be? please enter a single number.");
                 Console.WriteLine(" 0. cat \n 1. dog \n 2. car \n 3. thimble \n 4. ship \n 5. shoe \n 6. tophat \n 7. wheelbarrow");
                 string chosenTokenNumber = Console.ReadLine().Trim();
-                // make an array that translates the numerical id of the token to the name. wrap it in an if statement that checks if its a valid number
                 try
                 {
                     playerTokenIndex = int.Parse(chosenTokenNumber);
@@ -230,7 +229,7 @@ namespace IGME105_HW_cda7733
                 }
                 catch
                 {
-                    Utility.DisplayError("please enter a valid number!");
+                    Utility.DisplayError("invalid entry! enter a numerical value. (0,1,2,3..)");
                 }
                 Console.WriteLine($"{playerName}'s color will be ");
             }

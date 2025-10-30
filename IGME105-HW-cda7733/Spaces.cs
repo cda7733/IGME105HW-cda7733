@@ -17,6 +17,7 @@ using System.Threading.Tasks;
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 10/15/2025 - added a bunch of methods for each space. they basically js print to console.
+ * 10/30/2025 - changed the if statement in PropertySpace(..) to a ternary
  */
 
 namespace IGME105_HW_cda7733
@@ -107,19 +108,10 @@ namespace IGME105_HW_cda7733
         }
         internal static void PropertySpace(Player playerX)
         {
-            
-            if (PropertyCard.Owned[playerX.PlayerLocation] == true)
-            {
-                Console.WriteLine("they landed on an owned property!\nand will now enter battle with the owner!\n");
-            }
-            else if (PropertyCard.Owned[playerX.PlayerLocation] == false)
-            {
-                Console.WriteLine("they have landed on an unowned property!\nand can damage the property to try and obtain it.\n");
-            }
-            else
-            {
-                Utility.DisplayError("!! error: ownership status unavailable.\n");
-            }
+            string message = (PropertyCard.Owned[playerX.PlayerLocation] == true) ? "they landed on an owned property!\nand will now enter battle with the owner!\n":
+            (PropertyCard.Owned[playerX.PlayerLocation] == false) ? "they have landed on an unowned property!\nand can damage the property to try and obtain it.\n":
+            "!! error: ownership status unavailable.\n";
+            Console.WriteLine(message);
         }
     }
 }

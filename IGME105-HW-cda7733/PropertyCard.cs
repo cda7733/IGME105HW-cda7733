@@ -121,6 +121,7 @@ namespace IGME105_HW_cda7733
             int houseUpgrades (how much each house upgrade increases pv)
             int hotelUpgrades (multiply it with houseUpgrades)
         } */
+        
         internal static void ChangeToOwned(Player playerX, int index)
         {
 

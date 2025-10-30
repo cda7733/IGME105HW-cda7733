@@ -6,6 +6,14 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * program name: IGME105 monopoly game
+ * created by: charisma allen
+ * purpose: make monopoly more fun by making it a card battler
+ * 
+ * 10/30/2025 - changed the if statements in PullChance(..), PullChest(..), and PlayerAction(..) to a ternary
+ */
+
 namespace IGME105_HW_cda7733
 {
     internal static class GameEngine
@@ -24,17 +32,10 @@ namespace IGME105_HW_cda7733
 
                 Console.ResetColor();
                 Console.WriteLine($"what would they like to do?\n");
-
-                if (rolled == false)
-                {
-                    // just landed
-                    Console.WriteLine("0. roll\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade");
-                }
-                else if (rolled == true)
-                {
-                    // rolled, but hasn't attacked
-                    Console.WriteLine("0. end turn\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade");
-                }
+                // just landed vs rolled but hasn't attacked
+                string choices = (rolled == false) ? "0. roll\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade" :
+                    "0. end turn\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade";
+                Console.WriteLine(choices);
                 string input = Console.ReadLine().Trim().ToLower();
                 Console.Clear();
 
@@ -189,14 +190,8 @@ namespace IGME105_HW_cda7733
             Console.ResetColor();
             int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
             string currentCardTitle;
-            if (String.IsNullOrEmpty(playerX.DrawnCards))
-            {
-                playerX.DrawnCards = playerX.DrawnCards + "chance" + cardIndex;
-            }
-            else
-            {
+            playerX.DrawnCards = (String.IsNullOrEmpty(playerX.DrawnCards)) ? playerX.DrawnCards + "chance" + cardIndex :
                 playerX.DrawnCards = playerX.DrawnCards + ",chance" + cardIndex;
-            }
             currentCardTitle = "chance" + cardIndex;
             Console.WriteLine($"it says: {Utility.TranslateCard(currentCardTitle)}\n");
             playerX.HeldCardCount++;
@@ -210,14 +205,8 @@ namespace IGME105_HW_cda7733
             Console.ResetColor();
             int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
             string currentCardTitle;
-            if (String.IsNullOrEmpty(playerX.DrawnCards))
-            {
-                playerX.DrawnCards = playerX.DrawnCards + "chest" + cardIndex;
-            }
-            else
-            {
+            playerX.DrawnCards = (String.IsNullOrEmpty(playerX.DrawnCards)) ? playerX.DrawnCards + "chest" + cardIndex :
                 playerX.DrawnCards = playerX.DrawnCards + ",chest" + cardIndex;
-            }
             currentCardTitle = "chest" + cardIndex;
             Console.WriteLine($"it says: {Utility.TranslateCard(currentCardTitle)}\n");
             playerX.HeldCardCount++;

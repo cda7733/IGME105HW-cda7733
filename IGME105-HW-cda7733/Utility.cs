@@ -11,6 +11,7 @@ using System.Collections.Generic;
  * 09/26/2025 - gave variables properties, all methods do somethingg
  * 10/10/2025 - added roll for movement & first property
  * 10/15/2025 - added a switch case block to trigger space events
+ * 10/30/2025 - changed the if statement in TranslateSpaceType(..) to a ternary
  */
 
 namespace IGME105_HW_cda7733
@@ -122,7 +123,7 @@ namespace IGME105_HW_cda7733
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     break;
                 default:
-                    goto case 2;
+                    goto case 3;
             }
         }
 
@@ -312,9 +313,8 @@ namespace IGME105_HW_cda7733
         {
             // changes space identifier to text
             
-            string typeName = "";
             string type = Spaces.SpaceType[playerX.PlayerLocation];
-            type = translations.ContainsKey(type) ? typeName = translations[type]: typeName = "ERROR";
+            string typeName = translations.ContainsKey(type) ? translations[type]: "ERROR";
             return typeName; 
         }
     }
