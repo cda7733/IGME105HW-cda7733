@@ -58,6 +58,7 @@ namespace IGME105_HW_cda7733
                     case "1": Utility.DisplayHeldCards(playerX); break;
                     case "2": Utility.DisplayOwnedProperties(playerX); break;
                     case "3":
+                        playerX.OnSpaceType = Spaces.SpaceType[playerX.PlayerLocation]; 
                         Console.WriteLine($"{playerX.PlayerName} is currently on {Spaces.SpaceNameArray[playerX.PlayerLocation]}, a {Utility.TranslateSpaceType(playerX,Utility.SpaceTypes)} space.\n");
                         attacked = CheckUnownedProperty(playerX, attacked); break;
                     case "4": Menu(playerX); break;
@@ -97,7 +98,7 @@ namespace IGME105_HW_cda7733
             {
                 while (!done && Utility.GameOver == false)
                 {
-                    Console.WriteLine("0. kill a player");
+                    Console.WriteLine("0. assassinate this player");
                     Console.WriteLine();
                     string selection = Console.ReadLine().Trim().ToLower();
                     switch (selection)
@@ -145,7 +146,7 @@ namespace IGME105_HW_cda7733
                             int damage = 0;
                             for (int i = 0; i < playerX.Dice; i++)
                             {
-                                damage += Utility.RNG.Next(2,13);
+                                damage += Utility.RNG.Next(1,7);
                             }
                             Console.WriteLine($"{playerX.PlayerName} did {damage} damage!\n");
                             PropertyCard.CurrentPropertyValue[playerX.PlayerLocation] -= damage;
@@ -220,12 +221,11 @@ namespace IGME105_HW_cda7733
                 CheckWin(players);
                 if (Utility.GameOver) return;
             }
+            players.RemoveAll(player => !player.Active);
         }
         internal static void CheckWin(List<Player> players)
         {
             // checks if there is only one player, then the game ends. displays winner info between 2 players
-            players.RemoveAll(player => !player.Active);
-
             if (players.Count <= 1)
             {
                 Utility.ColorPicker(players[0].PlayerColorIndex);
@@ -241,6 +241,7 @@ namespace IGME105_HW_cda7733
             // deactivates a player, returns their properties to the board, decreases current # of players
             int index;
             Utility.CurrentNumberOfPlayers--;
+            Console.Clear();
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine(playerX.PlayerName + " has bankrupted! they are no longer in the game!\n");
             Console.ResetColor();
@@ -250,6 +251,7 @@ namespace IGME105_HW_cda7733
                 string[] propertyArray = playerX.OwnedProperties.Split(',');
                 for (int i = 0; i < propertyArray.Length; i++)
                 {
+                    // this needs to be a for loop instead of foreach bc i need to track index
                     if (!string.IsNullOrWhiteSpace(propertyArray[i]))
                     {
                         index = int.Parse(propertyArray[i].TrimStart('0'));

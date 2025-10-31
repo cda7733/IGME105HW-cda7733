@@ -18,6 +18,7 @@ using System.Threading.Tasks;
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 10/15/2025 - added a bunch of methods for each space. they basically js print to console.
  * 10/30/2025 - changed the if statement in PropertySpace(..) to a ternary
+ * 10/31/2025 - comments
  */
 
 namespace IGME105_HW_cda7733
@@ -55,6 +56,7 @@ namespace IGME105_HW_cda7733
 
         internal static void GoSpace(Player playerX)
         {
+            // doesn't display message if it is the start of the game. tells the player they looped the board
             if (playerX.TurnCount != 1)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -66,7 +68,9 @@ namespace IGME105_HW_cda7733
         internal static void VandalismSpace(Player playerX)
         {
             Console.WriteLine("a free-for-all vandalism battle has been triggered!\n");
-            
+
+            // not making this a lambda bc i plan to add more to this
+
             // each player chooses a card to be in danger of being vandalized
             // player with the most amount of property damage done gets their property card full repaired
             // player w / the least amount of damage loses their property card
@@ -75,7 +79,7 @@ namespace IGME105_HW_cda7733
         }
         internal static void TaxSpace(Player playerX, Random rng)
         {
-            // 1-5 damage
+            // does damage to a player
             int damagedValue = rng.Next(10);
             Console.WriteLine($"-{damagedValue} to their health..");
             if (damagedValue == 0)
@@ -92,7 +96,7 @@ namespace IGME105_HW_cda7733
         }
         internal static void UtilitySpace (Player playerX, Random rng)
         {
-            // 1-20 healing
+            // heals a player
             int healedValue = rng.Next(10);
             Console.WriteLine($"+{healedValue} to their health!\n");
             if (healedValue == 0)
@@ -108,6 +112,7 @@ namespace IGME105_HW_cda7733
         }
         internal static void PropertySpace(Player playerX)
         {
+            // displays a different message depending on if  the property is owned or not
             string message = (PropertyCard.Owned[playerX.PlayerLocation] == true) ? "they landed on an owned property!\nand will now enter battle with the owner!\n":
             (PropertyCard.Owned[playerX.PlayerLocation] == false) ? "they have landed on an unowned property!\nand can damage the property to try and obtain it.\n":
             "!! error: ownership status unavailable.\n";

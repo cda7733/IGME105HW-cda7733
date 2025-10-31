@@ -80,20 +80,21 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("{0} has {1} spaces and supports {2}-{3} players. turn order follows the order of creation.", gameName, maxSpaces, minPlayers, maxPlayers);
             Console.WriteLine("players may have the same name, token or console color, though this is ill advised."); // barriers not yet coded in
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nCHANGES / DIFFERENCES"); Console.ResetColor();
-            Console.WriteLine($"board movement is the same as base monopoly, rolling two 6-sided die, and moving that many spaces, not counting the one you're on.");
-            Console.WriteLine("in this version of the game, there is no money, or even \'health\' for cards.\ninstead, this game uses property value and vandalism damage!");
-            Console.WriteLine("humans and ai players can be created to play with");
+            Console.WriteLine($"board movement is the same as base monopoly, rolling two 6-sided die, and moving that many spaces.");
+            Console.WriteLine("in this version of the game, property value/property damage is used to aqcuire properties rather than money.");
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nBATTLE"); Console.ResetColor();
             Console.WriteLine("players can attack others in a 1v1, or trigger events for battle between everyone.");
             Console.WriteLine("battle/vandalism is done with property cards, which are collected from unowned property spaces.");
             Console.WriteLine("property cards have stats: color, property value, damage multiplier, house upgrade value, and hotel upgrade value.");
-            Console.WriteLine("damage to other players property is calculated as (diceroll x damage multiplier).");
-            Console.WriteLine("if ANY (owned/unowned) property card's value is reduced to 0, the player who defeated it gets the card.");
+            Console.WriteLine("the damage multiplier stat on cards tell you how many dice you roll when it is equipped.");
+            Console.WriteLine("damage to other players property is calculated as (diceroll x number of dice).");
+            Console.WriteLine("if an UNOWNED property card's value is reduced to 0, the player who defeated it gets the card.");
+            Console.WriteLine("if an OWNED property card's value is reduced to 0, the property is returned to the board, and all its upgrades are reset.");
             Console.WriteLine("players can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.");
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\nDEMO INFO (you can just read this)"); Console.ResetColor();
-            Console.WriteLine("this current iteration does not have AI players yet, nor battle between players or a trade menu");
-            Console.WriteLine("WIN CONDITION: everyone else dies. player health is nerfed to facilitate this.\nplayers can only take damage from tax spaces.");
-            Console.WriteLine("to make testing easier, there is a cheat menu which allows you to eliminate players");
+            Console.WriteLine("this current iteration does not have functional AI players, battles or trade");
+            Console.WriteLine("WIN CONDITION: everyone else dies. players can only take damage from tax spaces.");
+            Console.WriteLine("to make testing easier, there is a CHEATS menu which allows you to eliminate players");
 
         }
         internal static void PromptMaxPlayers()
@@ -150,6 +151,7 @@ namespace IGME105_HW_cda7733
         }
         internal static bool VerifyGivenInfo(Player playerX)
         {
+            // displays given info and asks if it is correct
             Console.Clear();
             string input;
             bool done = false;
@@ -180,6 +182,7 @@ namespace IGME105_HW_cda7733
         }
         internal static void CreatePlayers(List<Player> players)
         {
+            // creates number of players for the max given ("how many will be playing?")
             for (int i = 0; i < CurrentMaxPlayers; i++)
             {
                 players.Add(new Player());

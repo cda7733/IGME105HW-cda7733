@@ -55,17 +55,6 @@ namespace IGME105_HW_cda7733
         {
             {"GO","go"},{"OP","owned property"}, {"UP","unowned property"}, {"CH","chance"}, 
             {"CO","community chest"}, {"TX","tax"}, {"UT","utility"}, {"VS","vansalism"}
-            /*
-                case "GO": typeName = "go"; break;
-                case "OP": typeName = "owned property"; break;
-                case "UP": typeName = "unowned property"; break;
-                case "CH": typeName = "chance"; break;
-                case "CO": typeName = "community chest"; break;
-                case "TX": typeName = "tax"; break;
-                case "UT": typeName = "utility"; break;
-                case "VS": typeName = "vandalism"; break;
-                default: typeName = "non-existent"; break;
-             */
         };
         
 
@@ -158,9 +147,9 @@ namespace IGME105_HW_cda7733
             {
                 string[] drawnCardArray = playerX.DrawnCards.Split(',');
                 Console.WriteLine($"{playerX.PlayerName} is holding {drawnCardArray.Length} cards! they say..\n");
-                for (int i = 0; i < drawnCardArray.Length; i++)
+                foreach (string drawnCard in drawnCardArray)
                 {
-                    Console.WriteLine(TranslateCard(drawnCardArray[i]));
+                    Console.WriteLine(TranslateCard(drawnCard));
                 }
                 Console.WriteLine();
             }
@@ -177,10 +166,10 @@ namespace IGME105_HW_cda7733
                 string[] propertyArray = playerX.OwnedProperties.Split(',');
                 int propertyIndex;
                 Console.WriteLine($"{playerX.PlayerName} owns {propertyArray.Length} properties!\ntheir names and values are as follows..\n");
-                for (int i = 0; i < propertyArray.Length; i++)
+                foreach (string property in propertyArray)
                 {
-                    propertyIndex = int.Parse(propertyArray[i].TrimStart('0'));
-                    Console.WriteLine(TranslateProperty(propertyArray[i]));
+                    propertyIndex = int.Parse(property.TrimStart('0'));
+                    Console.WriteLine(TranslateProperty(property));
                     Console.WriteLine($"health: ({PropertyCard.CurrentPropertyValue[propertyIndex]}/{PropertyCard.MaxPropertyValue[propertyIndex]})");
                     Console.WriteLine($"damage multiplier: {PropertyCard.DamageMultiplier[propertyIndex]}\n");
                 }

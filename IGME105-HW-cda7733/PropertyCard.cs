@@ -13,6 +13,7 @@ using System.Threading.Tasks;
  * 09/18/2025 - created a new repo and project because my other one was busted
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 09/26/2025 - gave all variables a read-only property
+ * 10/31/2025 - methods to changes ownership are lambdas now. and not all variables are read-only
  */
 
 namespace IGME105_HW_cda7733
@@ -122,17 +123,8 @@ namespace IGME105_HW_cda7733
             int hotelUpgrades (multiply it with houseUpgrades)
         } */
         
-        internal static void ChangeToOwned(Player playerX, int index)
-        {
-
-            owned[index] = true;
-            Spaces.SpaceType[index] = "OP";
-        }
-        internal static void ChangeToUnowned(Player playerX, int index)
-        {
-            owned[index] = false;
-            Spaces.SpaceType[index] = "UP";
-        }
+        internal static Action<Player, int> ChangeToOwned = (playerX, index) => { owned[index] = true; Spaces.SpaceType[index] = "OP"; };
+        internal static Action<Player, int> ChangeToUnowned = (playerX, index) => { owned[index] = false; Spaces.SpaceType[index] = "UP"; };
         internal static void AcquirePropertyCard(int playerNumber, Player playerX)
         {
             // first properties given

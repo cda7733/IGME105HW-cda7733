@@ -18,7 +18,8 @@ using System.Threading.Tasks;
  * 09/26/2025 - calling methods from all classes
  * 10/10/2025 - called new methods w/ RNG elements
  * 10/15/2025 - cleanup! commented out game setup bc it was tedious for testing. removed magenta coloring.
- * 10/24/2025 - the game works for most things. win conditions, property acquisition, cards, etc.
+ * 10/24/2025 - reimplemented game setup. the game works for most things. win conditions, property acquisition, cards, etc.
+ * 10/31/2025 - changed some if-statements to ternaries, and a FEW methods to lambdas
  */
 
 // github link: https://github.com/cda7733/IGME105HW-cda7733
