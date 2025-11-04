@@ -215,13 +215,13 @@ namespace IGME105_HW_cda7733
         }
         internal static void GameplayLoop(List<Player> players)
         {
+            players.RemoveAll(player => !player.Active);
             foreach (Player player in players)
             {
                 PlayerAction(player);
                 CheckWin(players);
                 if (Utility.GameOver) return;
             }
-            players.RemoveAll(player => !player.Active);
         }
         internal static void CheckWin(List<Player> players)
         {
@@ -231,7 +231,7 @@ namespace IGME105_HW_cda7733
                 Utility.ColorPicker(players[0].PlayerColorIndex);
                 Console.WriteLine($"congratualations to player 1 for winning the game!");
                 Console.ResetColor();
-                Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", players[0].PlayerName, players[0].TurnCount, players[0].HeldCardCount, players[0].OwnedPropertyCount);
+                Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", players[0].PlayerName, players[0].TurnCount, players[0].HeldCardCount, players[0].ownedProperties.Count);
                 Console.WriteLine("\nthank you for playing!\n\n");
                 Utility.GameOver = true;
             }
@@ -239,7 +239,6 @@ namespace IGME105_HW_cda7733
         internal static void KillPlayer(Player playerX)
         {
             // deactivates a player, returns their properties to the board, decreases current # of players
-            int index;
             Utility.CurrentNumberOfPlayers--;
             Console.Clear();
             Utility.ColorPicker(playerX.PlayerColorIndex);
@@ -247,23 +246,25 @@ namespace IGME105_HW_cda7733
             Console.ResetColor();
             if (Utility.CurrentNumberOfPlayers >= 2)
             {
+                int index;
                 Console.WriteLine($"good luck to the remaining {Utility.CurrentNumberOfPlayers} players!\n");
-                string[] propertyArray = playerX.OwnedProperties.Split(',');
-                for (int i = 0; i < propertyArray.Length; i++)
                 {
                     // this needs to be a for loop instead of foreach bc i need to track index
-                    if (!string.IsNullOrWhiteSpace(propertyArray[i]))
+                    if (playerX.ownedProperties.Count != 0)
                     {
-                        index = int.Parse(propertyArray[i].TrimStart('0'));
-                        PropertyCard.Owned[index] = false;
-                        PropertyCard.ChangeToUnowned(playerX, i);
-                        playerX.OwnedPropertyCount--;
-                        Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
+                        foreach (string property in playerX.ownedProperties)
+                        {
+                            index = int.Parse(property.TrimStart('0'));
+                            PropertyCard.Owned[index] = false;
+                            PropertyCard.ChangeToUnowned(playerX, index);
+                            playerX.ownedProperties.Remove(property);
+                            Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
+                        }
                     }
                 }
                 Console.WriteLine();
                 
-                playerX.OwnedProperties = "";
+                playerX.ownedProperties.Clear();
                 playerX.HeldCardCount = 0;
                 playerX.DrawnCards = ""; 
             }

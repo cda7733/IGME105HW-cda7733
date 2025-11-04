@@ -157,19 +157,19 @@ namespace IGME105_HW_cda7733
         internal static void DisplayOwnedProperties(Player playerX)
         {
             // displays the player's amount of own properties, if any, along with their names and info
-            if (String.IsNullOrEmpty(playerX.OwnedProperties))
+            if (playerX.ownedProperties.Count == 0)
             {
                 DisplayError("!! error: this player should not exist.");
             }
             else
             {
-                string[] propertyArray = playerX.OwnedProperties.Split(',');
                 int propertyIndex;
-                Console.WriteLine($"{playerX.PlayerName} owns {propertyArray.Length} properties!\ntheir names and values are as follows..\n");
-                foreach (string property in propertyArray)
+                Console.WriteLine($"{playerX.PlayerName} owns {playerX.ownedProperties.Count} properties!\ntheir names and values are as follows..\n");
+
+                foreach (string ownedProperty in playerX.ownedProperties)
                 {
-                    propertyIndex = int.Parse(property.TrimStart('0'));
-                    Console.WriteLine(TranslateProperty(property));
+                    propertyIndex = int.Parse(ownedProperty.TrimStart('0'));
+                    Console.WriteLine(TranslateProperty(ownedProperty));
                     Console.WriteLine($"health: ({PropertyCard.CurrentPropertyValue[propertyIndex]}/{PropertyCard.MaxPropertyValue[propertyIndex]})");
                     Console.WriteLine($"damage multiplier: {PropertyCard.DamageMultiplier[propertyIndex]}\n");
                 }

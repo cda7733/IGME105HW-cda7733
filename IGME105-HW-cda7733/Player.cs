@@ -81,19 +81,8 @@ namespace IGME105_HW_cda7733
             get { return heldCardCount; }
             set { heldCardCount = value; }
         }
-
-        string ownedProperties = ""; // formatted as 00, ex. boardwalk = 39
-        internal string OwnedProperties
-        {
-            get { return ownedProperties; }
-            set {  ownedProperties = value; }
-        }
-        int ownedPropertyCount = 0;
-        internal int OwnedPropertyCount
-        {
-            get { return ownedPropertyCount; }
-            set { ownedPropertyCount = value; }
-        }
+        internal List<string> ownedProperties = new List<string>(); // formatted as 00, ex. boardwalk = 39
+        
         int turnCount = 1;
         internal int TurnCount
         {
