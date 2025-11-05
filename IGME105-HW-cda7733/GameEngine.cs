@@ -12,6 +12,7 @@ using System.Threading.Tasks;
  * purpose: make monopoly more fun by making it a card battler
  * 
  * 10/30/2025 - changed the if statements in PullChance(..), PullChest(..), and PlayerAction(..) to a ternary
+ * 11/05/2025 - fixed methods to handle cards and properties as lists rather than arrays
  */
 
 namespace IGME105_HW_cda7733
@@ -103,7 +104,7 @@ namespace IGME105_HW_cda7733
                     string selection = Console.ReadLine().Trim().ToLower();
                     switch (selection)
                     {
-                        case "0": KillPlayer(playerX); done = true; break;
+                        case "0": Console.Clear(); KillPlayer(playerX); done = true; break;
                         default: break;
                     }
                 }
@@ -139,10 +140,9 @@ namespace IGME105_HW_cda7733
                     {
                         Console.WriteLine($"will {playerX.PlayerName} damage this property? (y/n): ");
                         string input = Console.ReadLine().Trim().ToLower();
-                        Console.Clear();
                         if (input.StartsWith("y"))
                         {
-                            
+                            Console.Clear();
                             int damage = 0;
                             for (int i = 0; i < playerX.Dice; i++)
                             {
@@ -161,6 +161,7 @@ namespace IGME105_HW_cda7733
                         }
                         else if (input.StartsWith("n"))
                         {
+                            Console.Clear();
                             done = true;
                         }
                         else
@@ -190,12 +191,9 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("they drew a chance card!");
             Console.ResetColor();
             int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
-            string currentCardTitle;
-            playerX.DrawnCards = (String.IsNullOrEmpty(playerX.DrawnCards)) ? playerX.DrawnCards + "chance" + cardIndex :
-                playerX.DrawnCards = playerX.DrawnCards + ",chance" + cardIndex;
-            currentCardTitle = "chance" + cardIndex;
+            string currentCardTitle = "chance" + cardIndex;
+            playerX.DrawnCards.Add(currentCardTitle);
             Console.WriteLine($"it says: {Utility.TranslateCard(currentCardTitle)}\n");
-            playerX.HeldCardCount++;
             return cardIndex;
         }
         internal static int PullCommunityChestCard(Player playerX)
@@ -205,20 +203,17 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("they drew a community chest card!");
             Console.ResetColor();
             int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
-            string currentCardTitle;
-            playerX.DrawnCards = (String.IsNullOrEmpty(playerX.DrawnCards)) ? playerX.DrawnCards + "chest" + cardIndex :
-                playerX.DrawnCards = playerX.DrawnCards + ",chest" + cardIndex;
-            currentCardTitle = "chest" + cardIndex;
+            string currentCardTitle = "chest" + cardIndex;
+            playerX.DrawnCards.Add(currentCardTitle);
             Console.WriteLine($"it says: {Utility.TranslateCard(currentCardTitle)}\n");
-            playerX.HeldCardCount++;
             return cardIndex;
         }
         internal static void GameplayLoop(List<Player> players)
         {
             foreach (Player player in players)
             {
-                PlayerAction(player);
                 CheckWin(players);
+                PlayerAction(player);
                 if (Utility.GameOver) return;
             }
             players.RemoveAll(player => !player.Active);
@@ -226,28 +221,32 @@ namespace IGME105_HW_cda7733
         internal static void CheckWin(List<Player> players)
         {
             // checks if there is only one player, then the game ends. displays winner info between 2 players
-            if (players.Count <= 1)
+            if (players.Count == 1)
             {
                 Utility.ColorPicker(players[0].PlayerColorIndex);
                 Console.WriteLine($"congratualations to player 1 for winning the game!");
                 Console.ResetColor();
-                Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", players[0].PlayerName, players[0].TurnCount, players[0].HeldCardCount, players[0].OwnedPropertyCount);
+                Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", players[0].PlayerName, players[0].TurnCount, players[0].DrawnCards.Count, players[0].OwnedProperties.Count);
                 Console.WriteLine("\nthank you for playing!\n\n");
                 Utility.GameOver = true;
+            }
+            else if (players.Count <= 0)
+            {
+                Utility.DisplayError("game crashed because everyone died");
             }
         }
         internal static void KillPlayer(Player playerX)
         {
             // deactivates a player, returns their properties to the board, decreases current # of players
-            int index;
             Utility.CurrentNumberOfPlayers--;
-            Console.Clear();
+            // Console.Clear();
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine(playerX.PlayerName + " has bankrupted! they are no longer in the game!\n");
             Console.ResetColor();
             if (Utility.CurrentNumberOfPlayers >= 2)
             {
                 Console.WriteLine($"good luck to the remaining {Utility.CurrentNumberOfPlayers} players!\n");
+                /*
                 string[] propertyArray = playerX.OwnedProperties.Split(',');
                 for (int i = 0; i < propertyArray.Length; i++)
                 {
@@ -260,12 +259,20 @@ namespace IGME105_HW_cda7733
                         playerX.OwnedPropertyCount--;
                         Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
                     }
+                }*/
+                int index;
+                foreach (string property in playerX.OwnedProperties)
+                {
+                    index = int.Parse(property.TrimStart('0'));
+                    PropertyCard.Owned[index] = false;
+                    PropertyCard.ChangeToUnowned(playerX, index);
+                    Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
                 }
+
                 Console.WriteLine();
                 
-                playerX.OwnedProperties = "";
-                playerX.HeldCardCount = 0;
-                playerX.DrawnCards = ""; 
+                playerX.OwnedProperties.Clear();
+                playerX.DrawnCards.Clear();
             }
             playerX.Active = false;
         }

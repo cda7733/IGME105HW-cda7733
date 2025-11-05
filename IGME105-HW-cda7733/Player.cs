@@ -13,6 +13,7 @@ using System.Threading.Tasks;
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 09/26/2025 - gave variables properties, all methods do somethingg
  * 10/10/2025 - added roll for order method
+ * 11/05/2025 - made player properties and cards into a list
  */
 
 
@@ -69,20 +70,11 @@ namespace IGME105_HW_cda7733
         {
             get { return  playerColorNames; }
         }
-        string drawnCards = ""; // formatted 
-        internal string DrawnCards
-        {
-            get { return drawnCards; }
-            set {  drawnCards = value; }
-        }
-        int heldCardCount = 0; // formatted as chanceX or chestX, ex. chance2, chest11
-        internal int HeldCardCount
-        {
-            get { return heldCardCount; }
-            set { heldCardCount = value; }
-        }
+        internal List<string> DrawnCards = new List<string>(); // formatted as chanceX or chestX, ex. chance2, chest11
 
-        string ownedProperties = ""; // formatted as 00, ex. boardwalk = 39
+        internal List<string> OwnedProperties = new List<string>(); // formatted as 00, ex. boardwalk = 39
+
+        /* string ownedProperties = ""; 
         internal string OwnedProperties
         {
             get { return ownedProperties; }
@@ -93,7 +85,7 @@ namespace IGME105_HW_cda7733
         {
             get { return ownedPropertyCount; }
             set { ownedPropertyCount = value; }
-        }
+        } */
         int turnCount = 1;
         internal int TurnCount
         {

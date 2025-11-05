@@ -12,6 +12,7 @@ using System.Collections.Generic;
  * 10/10/2025 - added roll for movement & first property
  * 10/15/2025 - added a switch case block to trigger space events
  * 10/30/2025 - changed the if statement in TranslateSpaceType(..) to a ternary
+ * 11/05/2025 - fixed display methods to handle lists
  */
 
 namespace IGME105_HW_cda7733
@@ -139,15 +140,14 @@ namespace IGME105_HW_cda7733
         internal static void DisplayHeldCards(Player playerX)
         {
             // displays the player's amount of held cards, if any, and their names with their text
-            if (String.IsNullOrEmpty(playerX.DrawnCards))
+            if (playerX.DrawnCards.Count == 0)
             {
                 Console.WriteLine(playerX.PlayerName + " currently has no cards!\n");
             }
             else
             {
-                string[] drawnCardArray = playerX.DrawnCards.Split(',');
-                Console.WriteLine($"{playerX.PlayerName} is holding {drawnCardArray.Length} cards! they say..\n");
-                foreach (string drawnCard in drawnCardArray)
+                Console.WriteLine($"{playerX.PlayerName} is holding {playerX.DrawnCards.Count} cards! they say..\n");
+                foreach (string drawnCard in playerX.DrawnCards)
                 {
                     Console.WriteLine(TranslateCard(drawnCard));
                 }
@@ -157,16 +157,15 @@ namespace IGME105_HW_cda7733
         internal static void DisplayOwnedProperties(Player playerX)
         {
             // displays the player's amount of own properties, if any, along with their names and info
-            if (String.IsNullOrEmpty(playerX.OwnedProperties))
+            if (playerX.OwnedProperties.Count == 0)
             {
                 DisplayError("!! error: this player should not exist.");
             }
             else
             {
-                string[] propertyArray = playerX.OwnedProperties.Split(',');
                 int propertyIndex;
-                Console.WriteLine($"{playerX.PlayerName} owns {propertyArray.Length} properties!\ntheir names and values are as follows..\n");
-                foreach (string property in propertyArray)
+                Console.WriteLine($"{playerX.PlayerName} owns {playerX.OwnedProperties.Count} properties!\ntheir names and values are as follows..\n");
+                foreach (string property in playerX.OwnedProperties)
                 {
                     propertyIndex = int.Parse(property.TrimStart('0'));
                     Console.WriteLine(TranslateProperty(property));

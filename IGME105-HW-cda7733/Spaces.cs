@@ -19,6 +19,7 @@ using System.Threading.Tasks;
  * 10/15/2025 - added a bunch of methods for each space. they basically js print to console.
  * 10/30/2025 - changed the if statement in PropertySpace(..) to a ternary
  * 10/31/2025 - comments
+ * 11/05/2025 - players recognize their own property
  */
 
 namespace IGME105_HW_cda7733
@@ -29,12 +30,8 @@ namespace IGME105_HW_cda7733
         // variables & properties
 
         static string spaceName = "go,mediterranian ave.,community chest,baltic ave.,income tax,reading railroad,oriental ave.,chance,vermont ave.,connecticut ave.,vandalism,st. charles place,electric company,states ave.,virginia ave.,pennysylvania railroad,st. james place,community chest,tennessee ave.,new york ave.,free repairs,kentucky ave.,chance,indiana ave.,illinois ave.,B & O railroad,atlantic ave.,ventour ave.,water works,marvin gardens,vandalism,pacific ave.,north carolina ave.,community chest,pennysylania ave.,short line,chance,park place,luxury tax,boardwalk";
-        internal static string SpaceName
-        {
-            get { return spaceName; }
-            set { spaceName = value; }
-        }
-        static string[] spaceNameArray = SpaceName.Split(',');
+
+        static string[] spaceNameArray = spaceName.Split(',');
         internal static string[] SpaceNameArray
         {
             get { return spaceNameArray; }
@@ -69,7 +66,7 @@ namespace IGME105_HW_cda7733
         {
             Console.WriteLine("a free-for-all vandalism battle has been triggered!\n");
 
-            // not making this a lambda bc i plan to add more to this
+            // not a lambda bc i plan to add more to this
 
             // each player chooses a card to be in danger of being vandalized
             // player with the most amount of property damage done gets their property card full repaired
@@ -112,11 +109,20 @@ namespace IGME105_HW_cda7733
         }
         internal static void PropertySpace(Player playerX)
         {
-            // displays a different message depending on if  the property is owned or not
-            string message = (PropertyCard.Owned[playerX.PlayerLocation] == true) ? "they landed on an owned property!\nand will now enter battle with the owner!\n":
-            (PropertyCard.Owned[playerX.PlayerLocation] == false) ? "they have landed on an unowned property!\nand can damage the property to try and obtain it.\n":
-            "!! error: ownership status unavailable.\n";
-            Console.WriteLine(message);
+            // displays a different message depending on if the property is owned by the current player, owned by someone, or not owned at all
+            bool playerXOwns = playerX.OwnedProperties.Contains(playerX.PlayerLocation.ToString("D2"));
+            if (playerXOwns)
+            {
+                Console.WriteLine(playerX.PlayerName + " owns this property!\nand nothing happens, they get to relax..\n");
+            }
+            else
+            {
+                string message;
+                message = (PropertyCard.Owned[playerX.PlayerLocation] == true) ? "they landed on an owned property!\nand will now enter battle with the owner!\n" :
+                    (PropertyCard.Owned[playerX.PlayerLocation] == false) ? "they have landed on an unowned property!\nand can damage the property to try and obtain it.\n" :
+                    "!! error: ownership status unavailable.\n";
+                Console.WriteLine(message);
+            }
         }
     }
 }

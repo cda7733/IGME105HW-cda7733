@@ -14,6 +14,7 @@ using System.Threading.Tasks;
  * 09/19/2025 - created, copied comments from architecture, then changed to code for HW3
  * 09/26/2025 - gave all variables a read-only property
  * 10/31/2025 - methods to changes ownership are lambdas now. and not all variables are read-only
+ * 11/05/2025 - fixed acquisition methods to handle lists
  */
 
 namespace IGME105_HW_cda7733
@@ -128,21 +129,20 @@ namespace IGME105_HW_cda7733
         internal static void AcquirePropertyCard(int playerNumber, Player playerX)
         {
             // first properties given
-            // gives players one of the first row of properties, auto-equips it, and increases their owned property count
+            // gives players one of the first row of properties and auto-equips it
             switch (playerNumber)
             {
-                case 1: playerX.OwnedProperties = "01"; ChangeToOwned(playerX, 01); Utility.EquipNewCard(playerX, 1); playerX.OwnedPropertyCount++; break;
-                case 2: playerX.OwnedProperties = "03"; ChangeToOwned(playerX, 03); Utility.EquipNewCard(playerX, 3); playerX.OwnedPropertyCount++; break;
-                case 3: playerX.OwnedProperties = "06"; ChangeToOwned(playerX, 06); Utility.EquipNewCard(playerX, 6); playerX.OwnedPropertyCount++; break;
-                case 4: playerX.OwnedProperties = "08"; ChangeToOwned(playerX, 08); Utility.EquipNewCard(playerX, 8); playerX.OwnedPropertyCount++; break;
+                case 1: playerX.OwnedProperties.Add("01"); ChangeToOwned(playerX, 01); Utility.EquipNewCard(playerX, 1); break;
+                case 2: playerX.OwnedProperties.Add("03"); ChangeToOwned(playerX, 03); Utility.EquipNewCard(playerX, 3); break;
+                case 3: playerX.OwnedProperties.Add("06"); ChangeToOwned(playerX, 06); Utility.EquipNewCard(playerX, 6); break;
+                case 4: playerX.OwnedProperties.Add("08"); ChangeToOwned(playerX, 08); Utility.EquipNewCard(playerX, 8); break;
                 default: Utility.DisplayError("!! error: invalid player index"); break;
             }
         }
         internal static void AcquirePropertyCard(Player playerX)
         {
             // gives players the property they're on and increases their owned property count
-            playerX.OwnedPropertyCount++;
-            playerX.OwnedProperties = playerX.OwnedProperties + "," + PropertyID[playerX.PlayerLocation];
+            playerX.OwnedProperties.Add(PropertyID[playerX.PlayerLocation]);
             CurrentPropertyValue[playerX.PlayerLocation] = MaxPropertyValue[playerX.PlayerLocation];
             ChangeToOwned(playerX, playerX.PlayerLocation);
         }
