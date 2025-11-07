@@ -19,7 +19,7 @@ namespace IGME105_HW_cda7733
 {
     internal static class GameEngine
     {
-        internal static void PlayerAction(Player playerX)
+        internal static void PlayerAction(Player playerX, List<Player> players)
         {
             // options for player turn
             bool done = false;
@@ -45,7 +45,7 @@ namespace IGME105_HW_cda7733
                     // if they haven't rolled, they can roll
                     if (rolled == false)
                     {
-                        RollForMovement(playerX);
+                        RollForMovement(playerX, players);
                         rolled = true;
                     }
                     else
@@ -88,7 +88,6 @@ namespace IGME105_HW_cda7733
                 }
             }
         }
-
         internal static void Cheats(Player playerX)
         {
             bool done = false;
@@ -114,7 +113,7 @@ namespace IGME105_HW_cda7733
                 Utility.DisplayError("access denied.");
             }
         }
-        internal static void RollForMovement(Player playerX)
+        internal static void RollForMovement(Player playerX, List<Player> players)
         {
             // rolls "two dice" (2-12) and moves the player to the appropriate location
             int diceRoll = Utility.RNG.Next(2, 13);
@@ -123,7 +122,7 @@ namespace IGME105_HW_cda7733
             playerX.OnSpaceType = Spaces.SpaceType[playerX.PlayerLocation];
             Console.WriteLine("{0} rolled a {1}! they are now on {2}, space number {3}\n", playerX.PlayerName, diceRoll, Spaces.SpaceNameArray[playerX.PlayerLocation], playerX.PlayerLocation);
             playerX.TurnCount++;
-            Utility.SpaceAction(playerX);
+            Utility.SpaceAction(playerX, players);
         }
         internal static bool CheckUnownedProperty(Player playerX, bool attacked)
         {
@@ -213,7 +212,7 @@ namespace IGME105_HW_cda7733
             foreach (Player player in players)
             {
                 CheckWin(players);
-                PlayerAction(player);
+                PlayerAction(player, players);
                 if (Utility.GameOver) return;
             }
             players.RemoveAll(player => !player.Active);
@@ -235,6 +234,64 @@ namespace IGME105_HW_cda7733
                 Utility.DisplayError("game crashed because everyone died");
             }
         }
+        internal static void Duel(Player playerX, List<Player> players)
+        {
+            Player owner = null;
+
+            string onProperty = playerX.PlayerLocation.ToString("D2");
+            foreach (Player player in players)
+            {
+                if (player.OwnedProperties.Contains(onProperty))
+                {
+                    owner = player;
+                    break;
+                }
+            }
+            Utility.ColorPicker(owner.PlayerColorIndex);
+            Console.WriteLine($"{playerX.PlayerName} will fight {owner.PlayerName}!\npress any button to see who attacks!");
+            Console.ReadKey();
+            Console.Clear();
+            int coinflip = Utility.RNG.Next(2);
+            if (coinflip == 0)
+            {
+                Utility.ColorPicker(playerX.PlayerColorIndex);
+                Console.WriteLine($"{playerX.PlayerName} attacks the property!");
+                Console.ResetColor();
+                int damage = 0;
+                for (int i = 0; i < playerX.Dice; i++)
+                {
+                    damage += Utility.RNG.Next(1, 7);
+                }
+                Console.WriteLine($"they do {damage} damage!\n");
+                owner.CurrentHealth -= damage;
+                if (owner.CurrentHealth <= 0)
+                {
+                    KillPlayer(owner);
+                }
+            }
+            else if (coinflip == 1)
+            {
+                Utility.ColorPicker(owner.PlayerColorIndex);
+                Console.WriteLine($"{owner.PlayerName} attacks the property!");
+                Console.ResetColor();
+                int damage = 0;
+                for (int i = 0; i < owner.Dice; i++)
+                {
+                    damage += Utility.RNG.Next(1, 7);
+                }
+                Console.WriteLine($"they do {damage} damage!\n");
+                playerX.CurrentHealth -= damage;
+                if (playerX.CurrentHealth <= 0)
+                {
+                    KillPlayer(owner);
+                }
+            }
+            else
+            {
+                Utility.DisplayError("!! coin flip was out of range");
+            }
+            Console.ResetColor();
+        }
         internal static void KillPlayer(Player playerX)
         {
             // deactivates a player, returns their properties to the board, decreases current # of players
@@ -246,20 +303,6 @@ namespace IGME105_HW_cda7733
             if (Utility.CurrentNumberOfPlayers >= 2)
             {
                 Console.WriteLine($"good luck to the remaining {Utility.CurrentNumberOfPlayers} players!\n");
-                /*
-                string[] propertyArray = playerX.OwnedProperties.Split(',');
-                for (int i = 0; i < propertyArray.Length; i++)
-                {
-                    // this needs to be a for loop instead of foreach bc i need to track index
-                    if (!string.IsNullOrWhiteSpace(propertyArray[i]))
-                    {
-                        index = int.Parse(propertyArray[i].TrimStart('0'));
-                        PropertyCard.Owned[index] = false;
-                        PropertyCard.ChangeToUnowned(playerX, i);
-                        playerX.OwnedPropertyCount--;
-                        Console.WriteLine(Spaces.SpaceNameArray[index] + " has been added back to the board");
-                    }
-                }*/
                 int index;
                 foreach (string property in playerX.OwnedProperties)
                 {

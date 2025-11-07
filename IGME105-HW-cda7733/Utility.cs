@@ -59,15 +59,15 @@ namespace IGME105_HW_cda7733
         };
         
 
-        internal static void SpaceAction(Player playerX)
+        internal static void SpaceAction(Player playerX, List<Player> players)
         {
             // triggers space methods depending on location
 
             switch (Spaces.SpaceType[playerX.PlayerLocation])
             {
                 case "GO": break;
-                case "UP": Spaces.PropertySpace(playerX); break;
-                case "OP": Spaces.PropertySpace(playerX); break;
+                case "UP": Spaces.PropertySpace(playerX, players); break;
+                case "OP": Spaces.PropertySpace(playerX, players); break;
                 case "CH": GameEngine.PullChanceCard(playerX); break;
                 case "CO": GameEngine.PullCommunityChestCard(playerX); break;
                 case "UT": Spaces.UtilitySpace(playerX, RNG); break;

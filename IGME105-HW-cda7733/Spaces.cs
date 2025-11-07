@@ -107,21 +107,28 @@ namespace IGME105_HW_cda7733
                 playerX.CurrentHealth = playerX.MaxHealth;
             }
         }
-        internal static void PropertySpace(Player playerX)
+        internal static void PropertySpace(Player playerX, List<Player> players)
         {
             // displays a different message depending on if the property is owned by the current player, owned by someone, or not owned at all
             bool playerXOwns = playerX.OwnedProperties.Contains(playerX.PlayerLocation.ToString("D2"));
             if (playerXOwns)
             {
+                // property is owned by the current player
                 Console.WriteLine(playerX.PlayerName + " owns this property!\nand nothing happens, they get to relax..\n");
             }
             else
             {
-                string message;
-                message = (PropertyCard.Owned[playerX.PlayerLocation] == true) ? "they landed on an owned property!\nand will now enter battle with the owner!\n" :
-                    (PropertyCard.Owned[playerX.PlayerLocation] == false) ? "they have landed on an unowned property!\nand can damage the property to try and obtain it.\n" :
-                    "!! error: ownership status unavailable.\n";
-                Console.WriteLine(message);
+                if (PropertyCard.Owned[playerX.PlayerLocation] == true)
+                {
+                    // property is owned
+                    Console.WriteLine("they landed on an owned property!\nand will now enter battle with the owner!\n");
+                    GameEngine.Duel(playerX, players);
+                }
+                else
+                {
+                    // property is unowned
+                    Console.WriteLine("they have landed on an unowned property!\nand can damage the property to try and obtain it.\n");
+                }
             }
         }
     }
