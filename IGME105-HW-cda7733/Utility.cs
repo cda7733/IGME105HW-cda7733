@@ -117,10 +117,51 @@ namespace IGME105_HW_cda7733
             }
         }
 
-        /* internal static void DisplayBoard()
+        internal static void FillBoard(List<Player> players, string spaceNumber, char direction)
+        {
+            if (direction == 'h')
+            {
+                if (PropertyCard.Owned[int.Parse(spaceNumber)] == true)
+                {
+                    foreach (Player player in players)
+                    {
+                        if (player.OwnedProperties.Contains(spaceNumber))
+                        {
+                            ColorPicker(player.PlayerColorIndex);
+                        }
+                    }
+                }
+                Console.Write("===");
+                Console.ResetColor();
+                Console.Write("|");
+            }
+            else if (direction == 'v')
+            {
+
+            }
+            
+        }
+        internal static void DisplayBoard(List<Player> players)
         {
             // display space names, color coded by type / ownership status
-            Console.ForegroundColor = ConsoleColor.Green;
+
+            /*Console.WriteLine(
+                " _________________________________________________\r\n|=     |===| ? |===|===|=R=|===|===| + |===|      |\r\n|      |   |   |   |   |   |   |   |   |   |  vs  |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n| ==== |\t\t\t\t   | ==== |\r\n|______|     __________  \t\t   |______|\r\n| ==== |    /         /\t\t   \t   | ==== |\r\n|______|   / chest ! /\t  \t           |______|\r\n|  !!  |  /_________/\t\t           |  !!  |\r\n|______|\t\t\t\t   |______|\r\n| ==== |\t\t\t\t   | ==== |\r\n|______|\t\t\t\t   |______|\r\n| =RR= |\t        \t           | =RR= |\r\n|______|\t     MONOPOLY \t\t   |______|\r\n| ==== |\t\t\t\t   |  ??  |\r\n|______|\t\t\t\t   |______|\r\n| ==== |\t\t      ___________  | ==== |\r\n|______|\t\t     / \t        /  |______|\r\n|  ++  |\t\t    / chance ? /   |  xx  |\r\n|______|\t\t   /__________/    |______|\r\n| ==== |\t\t\t\t   | ==== |\r\n|______|___________________________________|______|\r\n|      |~~~|===| ? |===|===| x |===| ! |===|  GO  |\r\n|  vs  |   |   |   |   |   |   |   |   |   | <--- |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n"
+                );*/
+            Console.Write(" _________________________________________________\r\n|=     |");
+            FillBoard(players,"21",'h');
+            Console.Write(" ? |");
+            FillBoard(players, "23", 'h');
+            FillBoard(players, "24", 'h');
+            FillBoard(players, "25", 'h'); 
+            FillBoard(players, "26", 'h');
+            FillBoard(players, "27", 'h');
+            Console.Write(" + |");
+            FillBoard(players, "29", 'h');
+            Console.WriteLine("      |\r\n|      |   |   |   |   |   |   |   |   |   |  vs  |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n|");
+
+
+            /* Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("UNOWNED properties are green");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("OWNED properties are red");
@@ -128,8 +169,8 @@ namespace IGME105_HW_cda7733
             for (int i = 0; i < GameSetup.MaxSpaces-1; i+=2)
             {
                 Console.WriteLine(Spaces.SpaceNameArray[i] + "        " + (Spaces.SpaceNameArray[i+1]));
-            }
-        } */
+            }*/
+        }
         internal static void DisplayError(string message)
         {
             // displays error messages in red

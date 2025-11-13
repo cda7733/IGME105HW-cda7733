@@ -27,6 +27,7 @@ namespace IGME105_HW_cda7733
             bool attacked = false;
             while (!done && Utility.GameOver == false)
             {
+                Utility.DisplayBoard(players);
                 if (!playerX.Active) break;
                 Utility.ColorPicker(playerX.PlayerColorIndex);
                 Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
