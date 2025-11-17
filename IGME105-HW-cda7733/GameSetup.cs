@@ -28,13 +28,7 @@ namespace IGME105_HW_cda7733
         {
             get { return maxPlayers; }
         }
-        static int currentMaxPlayers;
-        internal static int CurrentMaxPlayers
-        {
-            get { return currentMaxPlayers; }
-            set { currentMaxPlayers = value; }
-            
-        }
+        static int CurrentMaxPlayers;
         const int maxSpaces = 40;
         internal static int MaxSpaces
         {
@@ -95,7 +89,7 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("this current iteration does not have functional AI players, battles or trade");
             Console.WriteLine("WIN CONDITION: everyone else dies. players can only take damage from tax spaces.");
             Console.WriteLine("to make testing easier, there is a CHEATS menu which allows you to eliminate players");
-
+            Console.WriteLine("there's a map that updates to show ownership. it works 100%, it just has a teensy tiny visual bug,,");
         }
         internal static void PromptMaxPlayers()
         {

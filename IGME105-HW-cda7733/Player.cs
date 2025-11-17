@@ -22,27 +22,9 @@ namespace IGME105_HW_cda7733
     internal class Player
     {
         // variables & properties
-        string playerName = "";
-        internal string PlayerName
-        {
-            get { return playerName; } 
-            set { playerName = value; }
-        }
-
-        int playerLocation = 0;
-        internal int PlayerLocation
-        {
-            get { return playerLocation; }
-            set { playerLocation = value; }
-        }
-
-        int playerIndex = 0;
-        internal int PlayerIndex
-        {
-            get { return playerIndex; }
-            set { playerIndex = value; }
-        }
-
+        internal string PlayerName = "";
+        internal int PlayerLocation = 0;
+        internal int PlayerIndex = 0;
         int playerTokenIndex;
         internal int PlayerTokenIndex
         {
@@ -59,12 +41,7 @@ namespace IGME105_HW_cda7733
         {
             get { return  playerTokenNickname; }
         }
-        int playerColorIndex;
-        internal int PlayerColorIndex
-        {
-            get{ return playerColorIndex; }
-            set { playerColorIndex = value; }
-        }
+        internal int PlayerColorIndex;
         string[] playerColorNames = { "red","orange","yellow","cyan","blue","purple","pink" };
         internal string[] PlayerColorNames
         {
@@ -74,60 +51,13 @@ namespace IGME105_HW_cda7733
 
         internal List<string> OwnedProperties = new List<string>(); // formatted as 00, ex. boardwalk = 39
 
-        /* string ownedProperties = ""; 
-        internal string OwnedProperties
-        {
-            get { return ownedProperties; }
-            set {  ownedProperties = value; }
-        }
-        int ownedPropertyCount = 0;
-        internal int OwnedPropertyCount
-        {
-            get { return ownedPropertyCount; }
-            set { ownedPropertyCount = value; }
-        } */
-        int turnCount = 1;
-        internal int TurnCount
-        {
-            get { return turnCount; }
-            set { turnCount = value; }
-        }
-        string onSpaceType = "GO";
-        internal string OnSpaceType
-        {
-            get { return onSpaceType; }
-            set { onSpaceType = value; }
-        }
-        int currentHealth = 10;
-        internal int CurrentHealth
-        {
-            get { return currentHealth; }
-            set { currentHealth = value; }
-        }
-        int maxHealth = 10;
-        internal int MaxHealth
-        {
-            get { return maxHealth; }
-            set { maxHealth = value; }
-        }
-        int dice = 1;
-        internal int Dice
-        {
-            get { return dice; }
-            set { dice = value; }
-        }
-        bool active = false;
-        internal bool Active
-        {
-            get { return active; }
-            set { active = value; }
-        }
-        int equippedCardIndex;
-        internal int EquippedCardIndex
-        {
-            get { return equippedCardIndex; }
-            set { equippedCardIndex = value; }
-        }
+        internal int TurnCount = 1;
+        internal string OnSpaceType = "GO";
+        internal int CurrentHealth = 10;
+        internal int MaxHealth = 10;
+        internal int Dice = 1;
+        internal bool Active = false;
+        internal int EquippedCardIndex;
 
         // constructors
 
@@ -223,7 +153,7 @@ namespace IGME105_HW_cda7733
                 {
                     Utility.DisplayError("invalid entry! enter a numerical value. (0,1,2,3..)");
                 }
-                Console.WriteLine($"{playerName}'s color will be ");
+                Console.WriteLine($"{PlayerName}'s color will be ");
             }
             Console.Clear();
         }
@@ -233,7 +163,7 @@ namespace IGME105_HW_cda7733
             Utility.ColorPicker(PlayerColorIndex);
             Console.WriteLine($"\nplayer {PlayerIndex + 1 } info");
             Console.WriteLine("  name: " + PlayerName);
-            Console.WriteLine($"  health: {currentHealth}/{maxHealth}");
+            Console.WriteLine($"  health: {CurrentHealth}/{MaxHealth}");
             Console.WriteLine($"  # of dice equipped (damage multiplier): " + Dice);
             Console.WriteLine("  equipped card: " + Spaces.SpaceNameArray[EquippedCardIndex]);
             Console.WriteLine("  token: " + PlayerTokenName[playerTokenIndex]);

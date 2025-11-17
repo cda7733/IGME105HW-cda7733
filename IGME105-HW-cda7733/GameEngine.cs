@@ -27,20 +27,18 @@ namespace IGME105_HW_cda7733
             bool attacked = false;
             while (!done && Utility.GameOver == false)
             {
-                Utility.DisplayBoard(players);
                 if (!playerX.Active) break;
                 Utility.ColorPicker(playerX.PlayerColorIndex);
                 Console.WriteLine($"it is {playerX.PlayerName}'s turn.");
-
                 Console.ResetColor();
-                Console.WriteLine($"what would they like to do?\n");
                 // just landed vs rolled but hasn't attacked
                 string choices = (rolled == false) ? "0. roll\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade" :
                     "0. end turn\n1. held cards\n2. owned properties\n3. check space\n4. open menu\n5. trade";
                 Console.WriteLine(choices);
                 string input = Console.ReadLine().Trim().ToLower();
                 Console.Clear();
-
+                Console.SetCursorPosition(0, 0);
+                Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
                 if (input == "0")
                 {
                     // if they haven't rolled, they can roll
@@ -60,7 +58,7 @@ namespace IGME105_HW_cda7733
                     case "1": Utility.DisplayHeldCards(playerX); break;
                     case "2": Utility.DisplayOwnedProperties(playerX); break;
                     case "3":
-                        playerX.OnSpaceType = Spaces.SpaceType[playerX.PlayerLocation]; 
+                        playerX.OnSpaceType = Spaces.SpaceType[playerX.PlayerLocation]; Utility.DisplayBoard(players);
                         Console.WriteLine($"{playerX.PlayerName} is currently on {Spaces.SpaceNameArray[playerX.PlayerLocation]}, a {Utility.TranslateSpaceType(playerX,Utility.SpaceTypes)} space.\n");
                         attacked = CheckUnownedProperty(playerX, attacked); break;
                     case "4": Menu(playerX); break;

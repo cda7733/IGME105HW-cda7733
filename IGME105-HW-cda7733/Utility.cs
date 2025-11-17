@@ -20,37 +20,12 @@ namespace IGME105_HW_cda7733
     internal static class Utility
     {
         // variables & properties
-        static Random rng = new Random();
-        internal static Random RNG
-        {
-            get { return rng; }
-            set { rng = value; }
-        }
-        static bool gameOver = false;
-        internal static bool GameOver
-        {
-            get { return gameOver; }
-            set { gameOver = value; }
-        }
+        internal static Random RNG = new Random();
+        internal static bool GameOver = false;
 
-        static int currentNumberOfPlayers;
-        internal static int CurrentNumberOfPlayers
-        {
-            get { return currentNumberOfPlayers; }
-            set { currentNumberOfPlayers = value; }
-        }
-        static int currentPlayerIndex = 0;
-        internal static int CurrentPlayerIndex
-        {
-            get { return currentPlayerIndex; }
-            set { currentPlayerIndex = value; }
-        }
-        static int cardQuantity = 12;
-        internal static int CardQuantity
-        {
-            get { return cardQuantity; }
-            set {  cardQuantity = value; }
-        }
+        internal static int CurrentNumberOfPlayers;
+        internal static int CurrentPlayerIndex = 0;
+        internal static int CardQuantity = 12;
 
         internal static Dictionary<string, string> SpaceTypes = new Dictionary<string, string>()
         {
@@ -119,57 +94,81 @@ namespace IGME105_HW_cda7733
 
         internal static void FillBoard(List<Player> players, string spaceNumber, char direction)
         {
-            if (direction == 'h')
+
+            if (PropertyCard.Owned[int.Parse(spaceNumber)] == true)
             {
-                if (PropertyCard.Owned[int.Parse(spaceNumber)] == true)
+                foreach (Player player in players)
                 {
-                    foreach (Player player in players)
+                    if (player.OwnedProperties.Contains(spaceNumber))
                     {
-                        if (player.OwnedProperties.Contains(spaceNumber))
-                        {
-                            ColorPicker(player.PlayerColorIndex);
-                        }
+                        ColorPicker(player.PlayerColorIndex);
                     }
                 }
+            }
+            if (direction == 'h')
+            {
                 Console.Write("===");
                 Console.ResetColor();
                 Console.Write("|");
             }
             else if (direction == 'v')
             {
-
+                Console.Write("|");
+                Console.Write(" ==== ");
+                Console.ResetColor();
+                Console.Write("|");
             }
             
         }
+        internal static void FillBoard(List<Player> players, string spaceNumber, char direction, bool railroad)
+        {
+
+            if (PropertyCard.Owned[int.Parse(spaceNumber)] == true)
+            {
+                foreach (Player player in players)
+                {
+                    if (player.OwnedProperties.Contains(spaceNumber))
+                    {
+                        ColorPicker(player.PlayerColorIndex);
+                    }
+                }
+            }
+            if (direction == 'h')
+            {
+                Console.Write("=R=");
+                Console.ResetColor();
+                Console.Write("|");
+            }
+            else if (direction == 'v')
+            {
+                Console.Write("|");
+                Console.Write(" =RR= ");
+                Console.ResetColor();
+                Console.Write("|");
+            }
+
+        }
         internal static void DisplayBoard(List<Player> players)
         {
-            // display space names, color coded by type / ownership status
+            Console.Write(" _________________________________________________\r\n| free |");
+            FillBoard(players, "21", 'h'); Console.Write(" ? |"); FillBoard(players, "23", 'h'); FillBoard(players, "24", 'h'); FillBoard(players, "25", 'h',true);  FillBoard(players, "26", 'h'); FillBoard(players, "27", 'h'); Console.Write(" + |"); FillBoard(players, "29", 'h');
+            Console.Write("  vs  |\r\n| park |   |   |   |   |   |   |   |   |   |      |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n");
+            FillBoard(players, "19", 'v'); Console.Write("\t\t\t\t   "); FillBoard(players, "31", 'v'); Console.Write("\n|______|\t\t\t\t   |______|\n");
+            FillBoard(players,"18",'v'); Console.Write("     __________                    "); FillBoard(players, "32",'v'); 
+                               Console.Write("\n|______|    /         /\t\t\t   |______|\n");
+            Console.Write("|  !!  |");   Console.Write("   / chest ! /\t\t\t   "); Console.Write("|  !!  |"); 
+                               Console.Write("\n|______|  /_________/\t\t\t   |______|\n");
+            FillBoard(players, "16",'v'); Console.Write("\t\t\t\t   "); FillBoard(players, "34", 'v'); Console.Write("\n|______|\t\t\t\t   |______|\n");
+            FillBoard(players, "15", 'v',true); Console.Write("\t\t\t\t   "); FillBoard(players, "35", 'v',true); Console.Write("\n|______|\t\t\t\t   |______|\n");
+            FillBoard(players, "14", 'v'); Console.Write("\t\t\t\t   "); Console.Write("|  ??  |"); Console.Write("\n|______|\t\t\t\t   |______|\n");
 
-            /*Console.WriteLine(
-                " _________________________________________________\r\n|=     |===| ? |===|===|=R=|===|===| + |===|      |\r\n|      |   |   |   |   |   |   |   |   |   |  vs  |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n| ==== |\t\t\t\t   | ==== |\r\n|______|     __________  \t\t   |______|\r\n| ==== |    /         /\t\t   \t   | ==== |\r\n|______|   / chest ! /\t  \t           |______|\r\n|  !!  |  /_________/\t\t           |  !!  |\r\n|______|\t\t\t\t   |______|\r\n| ==== |\t\t\t\t   | ==== |\r\n|______|\t\t\t\t   |______|\r\n| =RR= |\t        \t           | =RR= |\r\n|______|\t     MONOPOLY \t\t   |______|\r\n| ==== |\t\t\t\t   |  ??  |\r\n|______|\t\t\t\t   |______|\r\n| ==== |\t\t      ___________  | ==== |\r\n|______|\t\t     / \t        /  |______|\r\n|  ++  |\t\t    / chance ? /   |  xx  |\r\n|______|\t\t   /__________/    |______|\r\n| ==== |\t\t\t\t   | ==== |\r\n|______|___________________________________|______|\r\n|      |~~~|===| ? |===|===| x |===| ! |===|  GO  |\r\n|  vs  |   |   |   |   |   |   |   |   |   | <--- |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n"
-                );*/
-            Console.Write(" _________________________________________________\r\n|=     |");
-            FillBoard(players,"21",'h');
-            Console.Write(" ? |");
-            FillBoard(players, "23", 'h');
-            FillBoard(players, "24", 'h');
-            FillBoard(players, "25", 'h'); 
-            FillBoard(players, "26", 'h');
-            FillBoard(players, "27", 'h');
-            Console.Write(" + |");
-            FillBoard(players, "29", 'h');
-            Console.WriteLine("      |\r\n|      |   |   |   |   |   |   |   |   |   |  vs  |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n|");
+            FillBoard(players, "13", 'v'); Console.Write("\t\t      ___________  "); FillBoard(players, "37", 'v'); Console.Write("\n|______|\t\t     / \t        /  |______|\n");
+            Console.Write("|  ++  |"); Console.Write("\t\t    / chance ? /   "); Console.Write("|  xx  |"); Console.Write("\n|______|\t\t   /__________/    |______|\n");
 
-
-            /* Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("UNOWNED properties are green");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("OWNED properties are red");
-            Console.ResetColor();
-            for (int i = 0; i < GameSetup.MaxSpaces-1; i+=2)
-            {
-                Console.WriteLine(Spaces.SpaceNameArray[i] + "        " + (Spaces.SpaceNameArray[i+1]));
-            }*/
+            FillBoard(players, "11", 'v'); Console.Write("\t\t\t\t   "); FillBoard(players, "39", 'v'); Console.WriteLine("\n|______|___________________________________|______|");
+            Console.Write("|  vs  |"); FillBoard(players, "09", 'h'); FillBoard(players, "08", 'h'); Console.Write(" ? |"); FillBoard(players, "06", 'h'); FillBoard(players, "05", 'h',true); Console.Write(" x |"); FillBoard(players, "03", 'h'); Console.Write(" ! |"); FillBoard(players, "01", 'h');
+            Console.Write("  GO  |\r\n|      |   |   |   |   |   |   |   |   |   |      |\r\n|______|___|___|___|___|___|___|___|___|___|______|\r\n");
+            Console.WriteLine();
         }
         internal static void DisplayError(string message)
         {

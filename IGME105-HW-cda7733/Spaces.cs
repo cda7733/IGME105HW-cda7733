@@ -29,28 +29,17 @@ namespace IGME105_HW_cda7733
     {
         // variables & properties
 
-        static string spaceName = "go,mediterranian ave.,community chest,baltic ave.,income tax,reading railroad,oriental ave.,chance,vermont ave.,connecticut ave.,vandalism,st. charles place,electric company,states ave.,virginia ave.,pennysylvania railroad,st. james place,community chest,tennessee ave.,new york ave.,free repairs,kentucky ave.,chance,indiana ave.,illinois ave.,B & O railroad,atlantic ave.,ventour ave.,water works,marvin gardens,vandalism,pacific ave.,north carolina ave.,community chest,pennysylania ave.,short line,chance,park place,luxury tax,boardwalk";
+        static string SpaceName = "go,mediterranian ave.,community chest,baltic ave.,income tax,reading railroad,oriental ave.,chance,vermont ave.,connecticut ave.,vandalism,st. charles place,electric company,states ave.,virginia ave.,pennysylvania railroad,st. james place,community chest,tennessee ave.,new york ave.,free parking,kentucky ave.,chance,indiana ave.,illinois ave.,B & O railroad,atlantic ave.,ventour ave.,water works,marvin gardens,vandalism,pacific ave.,north carolina ave.,community chest,pennysylania ave.,short line,chance,park place,luxury tax,boardwalk";
 
-        static string[] spaceNameArray = spaceName.Split(',');
-        internal static string[] SpaceNameArray
-        {
-            get { return spaceNameArray; }
-            set { spaceNameArray = value; }
-        }
+        internal static string[] SpaceNameArray = SpaceName.Split(',');
 
-        internal static string[] spaceType =
+        internal static string[] SpaceType =
         {
             "GO","UP","CO","UP","TX","UP","UP","CH","UP","UP",
             "VS","UP","UT","UP","UP","UP","UP","CO","UP","UP",
-            "UP","UP","CH","UP","UP","UP","UP","UP","UT","UP",
+            "UT","UP","CH","UP","UP","UP","UP","UP","UT","UP",
             "VS","UP","UP","CO","UP","UP","CH","UP","TX","UP",
         };
-        internal static string[] SpaceType
-        {
-            get { return spaceType; }
-            set {  spaceType = value; }
-        }
-
         internal static void GoSpace(Player playerX)
         {
             // doesn't display message if it is the start of the game. tells the player they looped the board
@@ -94,7 +83,16 @@ namespace IGME105_HW_cda7733
         internal static void UtilitySpace (Player playerX, Random rng)
         {
             // heals a player
-            int healedValue = rng.Next(10);
+            int healedValue;
+            if (SpaceNameArray[playerX.PlayerLocation] == "free parking")
+            {
+                healedValue = rng.Next(20);
+            }
+            else
+            {
+                healedValue = rng.Next(10);
+            }
+
             Console.WriteLine($"+{healedValue} to their health!\n");
             if (healedValue == 0)
             {

@@ -23,18 +23,13 @@ namespace IGME105_HW_cda7733
     {
         // variables & properties
 
-        static int[] currentPropertyValue = 
+        internal static int[] CurrentPropertyValue = 
         {
             10,10,10,10,10,15,10,10,10,10,
             20,15,15,15,15,20,15,15,15,15,
             20,20,20,20,20,25,20,20,20,20,
             25,25,25,25,25,30,25,25,25,25
         };
-        internal static int[] CurrentPropertyValue
-        {
-            get { return currentPropertyValue; }
-            set { currentPropertyValue = value; }
-        }
         static int[] maxPropertyValue =
         {
             10,10,10,10,10,15,10,10,10,10,
@@ -57,19 +52,13 @@ namespace IGME105_HW_cda7733
         {
             get { return damageMultiplier; }
         }
-        static bool[] owned =
+        internal static bool[] Owned =
         {
             false,false,false,false,false,false,false,false,false,false,
             false,false,false,false,false,false,false,false,false,false,
             false,false,false,false,false,false,false,false,false,false,
             false,false,false,false,false,false,false,false,false,false
         };
-        internal static bool[] Owned
-        {
-            get { return owned; }
-            set { owned = value; }
-        }
-
         static string[] propertyID =
         {
             "00","01","02","03","04","05","06","07","08","09",
@@ -124,18 +113,18 @@ namespace IGME105_HW_cda7733
             int hotelUpgrades (multiply it with houseUpgrades)
         } */
         
-        internal static Action<Player, int> ChangeToOwned = (playerX, index) => { owned[index] = true; Spaces.SpaceType[index] = "OP"; };
-        internal static Action<Player, int> ChangeToUnowned = (playerX, index) => { owned[index] = false; Spaces.SpaceType[index] = "UP"; };
+        internal static Action<Player, int> ChangeToOwned = (playerX, index) => { Owned[index] = true; Spaces.SpaceType[index] = "OP"; };
+        internal static Action<Player, int> ChangeToUnowned = (playerX, index) => { Owned[index] = false; Spaces.SpaceType[index] = "UP"; };
         internal static void AcquirePropertyCard(int playerNumber, Player playerX)
         {
             // first properties given
             // gives players one of the first row of properties and auto-equips it
             switch (playerNumber)
             {
-                case 1: playerX.OwnedProperties.Add("01"); ChangeToOwned(playerX, 01); Utility.EquipNewCard(playerX, 1); break;
-                case 2: playerX.OwnedProperties.Add("03"); ChangeToOwned(playerX, 03); Utility.EquipNewCard(playerX, 3); break;
-                case 3: playerX.OwnedProperties.Add("06"); ChangeToOwned(playerX, 06); Utility.EquipNewCard(playerX, 6); break;
-                case 4: playerX.OwnedProperties.Add("08"); ChangeToOwned(playerX, 08); Utility.EquipNewCard(playerX, 8); break;
+                case 1: playerX.OwnedProperties.Add("03"); ChangeToOwned(playerX, 03); Utility.EquipNewCard(playerX, 3); break;
+                case 2: playerX.OwnedProperties.Add("06"); ChangeToOwned(playerX, 06); Utility.EquipNewCard(playerX, 6); break;
+                case 3: playerX.OwnedProperties.Add("08"); ChangeToOwned(playerX, 08); Utility.EquipNewCard(playerX, 8); break;
+                case 4: playerX.OwnedProperties.Add("09"); ChangeToOwned(playerX, 09); Utility.EquipNewCard(playerX, 9); break;
                 default: Utility.DisplayError("!! error: invalid player index"); break;
             }
         }
