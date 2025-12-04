@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Channels;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using static IGME105_HW_cda7733.DrawnCards;
 
 /*
  * program name: IGME105 monopoly game
@@ -55,7 +56,7 @@ namespace IGME105_HW_cda7733
                 switch (input)
                 {
                     case "0": break;
-                    case "1": Utility.DisplayHeldCards(playerX); break;
+                    case "1": Utility.DisplayHeldCards(playerX,players); break;
                     case "2": Utility.DisplayOwnedProperties(playerX); break;
                     case "3":
                         playerX.OnSpaceType = Spaces.SpaceType[playerX.PlayerLocation]; Utility.DisplayBoard(players);
@@ -182,29 +183,55 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("a 1v1 sabotage event is occuring!\n");
             Console.ResetColor();
         }
-        internal static int PullChanceCard(Player playerX)
+        internal static void PullChanceCard(List<Player> players, Player playerX)
         {
-            // gives player a chance card, displays the text on it, and adds it to their inventory/bag/card stack
+            // gives player a chance card, displays the text on it, and adds it to their inventory/bag/card stack or uses it immediately
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine("they drew a chance card!");
             Console.ResetColor();
-            int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
-            string currentCardTitle = "chance" + cardIndex;
-            playerX.DrawnCards.Add(currentCardTitle);
-            Console.WriteLine($"it says: {Utility.TranslateCard(currentCardTitle)}\n");
-            return cardIndex;
+            ChanceCard chanceCard = new ChanceCard(playerX, players);
+            // chanceCard.RandomizeCard();
+            Console.WriteLine($"it says: {chanceCard.ReadCardText()}\n");
+            chanceCard.immediateUse = chanceCard.GetUseBool();
+            if (chanceCard.immediateUse)
+            {
+                Console.WriteLine("press anything to use the card!");
+                Console.ReadKey();
+                Console.Clear();
+                chanceCard.Action(playerX, players);
+            }
+            else
+            {
+                Console.WriteLine("press anything to store the card and use it later!");
+                Console.ReadKey();
+                Console.Clear();
+                playerX.heldCards.Add(chanceCard);
+            }
         }
-        internal static int PullCommunityChestCard(Player playerX)
+        internal static void PullCommunityChestCard(List<Player> players, Player playerX)
         {
-            // gives player a chance card, displays the text on it, and adds it to their inventory/bag/card stack
+            // gives player a chance card, displays the text on it, and adds it to their inventory/bag/card stack or uses it immediately
             Utility.ColorPicker(playerX.PlayerColorIndex);
             Console.WriteLine("they drew a community chest card!");
             Console.ResetColor();
-            int cardIndex = Utility.RNG.Next(1, Utility.CardQuantity);
-            string currentCardTitle = "chest" + cardIndex;
-            playerX.DrawnCards.Add(currentCardTitle);
-            Console.WriteLine($"it says: {Utility.TranslateCard(currentCardTitle)}\n");
-            return cardIndex;
+            ChestCard chestCard = new ChestCard(playerX, players);
+            // chestCard.RandomizeCard();
+            Console.WriteLine($"it says: {chestCard.ReadCardText()}\n");
+            chestCard.immediateUse = chestCard.GetUseBool();
+            if (chestCard.immediateUse)
+            {
+                Console.WriteLine("press anything to use the card!");
+                Console.ReadKey();
+                Console.Clear();
+                chestCard.Action(playerX, players);
+            }
+            else
+            {
+                Console.WriteLine("press anything to store the card and use it later!");
+                Console.ReadKey();
+                Console.Clear();
+                playerX.heldCards.Add(chestCard);
+            }
         }
         internal static void GameplayLoop(List<Player> players)
         {
@@ -224,7 +251,7 @@ namespace IGME105_HW_cda7733
                 Utility.ColorPicker(players[0].PlayerColorIndex);
                 Console.WriteLine($"congratualations to player 1 for winning the game!");
                 Console.ResetColor();
-                Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", players[0].PlayerName, players[0].TurnCount, players[0].DrawnCards.Count, players[0].OwnedProperties.Count);
+                Console.WriteLine("{0} won in {1} turns, while holding {2} cards and owning {3} properties.", players[0].PlayerName, players[0].TurnCount, players[0].heldCards.Count, players[0].OwnedProperties.Count);
                 Console.WriteLine("\nthank you for playing!\n\n");
                 Utility.GameOver = true;
             }
@@ -314,7 +341,7 @@ namespace IGME105_HW_cda7733
                 Console.WriteLine();
                 
                 playerX.OwnedProperties.Clear();
-                playerX.DrawnCards.Clear();
+                playerX.heldCards.Clear();
             }
             playerX.Active = false;
         }

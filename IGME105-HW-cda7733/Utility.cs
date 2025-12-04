@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.NetworkInformation;
+using static IGME105_HW_cda7733.DrawnCards;
 
 /*
  * program name: IGME105 monopoly game
@@ -25,7 +28,7 @@ namespace IGME105_HW_cda7733
 
         internal static int CurrentNumberOfPlayers;
         internal static int CurrentPlayerIndex = 0;
-        internal static int CardQuantity = 12;
+        internal static int CardQuantity = 8;
 
         internal static Dictionary<string, string> SpaceTypes = new Dictionary<string, string>()
         {
@@ -43,8 +46,8 @@ namespace IGME105_HW_cda7733
                 case "GO": break;
                 case "UP": Spaces.PropertySpace(playerX, players); break;
                 case "OP": Spaces.PropertySpace(playerX, players); break;
-                case "CH": GameEngine.PullChanceCard(playerX); break;
-                case "CO": GameEngine.PullCommunityChestCard(playerX); break;
+                case "CH": GameEngine.PullChanceCard(players, playerX); break;
+                case "CO": GameEngine.PullCommunityChestCard(players, playerX); break;
                 case "UT": Spaces.UtilitySpace(playerX, RNG); break;
                 case "TX": Spaces.TaxSpace(playerX, RNG); break;
                 case "VS": Spaces.VandalismSpace(playerX); break;
@@ -177,21 +180,47 @@ namespace IGME105_HW_cda7733
             Console.WriteLine("\n" + message);
             Console.ResetColor();
         }
-        internal static void DisplayHeldCards(Player playerX)
+        internal static void DisplayHeldCards(Player playerX, List<Player> players)
         {
             // displays the player's amount of held cards, if any, and their names with their text
-            if (playerX.DrawnCards.Count == 0)
+            if (playerX.heldCards.Count == 0)
             {
                 Console.WriteLine(playerX.PlayerName + " currently has no cards!\n");
             }
             else
             {
-                Console.WriteLine($"{playerX.PlayerName} is holding {playerX.DrawnCards.Count} cards! they say..\n");
-                foreach (string drawnCard in playerX.DrawnCards)
+                Console.WriteLine($"{playerX.PlayerName} is holding {playerX.heldCards.Count} cards! they say..\n");
+                for (int i = 0; i <  playerX.heldCards.Count; i++)
                 {
-                    Console.WriteLine(TranslateCard(drawnCard));
+                    Console.WriteLine(i + ". " + playerX.heldCards[i].ReadCardName() + "\n");
                 }
-                Console.WriteLine();
+                Console.WriteLine("choose which card you would like to use by the number preceding it, or type 'close' to exit this menu.");
+                string input;
+                int selection;
+                while (!GameOver)
+                {
+
+                    input = Console.ReadLine().Trim();
+
+                    if (input.ToLower() == "close")
+                    {
+                        Console.Clear();
+                        break;
+                    }
+                        if (!int.TryParse(input, out selection))
+                    {
+                        DisplayError("please enter a valid number.");
+                        continue;
+                    }
+                    if (selection < 0 || selection >= playerX.heldCards.Count)
+                    {
+                        DisplayError("please enter a number within the given range.");
+                        continue;
+                    }
+                    playerX.heldCards[selection].Action(playerX, players);
+                    playerX.heldCards.RemoveAt(selection);
+                    break;
+                }
             }
         }
         internal static void DisplayOwnedProperties(Player playerX)
@@ -268,58 +297,6 @@ namespace IGME105_HW_cda7733
             playerX.MaxHealth = PropertyCard.MaxPropertyValue[playerX.PlayerLocation];
             playerX.CurrentHealth = PropertyCard.MaxPropertyValue[playerX.PlayerLocation];
             playerX.Dice = PropertyCard.DamageMultiplier[playerX.PlayerLocation];
-        }
-        internal static string TranslateCard(string cardTitle)
-        {
-            // changes card identifier to text
-            string cardText = "blank.";
-            if (cardTitle.Substring(0,5) == "chest")
-            {
-                string index = cardTitle.Substring(5);
-                switch (index)
-                {
-                    // placeholder text until i have the cards actually do stuff
-                    case "1": cardText = "this is the first community chest card"; break;
-                    case "2": cardText = "this is the second community chest card"; break;
-                    case "3": cardText = "this is the third community chest card"; break;
-                    case "4": cardText = "this is the fourth community chest card"; break;
-                    case "5": cardText = "this is the fifth community chest card"; break;
-                    case "6": cardText = "this is the sixth community chest card"; break;
-                    case "7": cardText = "this is the seventh community chest card"; break;
-                    case "8": cardText = "this is the eighth community chest card"; break;
-                    case "9": cardText = "this is the ninth community chest card"; break;
-                    case "10": cardText = "this is the tenth community chest card"; break;
-                    case "11": cardText = "this is the eleventh community chest card"; break;
-                    case "12": cardText = "this is the twelfth community chest card"; break;
-                    default: cardText = "!! error: invalid range"; break;
-                }
-            }
-            else if (cardTitle.Substring(0,6) == "chance")
-            {
-                string index = cardTitle.Substring(6);
-                switch (index)
-                {
-                    // also placeholder text
-                    case "1": cardText = "this is the first chance card"; break;
-                    case "2": cardText = "this is the second chance card"; break;
-                    case "3": cardText = "this is the third chance card"; break;
-                    case "4": cardText = "this is the fourth chance card"; break;
-                    case "5": cardText = "this is the fifth chance card"; break;
-                    case "6": cardText = "this is the sixth chance card"; break;
-                    case "7": cardText = "this is the seventh chance card"; break;
-                    case "8": cardText = "this is the eighth chance card"; break;
-                    case "9": cardText = "this is the ninth chance card"; break;
-                    case "10": cardText = "this is the tenth chance card"; break;
-                    case "11": cardText = "this is the eleventh chance card"; break;
-                    case "12": cardText = "this is the twelfth chance card"; break;
-                    default: cardText = "!! error: invalid range"; break;
-                }
-            }
-            else
-            {
-                cardText = "card could not be transcribed.";
-            }
-                return cardText;
         }
         internal static string TranslateProperty(string propertyTitle)
         {

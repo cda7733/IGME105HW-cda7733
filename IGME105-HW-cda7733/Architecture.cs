@@ -30,7 +30,6 @@ namespace IGME105_HW_cda7733
     {
         static void Main(string[] args)
         {
-            
             List<Player>players = new List<Player>();
 
             GameSetup.Startup();

@@ -47,7 +47,7 @@ namespace IGME105_HW_cda7733
         {
             get { return  playerColorNames; }
         }
-        internal List<string> DrawnCards = new List<string>(); // formatted as chanceX or chestX, ex. chance2, chest11
+        internal List<DrawnCards> heldCards = new List<DrawnCards>(); // formatted as chanceX or chestX, ex. chance2, chest11
 
         internal List<string> OwnedProperties = new List<string>(); // formatted as 00, ex. boardwalk = 39
 

@@ -29,7 +29,15 @@ namespace IGME105_HW_cda7733
     {
         // variables & properties
 
-        static string SpaceName = "go,mediterranian ave.,community chest,baltic ave.,income tax,reading railroad,oriental ave.,chance,vermont ave.,connecticut ave.,vandalism,st. charles place,electric company,states ave.,virginia ave.,pennysylvania railroad,st. james place,community chest,tennessee ave.,new york ave.,free parking,kentucky ave.,chance,indiana ave.,illinois ave.,B & O railroad,atlantic ave.,ventour ave.,water works,marvin gardens,vandalism,pacific ave.,north carolina ave.,community chest,pennysylania ave.,short line,chance,park place,luxury tax,boardwalk";
+        static string SpaceName = 
+            "go,mediterranian ave.,community chest,baltic ave.,income tax," +
+            "reading railroad,oriental ave.,chance,vermont ave.,connecticut ave.," +
+            "vandalism,st. charles place,electric company,states ave.,virginia ave.," +
+            "pennysylvania railroad,st. james place,community chest,tennessee ave.,new york ave.," +
+            "free parking,kentucky ave.,chance,indiana ave., illinois ave.," +
+            "B & O railroad,atlantic ave.,ventour ave.,water works,marvin gardens," +
+            "vandalism,pacific ave.,north carolina ave.,community chest,pennysylania ave.," +
+            "short line,chance,park place,luxury tax,boardwalk";
 
         internal static string[] SpaceNameArray = SpaceName.Split(',');
 
@@ -38,8 +46,13 @@ namespace IGME105_HW_cda7733
             "GO","UP","CO","UP","TX","UP","UP","CH","UP","UP",
             "VS","UP","UT","UP","UP","UP","UP","CO","UP","UP",
             "UT","UP","CH","UP","UP","UP","UP","UP","UT","UP",
-            "VS","UP","UP","CO","UP","UP","CH","UP","TX","UP",
+            "VS","UP","UP","CO","UP","UP","CH","UP","TX","UP"
+          /*"GO","CO","CO","CO","CO","CO","CO","CO","CO","CO",
+            "CH","CH","CH","CH","CH","CH","CH","CH","CH","CH",
+            "CO","CO","CO","CO","CO","CO","CO","CO","CO","CO",
+            "CH","CH","CH","CH","CH","CH","CH","CH","CH","CH",*/
         };
+
         internal static void GoSpace(Player playerX)
         {
             // doesn't display message if it is the start of the game. tells the player they looped the board
@@ -72,7 +85,6 @@ namespace IGME105_HW_cda7733
             {
                 Console.WriteLine("lucky!");
             }
-            Console.WriteLine();
             playerX.CurrentHealth -= damagedValue;
             if (playerX.CurrentHealth <= 0)
             {
