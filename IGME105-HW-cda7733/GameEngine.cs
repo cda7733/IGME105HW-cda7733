@@ -14,6 +14,7 @@ using static IGME105_HW_cda7733.DrawnCards;
  * 
  * 10/30/2025 - changed the if statements in PullChance(..), PullChest(..), and PlayerAction(..) to a ternary
  * 11/05/2025 - fixed methods to handle cards and properties as lists rather than arrays
+ * 12/08/2025 - added saving to the gameplay loop
  */
 
 namespace IGME105_HW_cda7733
@@ -38,8 +39,6 @@ namespace IGME105_HW_cda7733
                 Console.WriteLine(choices);
                 string input = Console.ReadLine().Trim().ToLower();
                 Console.Clear();
-                Console.SetCursorPosition(0, 0);
-                Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
                 if (input == "0")
                 {
                     // if they haven't rolled, they can roll
@@ -239,6 +238,7 @@ namespace IGME105_HW_cda7733
             {
                 CheckWin(players);
                 PlayerAction(player, players);
+                Utility.SavePlayerData(player, player.PlayerDataPath);
                 if (Utility.GameOver) return;
             }
             players.RemoveAll(player => !player.Active);

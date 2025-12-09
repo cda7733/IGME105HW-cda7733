@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,9 +34,8 @@ namespace IGME105_HW_cda7733
         {
             List<Player>players = new List<Player>();
 
-            GameSetup.Startup();
-            GameSetup.CreatePlayers(players);
-            
+            GameSetup.Startup(players);
+
             // this is the whole game
             while (Utility.GameOver == false)
             {

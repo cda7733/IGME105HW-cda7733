@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
  * purpose: make monopoly more fun by making it a card battler
  * 
  * 10/15/2025 - very slightly tweaked rules + header
+ * 
  */
 
 namespace IGME105_HW_cda7733
@@ -40,16 +42,60 @@ namespace IGME105_HW_cda7733
         {
             get { return gameName; }
         }
-        internal static void Startup()
+        internal static void Startup(List<Player> players)
         {
-            // display rules, get game info
-            PromptRules();
-            PromptMaxPlayers();
-
+            // load game or create new one, display rules, get info
+            Console.WriteLine("0. new game");
+            if (File.Exists("player1.txt"))
+            {
+                Console.WriteLine("1. view logged data");
+            }
+            bool done = false;
+            string input;
+            while (!done)
+            {
+                input = Console.ReadLine();
+                if (input == "0")
+                {
+                    Utility.DeletePlayerData("player1.txt");
+                    Utility.DeletePlayerData("player2.txt");
+                    Utility.DeletePlayerData("player3.txt");
+                    Utility.DeletePlayerData("player4.txt");
+                    PromptRules();
+                    PromptMaxPlayers();
+                    CreatePlayers(players);
+                    done = true;
+                }
+                else if (input == "1" && File.Exists("player1.txt"))
+                {
+                    Player player1 = new Player();
+                    Utility.LoadPlayerData(player1, "player1.txt");
+                    if (File.Exists("player2.txt"))
+                    {
+                        Player player2 = new Player();
+                        Utility.LoadPlayerData(player2, "player2.txt");
+                    }
+                    if (File.Exists("player3.txt"))
+                    {
+                        Player player3 = new Player();
+                        Utility.LoadPlayerData(player3, "player3.txt");
+                    }
+                    if (File.Exists("player4.txt"))
+                    {
+                        Player player4 = new Player();
+                        Utility.LoadPlayerData(player4, "player4.txt");
+                    }
+                    done = true;
+                }
+                else
+                {
+                    Utility.DisplayError("invalid input");
+                }
+            }
         }
         internal static void DisplayAvailableColors()
         {
-            // displays colors availablee for player text
+            // displays colors available for player text
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("0. red");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -79,14 +125,14 @@ namespace IGME105_HW_cda7733
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nBATTLE"); Console.ResetColor();
             Console.WriteLine("players can attack others in a 1v1, or trigger events for battle between everyone.");
             Console.WriteLine("battle/vandalism is done with property cards, which are collected from unowned property spaces.");
-            Console.WriteLine("property cards have stats: color, property value, damage multiplier, house upgrade value, and hotel upgrade value.");
+            Console.WriteLine("property cards have stats: property value and damage multiplier.");
             Console.WriteLine("the damage multiplier stat on cards tell you how many dice you roll when it is equipped.");
             Console.WriteLine("damage to other players property is calculated as (diceroll x number of dice).");
             Console.WriteLine("if an UNOWNED property card's value is reduced to 0, the player who defeated it gets the card.");
-            Console.WriteLine("if an OWNED property card's value is reduced to 0, the property is returned to the board, and all its upgrades are reset.");
+            Console.WriteLine("if an OWNED property card's value is reduced to 0, the owner dies, and property is returned to the board.");
             Console.WriteLine("players can gain/lose property value from chance cards, community chest cards, tax spaces, and utility spaces.");
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\nDEMO INFO (you can just read this)"); Console.ResetColor();
-            Console.WriteLine("this current iteration does not have functional AI players, battles or trade");
+            Console.WriteLine("this current iteration does not have functional trade");
             Console.WriteLine("WIN CONDITION: everyone else dies. players can only take damage from tax spaces.");
             Console.WriteLine("to make testing easier, there is a CHEATS menu which allows you to eliminate players");
             Console.WriteLine("there's a map that updates to show ownership. it works 100%, it just has a teensy tiny visual bug,,");

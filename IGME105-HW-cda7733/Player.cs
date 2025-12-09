@@ -24,12 +24,16 @@ namespace IGME105_HW_cda7733
         // variables & properties
         internal string PlayerName = "";
         internal int PlayerLocation = 0;
-        internal int PlayerIndex = 0;
-        int playerTokenIndex;
-        internal int PlayerTokenIndex
+        internal int PlayerIndex = 0; 
+        int PlayerIndexPlus
         {
-            get { return playerTokenIndex; }
+            get { return PlayerIndex + 1; }
         }
+        internal string PlayerDataPath
+        {
+            get { return "player" + PlayerIndexPlus + ".txt"; }
+        }
+        internal int PlayerTokenIndex;
         string[] playerTokenName = { "cat", "dog", "car", "thimble", "ship", "shoe", "tophat", "wheelbarrow" };
         internal string[] PlayerTokenName
         {
@@ -47,10 +51,8 @@ namespace IGME105_HW_cda7733
         {
             get { return  playerColorNames; }
         }
-        internal List<DrawnCards> heldCards = new List<DrawnCards>(); // formatted as chanceX or chestX, ex. chance2, chest11
-
+        internal List<DrawnCards> heldCards = new List<DrawnCards>();
         internal List<string> OwnedProperties = new List<string>(); // formatted as 00, ex. boardwalk = 39
-
         internal int TurnCount = 1;
         internal string OnSpaceType = "GO";
         internal int CurrentHealth = 10;
@@ -58,6 +60,7 @@ namespace IGME105_HW_cda7733
         internal int Dice = 1;
         internal bool Active = false;
         internal int EquippedCardIndex;
+        internal string saveData;
 
         // constructors
 
@@ -66,15 +69,39 @@ namespace IGME105_HW_cda7733
             // actual player character
             // filled with prompted info
         }
-        internal Player(int difficulty)
+        internal string GetSaveData()
         {
-            // not made yet!!
-
-            // cpu player, automatically controlled
-            // their info can be randomly generated
-            // difficulty ranges 1-5
+            saveData = $"{Active}\n{PlayerName}\n{PlayerLocation}\n{PlayerIndex}\n{PlayerTokenIndex}\n{PlayerColorIndex}\n{TurnCount}\n{OnSpaceType}\n{CurrentHealth}\n{MaxHealth}\n{Dice}\n{EquippedCardIndex}";
+            string cardData = GetCardListData();
+            if (!string.IsNullOrEmpty(cardData))
+            {
+                saveData += cardData;
+            }
+            string propertyData = GetPropertyListData();
+            if (!string.IsNullOrEmpty(propertyData))
+            {
+                saveData += propertyData;
+            }
+            return saveData;
         }
-
+        internal string GetCardListData()
+        {
+            string cardList = "";
+            foreach (DrawnCards card in heldCards)
+            {
+                cardList += "," + card.cardIndex;
+            }
+            return cardList;
+        }
+        internal string GetPropertyListData()
+        {
+            string propertyList = "";
+            foreach (string ownedProperty in OwnedProperties)
+            {
+                propertyList += "," + ownedProperty;
+            }
+            return propertyList;
+        }
         // methods
         internal void PromptName()
         {
@@ -103,7 +130,7 @@ namespace IGME105_HW_cda7733
                 string chosenTokenNumber = Console.ReadLine().Trim();
                 try
                 {
-                    playerTokenIndex = int.Parse(chosenTokenNumber);
+                    PlayerTokenIndex = int.Parse(chosenTokenNumber);
                     if (PlayerTokenIndex >= 0 && PlayerTokenIndex <= 7)
                     {
                         if (string.IsNullOrWhiteSpace(PlayerName))
@@ -166,7 +193,7 @@ namespace IGME105_HW_cda7733
             Console.WriteLine($"  health: {CurrentHealth}/{MaxHealth}");
             Console.WriteLine($"  # of dice equipped (damage multiplier): " + Dice);
             Console.WriteLine("  equipped card: " + Spaces.SpaceNameArray[EquippedCardIndex]);
-            Console.WriteLine("  token: " + PlayerTokenName[playerTokenIndex]);
+            Console.WriteLine("  token: " + PlayerTokenName[PlayerTokenIndex]);
             Console.WriteLine("  color: " + PlayerColorNames[PlayerColorIndex]);
             Console.WriteLine("  turn: " + TurnCount);
             Console.ResetColor();
@@ -177,7 +204,7 @@ namespace IGME105_HW_cda7733
             Utility.ColorPicker(PlayerColorIndex);
             Console.WriteLine($"\nplayer {PlayerIndex + 1} info");
             Console.WriteLine("  name: " + PlayerName);
-            Console.WriteLine("  token: " + PlayerTokenName[playerTokenIndex]);
+            Console.WriteLine("  token: " + PlayerTokenName[PlayerTokenIndex]);
             Console.WriteLine("  color: " + PlayerColorNames[PlayerColorIndex]);
             Console.ResetColor();
         }

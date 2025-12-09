@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices.ComTypes;
 using static IGME105_HW_cda7733.DrawnCards;
 
 /*
@@ -16,6 +18,7 @@ using static IGME105_HW_cda7733.DrawnCards;
  * 10/15/2025 - added a switch case block to trigger space events
  * 10/30/2025 - changed the if statement in TranslateSpaceType(..) to a ternary
  * 11/05/2025 - fixed display methods to handle lists
+ * 12/08/2025 - added methods for saving data
  */
 
 namespace IGME105_HW_cda7733
@@ -35,8 +38,75 @@ namespace IGME105_HW_cda7733
             {"GO","go"},{"OP","owned property"}, {"UP","unowned property"}, {"CH","chance"}, 
             {"CO","community chest"}, {"TX","tax"}, {"UT","utility"}, {"VS","vansalism"}
         };
-        
 
+        internal static void SavePlayerData(Player playerX, string path)
+        {
+            try
+            {
+                File.WriteAllText(path, playerX.GetSaveData());
+            }
+            catch
+            {
+                DisplayError("could not save player data");
+            }
+        }
+        internal static void LoadPlayerData(Player playerX, string path)
+        {
+            try
+            {
+                string[] playerData = File.ReadAllLines(path).ToArray();
+                try
+                {
+                    
+                    playerX.Active = bool.Parse(playerData[0]);
+                    playerX.PlayerName = playerData[1];
+                    playerX.PlayerLocation = int.Parse(playerData[2]);
+                    playerX.PlayerIndex = int.Parse(playerData[3]);
+                    playerX.PlayerTokenIndex = int.Parse(playerData[4]);
+                    playerX.PlayerColorIndex = int.Parse(playerData[5]);
+                    playerX.TurnCount = int.Parse(playerData[6]);
+                    playerX.OnSpaceType = playerData[7];
+                    playerX.CurrentHealth = int.Parse(playerData[8]);
+                    playerX.MaxHealth = int.Parse(playerData[9]);
+                    playerX.Dice = int.Parse(playerData[10]);
+
+                    ColorPicker(playerX.PlayerColorIndex);
+                    Console.WriteLine("name: " + playerX.PlayerName);
+                    Console.WriteLine("location: " + int.Parse(playerData[2]));
+                    Console.WriteLine("index: " + int.Parse(playerData[3]));
+                    Console.WriteLine("token: " + playerX.PlayerTokenName[int.Parse(playerData[4])]);
+                    Console.WriteLine("color: " + playerX.PlayerColorNames[int.Parse(playerData[5])]);
+                    Console.WriteLine("turn: " + int.Parse(playerData[6]));
+                    Console.WriteLine($"on {Spaces.SpaceNameArray[playerX.PlayerLocation]}, a {TranslateSpaceType(playerX,SpaceTypes)} space");
+                    Console.WriteLine($"health: {playerX.CurrentHealth}/{playerX.MaxHealth}");
+                    Console.WriteLine("number of dice: " + playerX.Dice);
+                    Console.WriteLine("active = " + playerX.Active);
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
+                catch
+                {
+                    DisplayError("could not load player data from " + path);
+                }
+            }
+            catch
+            {
+                DisplayError("could not load player data from " + path);
+            }
+        }
+        internal static void DeletePlayerData(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+                Console.WriteLine("deleted " + path);
+            }
+            else
+            {
+                Console.WriteLine("could not delete " + path + " because it already does not exist.");
+            }
+            Console.ReadKey();
+        }
         internal static void SpaceAction(Player playerX, List<Player> players)
         {
             // triggers space methods depending on location
@@ -94,7 +164,6 @@ namespace IGME105_HW_cda7733
                     goto case 3;
             }
         }
-
         internal static void FillBoard(List<Player> players, string spaceNumber, char direction)
         {
 
